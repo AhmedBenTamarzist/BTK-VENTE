@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     # Server settings
     HOST: str = "0.0.0.0"
     PORT: int = 8000
+    RELOAD: bool = os.getenv("RELOAD", "false").lower() == "true"
 
     # WhatsApp API (non utilisé actuellement — whatsapp_service.py ouvre des liens wa.me,
     # ces variables ne servent que si une intégration Graph API est ajoutée plus tard)
