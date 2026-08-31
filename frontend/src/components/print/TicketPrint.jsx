@@ -66,10 +66,10 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
         <thead>
           <tr style={{ borderBottom: '1px solid #000', textAlign: 'left' }}>
             <th>Article</th>
-            <th style={{ textAlign: 'center' }}>Qté</th>
-            <th style={{ textAlign: 'right' }}>P.U</th>
+            <th style={{ textAlign: 'center' }}>Qté/Livré</th>
+            <th style={{ textAlign: 'right', paddingRight: '6px' }}>P.U</th>
+            <th style={{ textAlign: 'center', paddingLeft: '6px' }}>Remise</th>
             <th style={{ textAlign: 'right' }}>Total</th>
-            <th style={{ textAlign: 'center' }}>Livré</th>
           </tr>
         </thead>
         <tbody>
@@ -78,23 +78,21 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
             const art = l.article || {};
             const artName = art.nom || l.nom_article || `Art #${l.id_article}`;
             const artRef = art.reference || l.reference || null;
-            const pu = parseFloat(l.prix_unitaire_apres_remise || l.prix_unitaire_ttc);
+            const pu = parseFloat(l.prix_unitaire_ttc);
+            const remisePct = parseFloat(l.remise_pourcentage || 0);
             const qty = parseFloat(l.quantite);
             const qtyLivree = parseFloat(l.quantite_livree ?? (l.is_livre ? qty : 0));
             const lineTotal = pu * qty;
 
-            // Déterminer le statut de livraison de la ligne
-            let livraisonIcon, livraisonStyle;
+            // Déterminer le statut de livraison de la ligne (couleur du Qté/Livré)
+            let livraisonStyle;
             const statutLivraison = l.statut_livraison ||
               (l.is_livre === true ? 'livre' : l.is_livre === false ? 'non_livre' : null);
             if (statutLivraison === 'livre' || qtyLivree >= qty) {
-              livraisonIcon = '✓';
               livraisonStyle = { color: '#000', fontWeight: 'bold' };
             } else if (statutLivraison === 'partiellement_livre' || (qtyLivree > 0 && qtyLivree < qty)) {
-              livraisonIcon = '◑';
               livraisonStyle = { color: '#555' };
             } else {
-              livraisonIcon = '✗';
               livraisonStyle = { color: '#888' };
             }
 
@@ -106,12 +104,10 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
                     <div style={{ fontSize: '10px', color: '#555' }}>Réf: {artRef}</div>
                   )}
                 </td>
-                <td style={{ textAlign: 'center' }}>{qty}</td>
-                <td style={{ textAlign: 'right' }}>{pu.toFixed(3)}</td>
+                <td style={{ textAlign: 'center', ...livraisonStyle }}>{qty}/{qtyLivree}</td>
+                <td style={{ textAlign: 'right', paddingRight: '6px' }}>{pu.toFixed(3)}</td>
+                <td style={{ textAlign: 'center', paddingLeft: '6px' }}>{remisePct > 0 ? `${remisePct}%` : '—'}</td>
                 <td style={{ textAlign: 'right' }}>{lineTotal.toFixed(3)}</td>
-                <td style={{ textAlign: 'center', ...livraisonStyle, fontSize: '10px' }}>
-                  {livraisonIcon} {qtyLivree}/{qty}
-                </td>
               </tr>
             );
           })}

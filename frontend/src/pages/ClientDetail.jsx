@@ -1251,7 +1251,7 @@ export const ClientDetail = () => {
                   {(docFull.lignes || []).map((l, i) => {
                     const qty = parseFloat(l.quantite);
                     const qtyLivree = parseFloat(l.quantite_livree ?? 0);
-                    const pu = parseFloat(l.prix_unitaire_apres_remise || l.prix_unitaire_ttc);
+                    const pu = parseFloat(l.prix_unitaire_ttc);
                     const remisePct = parseFloat(l.remise_pourcentage) || 0;
                     const total = qty * pu;
 
