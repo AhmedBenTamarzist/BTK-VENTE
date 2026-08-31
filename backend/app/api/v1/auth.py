@@ -6,6 +6,7 @@ from app.models import Utilisateur
 from app.schemas import Token, UserOut, UserLogin
 from app.services.auth_service import verify_password, create_access_token
 from app.api.deps import get_current_user
+from app.services.log_service import log_system_action
 
 router = APIRouter()
 
@@ -23,6 +24,13 @@ def login_for_access_token(
         )
     
     access_token = create_access_token(data={"sub": user.email, "role": user.role, "id": user.id_utilisateur})
+
+    log_system_action(
+        db, type_action="connexion", table_concernee="utilisateurs", id_enregistrement=user.id_utilisateur,
+        description=f"Connexion de {user.nom} {user.prenom or ''}".strip(), id_utilisateur=user.id_utilisateur
+    )
+    db.commit()
+
     return {
         "access_token": access_token,
         "token_type": "bearer",

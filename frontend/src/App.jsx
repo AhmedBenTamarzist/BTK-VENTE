@@ -24,6 +24,7 @@ import { UsersManagement } from './pages/UsersManagement';
 import { Settings } from './pages/Settings';
 import { PrintView } from './pages/PrintView';
 import { RelancesList } from './pages/RelancesList';
+import { LogsView } from './pages/LogsView';
 
 const LOADING = <div style={{ padding: '2rem', textAlign: 'center', color: 'white' }}>Chargement...</div>;
 
@@ -75,6 +76,7 @@ export const App = () => {
               {/* Admin only */}
               <Route path="/facturations" element={<RoleRoute roles={['admin']}><FacturationsList /></RoleRoute>} />
               <Route path="/users" element={<RoleRoute roles={['admin']}><UsersManagement /></RoleRoute>} />
+              <Route path="/logs" element={<RoleRoute roles={['admin']}><LogsView /></RoleRoute>} />
               <Route path="/settings" element={<RoleRoute roles={['admin']}><Settings /></RoleRoute>} />
 
               <Route path="*" element={<Navigate to="/" replace />} />

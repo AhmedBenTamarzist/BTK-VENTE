@@ -393,3 +393,5 @@ class LogAction(Base):
     donnees_apres = Column(JSON)
     adresse_ip = Column(String(45))
     date_action = Column(DateTime, nullable=False, server_default=func.now())
+
+    utilisateur = relationship("Utilisateur")

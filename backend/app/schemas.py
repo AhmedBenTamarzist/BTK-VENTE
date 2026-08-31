@@ -536,6 +536,7 @@ class LogActionOut(BaseModel):
     description: Optional[str]
     adresse_ip: Optional[str]
     date_action: datetime
+    utilisateur: Optional[UserOut] = None
 
     class Config:
         from_attributes = True

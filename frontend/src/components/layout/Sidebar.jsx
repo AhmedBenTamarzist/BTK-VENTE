@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   ShoppingCart, FileText, Users, Truck, Package, RotateCcw,
   FileSpreadsheet, ShoppingBag, History, CreditCard,
-  UserCheck, Settings, LogOut, LayoutDashboard, X
+  UserCheck, Settings, LogOut, LayoutDashboard, X, Activity
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -27,6 +27,7 @@ const ALL_NAV = [
   // admin only
   { label: 'Facturation Groupée',      path: '/facturations',        icon: FileSpreadsheet, roles: ['admin'] },
   { label: 'Utilisateurs',             path: '/users',               icon: UserCheck,       roles: ['admin'] },
+  { label: 'Journal des Activités',    path: '/logs',                icon: Activity,        roles: ['admin'] },
   { label: 'Paramètres Entreprise',    path: '/settings',            icon: Settings,        roles: ['admin'] },
 ];
 
