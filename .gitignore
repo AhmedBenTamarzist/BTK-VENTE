@@ -1,0 +1,29 @@
+# Secrets et configuration locale
+.env
+*.env
+!.env.example
+
+# Base de données locale (données réelles clients/ventes — jamais dans Git)
+*.db
+*.sqlite
+*.sqlite3
+backend/PyWhatKit_DB.txt
+
+# Python
+backend/venv/
+backend/.venv/
+backend/env/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Éditeurs / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
