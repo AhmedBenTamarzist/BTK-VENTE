@@ -214,10 +214,6 @@ def update_fiscal_invoice(
         facturation.montant_restant = max(Decimal('0.000'), facturation.montant_ttc - total_paid)
         facturation.remise_pct = remise_pct
 
-        for bl in new_bls:
-            db.add(FacturationDocument(id_facturation=facturation_id, id_document=bl.id_document))
-            bl.facture_dans_facturation = True
-
     elif data.remise_pct is not None:
         old_links = db.query(FacturationDocument).filter(
             FacturationDocument.id_facturation == facturation_id
