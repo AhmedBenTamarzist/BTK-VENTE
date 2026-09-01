@@ -187,4 +187,5 @@ export const api = {
   // Synchronisation Debot
   compareDebot: () => request('/debot-sync/compare'),
   resolveDebot: (resolutions) => request('/debot-sync/resolve', { method: 'POST', body: JSON.stringify({ resolutions }) }),
+  findDuplicateNames: (source, seuil = 0.9) => request(`/debot-sync/duplicates?source=${source}&seuil=${seuil}`),
 };

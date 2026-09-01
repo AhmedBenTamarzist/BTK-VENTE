@@ -1,7 +1,9 @@
+import difflib
+import re
 from typing import List, Literal, Optional
 from decimal import Decimal, InvalidOperation
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -236,3 +238,82 @@ def resolve_differences(
     db.commit()
 
     return ResolveResponse(results=results)
+
+
+# ==================== DÉTECTION DE DOUBLONS PAR NOM ====================
+
+def _normalize_name(nom: str) -> str:
+    nom = (nom or "").lower().strip()
+    nom = re.sub(r"\s+", " ", nom)
+    return nom
+
+
+class DuplicatePair(BaseModel):
+    id_1: Optional[int]
+    reference_1: Optional[str]
+    nom_1: str
+    id_2: Optional[int]
+    reference_2: Optional[str]
+    nom_2: str
+    similarite: float  # 0-100
+
+
+class DuplicatesResult(BaseModel):
+    source: str
+    total_articles: int
+    paires: List[DuplicatePair]
+
+
+@router.get("/duplicates", response_model=DuplicatesResult)
+def find_duplicate_names(
+    source: Literal["venteapp", "debot"] = Query("venteapp"),
+    seuil: float = Query(0.85, ge=0.5, le=1.0, description="Seuil de similarité (0.5 à 1.0)"),
+    db: Session = Depends(get_db),
+    current_user: Utilisateur = Depends(require_roles(["admin", "gestionnaire_stock"]))
+):
+    """Repère les articles dont le nom se ressemble fortement (fautes de frappe,
+    doublons de saisie) au sein d'un même catalogue — juste un diagnostic, ne
+    modifie rien : à l'utilisateur de corriger manuellement ce qu'il juge redondant."""
+    if source == "venteapp":
+        records = [
+            {"id": a.id_article, "reference": a.reference, "nom": a.nom}
+            for a in db.query(Article).all()
+        ]
+    else:
+        if not debot_service.is_configured():
+            raise HTTPException(status_code=400, detail="DEBOT_API_KEY non configurée (backend/.env).")
+        try:
+            debot_articles = debot_service.get_all_articles()
+        except debot_service.DebotSyncError as e:
+            raise HTTPException(status_code=502, detail=str(e))
+        records = [
+            {"id": a.get("id_article"), "reference": a.get("code_article"), "nom": a.get("nom") or ""}
+            for a in debot_articles
+        ]
+
+    normed = [(_normalize_name(r["nom"]), r) for r in records if r["nom"]]
+    n = len(normed)
+    paires: List[DuplicatePair] = []
+
+    for i in range(n):
+        name_i, rec_i = normed[i]
+        if not name_i:
+            continue
+        for j in range(i + 1, n):
+            name_j, rec_j = normed[j]
+            if not name_j:
+                continue
+            # Élagage rapide avant le calcul difflib (coûteux) : des noms de
+            # longueur très différente ne peuvent pas dépasser le seuil.
+            if abs(len(name_i) - len(name_j)) > max(6, int(len(name_i) * 0.4)):
+                continue
+            score = difflib.SequenceMatcher(None, name_i, name_j).ratio()
+            if score >= seuil:
+                paires.append(DuplicatePair(
+                    id_1=rec_i["id"], reference_1=rec_i["reference"], nom_1=rec_i["nom"],
+                    id_2=rec_j["id"], reference_2=rec_j["reference"], nom_2=rec_j["nom"],
+                    similarite=round(score * 100, 1),
+                ))
+
+    paires.sort(key=lambda p: -p.similarite)
+    return DuplicatesResult(source=source, total_articles=n, paires=paires[:300])
