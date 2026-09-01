@@ -395,3 +395,17 @@ class LogAction(Base):
     date_action = Column(DateTime, nullable=False, server_default=func.now())
 
     utilisateur = relationship("Utilisateur")
+
+
+class ParametresBackup(Base):
+    __tablename__ = "parametres_backup"
+
+    id_backup = Column(Integer, primary_key=True, index=True)
+    actif = Column(Boolean, nullable=False, default=False)
+    heure_envoi = Column(String(5), nullable=False, default="22:00")  # format "HH:MM"
+    smtp_email = Column(String(150))
+    smtp_password = Column(String(255))
+    email_destinataire = Column(String(150))
+    derniere_sauvegarde = Column(DateTime)
+    dernier_statut = Column(String(20))  # succes, echec
+    dernier_message = Column(Text)

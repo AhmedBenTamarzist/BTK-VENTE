@@ -387,4 +387,17 @@ CREATE TABLE IF NOT EXISTS logs_actions (
 
 CREATE INDEX IF NOT EXISTS idx_logs_utilisateur ON logs_actions(id_utilisateur);
 CREATE INDEX IF NOT EXISTS idx_logs_table_enregistrement ON logs_actions(table_concernee, id_enregistrement);
+
+-- 21. PARAMETRES DE SAUVEGARDE AUTOMATIQUE
+CREATE TABLE IF NOT EXISTS parametres_backup (
+    id_backup             SERIAL PRIMARY KEY,
+    actif                BOOLEAN NOT NULL DEFAULT FALSE,
+    heure_envoi            VARCHAR(5) NOT NULL DEFAULT '22:00',
+    smtp_email             VARCHAR(150),
+    smtp_password           VARCHAR(255),
+    email_destinataire        VARCHAR(150),
+    derniere_sauvegarde        TIMESTAMP,
+    dernier_statut           VARCHAR(20),
+    dernier_message          TEXT
+);
 CREATE INDEX IF NOT EXISTS idx_logs_date ON logs_actions(date_action);

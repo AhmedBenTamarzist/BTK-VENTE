@@ -8,6 +8,7 @@
 *.sqlite
 *.sqlite3
 backend/PyWhatKit_DB.txt
+backend/backups/
 
 # Python
 backend/venv/

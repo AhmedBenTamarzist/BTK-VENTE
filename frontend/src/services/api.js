@@ -177,5 +177,10 @@ export const api = {
     if (tableConcernee) url += `table_concernee=${tableConcernee}&`;
     if (idUtilisateur) url += `id_utilisateur=${idUtilisateur}&`;
     return request(url);
-  }
+  },
+
+  // Sauvegardes
+  getBackupSettings: () => request('/backup/'),
+  updateBackupSettings: (data) => request('/backup/', { method: 'PUT', body: JSON.stringify(data) }),
+  runBackupNow: () => request('/backup/run-now', { method: 'POST' }),
 };

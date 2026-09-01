@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.api.v1 import (
     auth, users, enterprise, clients, fournisseurs, categories,
-    articles, achats, documents, retours, facturations, reglements, relances, logs
+    articles, achats, documents, retours, facturations, reglements, relances, logs, backup
 )
 
 api_router = APIRouter()
@@ -20,3 +20,4 @@ api_router.include_router(facturations.router, prefix="/facturations", tags=["Fa
 api_router.include_router(reglements.router, prefix="/reglements", tags=["Règlements"])
 api_router.include_router(relances.router, prefix="/relances", tags=["Relances Crédit"])
 api_router.include_router(logs.router, prefix="/logs", tags=["Logs Actions"])
+api_router.include_router(backup.router, prefix="/backup", tags=["Sauvegardes"])

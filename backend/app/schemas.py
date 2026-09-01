@@ -540,3 +540,29 @@ class LogActionOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+# --- SAUVEGARDES ---
+class BackupSettingsIn(BaseModel):
+    actif: Optional[bool] = None
+    heure_envoi: Optional[str] = None  # "HH:MM"
+    smtp_email: Optional[str] = None
+    smtp_password: Optional[str] = None  # laisser vide = ne pas changer
+    email_destinataire: Optional[str] = None
+
+class BackupSettingsOut(BaseModel):
+    id_backup: int
+    actif: bool
+    heure_envoi: str
+    smtp_email: Optional[str] = None
+    smtp_password_defini: bool = False
+    email_destinataire: Optional[str] = None
+    derniere_sauvegarde: Optional[datetime] = None
+    dernier_statut: Optional[str] = None
+    dernier_message: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class BackupRunResult(BaseModel):
+    success: bool
+    message: str

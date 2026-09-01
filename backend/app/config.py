@@ -33,6 +33,18 @@ class Settings(BaseSettings):
     WHATSAPP_TOKEN: str = os.getenv("WHATSAPP_TOKEN", "")
     WHATSAPP_PHONE_ID: str = os.getenv("WHATSAPP_PHONE_ID", "")
 
+    # Sauvegarde de la base de données (backup_db.py)
+    BACKUP_DIR: str = os.getenv("BACKUP_DIR", "backups")
+    BACKUP_RETENTION_DAYS: int = int(os.getenv("BACKUP_RETENTION_DAYS", "14"))
+    PG_DUMP_PATH: str = os.getenv("PG_DUMP_PATH", "pg_dump")
+
+    # Envoi de la sauvegarde par email (SMTP)
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER: str = os.getenv("SMTP_USER", "")
+    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
+    BACKUP_EMAIL_TO: str = os.getenv("BACKUP_EMAIL_TO", "")
+
     class Config:
         case_sensitive = True
 
