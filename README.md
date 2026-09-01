@@ -1,7 +1,1 @@
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=ton_mot_de_passe_postgres
-DB_NAME=quincaillerie_db
 
-SECRET_KEY=153ab53d0b32b985e627be4bfd765bc3b85b978d2f090cf09d7ddb8fbf8f1ea5
