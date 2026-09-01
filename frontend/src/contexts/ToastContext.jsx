@@ -40,6 +40,10 @@ export function ToastProvider({ children }) {
   }, []);
 
   const add = useCallback(({ type = "info", msg, duration = 4000 }) => {
+    // Beaucoup d'écrans appellent toast.error('')/toast.success('') juste pour
+    // réinitialiser un ancien message avant d'en afficher un nouveau — un
+    // message vide ne doit jamais produire de bulle visible.
+    if (!msg || !String(msg).trim()) return null;
     const id = ++_uid;
     setToasts(p => [...p, { id, type, msg }]);
     if (duration > 0) {
@@ -53,8 +57,8 @@ export function ToastProvider({ children }) {
 
   const toastList = createPortal(
     <div style={{
-      position: "fixed", bottom: "1.5rem", right: "1.5rem",
-      zIndex: 999999, display: "flex", flexDirection: "column-reverse", gap: "0.6rem",
+      position: "fixed", top: "1.5rem", right: "1.5rem",
+      zIndex: 999999, display: "flex", flexDirection: "column", gap: "0.6rem",
       maxWidth: "380px", width: "calc(100vw - 2rem)",
       pointerEvents: "none",
     }}>
@@ -74,9 +78,9 @@ export function ToastProvider({ children }) {
             <span style={{ flex: 1 }}>{t.msg}</span>
             <button onClick={() => remove(t.id)} style={{
               background: "none", border: "none", cursor: "pointer",
-              color: c.color, opacity: 0.6, padding: 0, flexShrink: 0,
+              color: c.color, opacity: 0.75, padding: "0.2rem", margin: "-0.2rem", flexShrink: 0,
               display: "flex", alignItems: "center",
-            }}><X size={14} /></button>
+            }}><X size={20} /></button>
           </div>
         );
       })}
