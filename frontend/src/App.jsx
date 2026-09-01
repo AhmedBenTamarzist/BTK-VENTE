@@ -26,6 +26,7 @@ import { PrintView } from './pages/PrintView';
 import { RelancesList } from './pages/RelancesList';
 import { LogsView } from './pages/LogsView';
 import { DebotSync } from './pages/DebotSync';
+import { LivraisonsList } from './pages/LivraisonsList';
 
 const LOADING = <div style={{ padding: '2rem', textAlign: 'center', color: 'white' }}>Chargement...</div>;
 
@@ -59,6 +60,7 @@ export const App = () => {
               <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/sales" element={<ProtectedRoute><SalesScreen /></ProtectedRoute>} />
               <Route path="/documents" element={<ProtectedRoute><DocumentsList /></ProtectedRoute>} />
+              <Route path="/a-livrer" element={<ProtectedRoute><LivraisonsList /></ProtectedRoute>} />
               <Route path="/retours" element={<ProtectedRoute><RetoursList /></ProtectedRoute>} />
               <Route path="/articles" element={<ProtectedRoute><ArticlesCatalog /></ProtectedRoute>} />
 

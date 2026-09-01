@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   ShoppingCart, FileText, Users, Truck, Package, RotateCcw,
   FileSpreadsheet, ShoppingBag, History, CreditCard,
-  UserCheck, Settings, LogOut, LayoutDashboard, X, Activity, GitCompare
+  UserCheck, Settings, LogOut, LayoutDashboard, X, Activity, GitCompare, PackageCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -13,6 +13,7 @@ const ALL_NAV = [
   { label: 'Tableau de bord',         path: '/',                    icon: LayoutDashboard },
   { label: 'Caisse / Ventes (+)',      path: '/sales',               icon: ShoppingCart, highlight: true },
   { label: 'Documents de Vente',       path: '/documents',           icon: FileText },
+  { label: 'À Livrer',                 path: '/a-livrer',            icon: PackageCheck },
   { label: 'Bons de Retour',           path: '/retours',             icon: RotateCcw },
   { label: 'Catalogue Articles',       path: '/articles',            icon: Package },
   // caissier+
