@@ -9,6 +9,7 @@ from app.schemas import ArticleCreate, ArticleUpdate, ArticleOut, PriceHistoryOu
 from app.api.deps import get_current_user, require_roles
 from app.services.article_service import record_price_history_if_changed, adjust_stock
 from app.services.log_service import log_system_action
+from app.services import debot_service
 
 router = APIRouter()
 
@@ -91,6 +92,10 @@ def create_article(
         id_utilisateur=current_user.id_utilisateur
     )
     db.commit()
+
+    # Best-effort : ne bloque jamais la création locale si Debot est injoignable
+    debot_service.push_new_article(db, art)
+
     return art
 
 @router.put("/{article_id}", response_model=ArticleOut)
@@ -121,6 +126,10 @@ def update_article(
         description=f"Modification article {art.nom}", id_utilisateur=current_user.id_utilisateur
     )
     db.commit()
+
+    # Best-effort : ne bloque jamais la modification locale si Debot est injoignable
+    debot_service.push_updated_article(db, art)
+
     return art
 
 @router.post("/{article_id}/adjust-stock", response_model=ArticleOut)

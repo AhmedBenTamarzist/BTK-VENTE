@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   ShoppingCart, FileText, Users, Truck, Package, RotateCcw,
   FileSpreadsheet, ShoppingBag, History, CreditCard,
-  UserCheck, Settings, LogOut, LayoutDashboard, X, Activity
+  UserCheck, Settings, LogOut, LayoutDashboard, X, Activity, GitCompare
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -24,6 +24,7 @@ const ALL_NAV = [
   { label: 'Historique par Article',   path: '/article-purchases',   icon: History,        roles: ['admin','gestionnaire_stock'] },
   { label: 'Fournisseurs',             path: '/fournisseurs',        icon: Truck,          roles: ['admin','gestionnaire_stock'] },
   { label: 'Règlements Fournisseurs',  path: '/reglements-fournisseurs', icon: CreditCard, roles: ['admin','gestionnaire_stock'] },
+  { label: 'Synchronisation Debot',    path: '/debot-sync',          icon: GitCompare,     roles: ['admin','gestionnaire_stock'] },
   // admin only
   { label: 'Facturation Groupée',      path: '/facturations',        icon: FileSpreadsheet, roles: ['admin'] },
   { label: 'Utilisateurs',             path: '/users',               icon: UserCheck,       roles: ['admin'] },

@@ -183,4 +183,8 @@ export const api = {
   getBackupSettings: () => request('/backup/'),
   updateBackupSettings: (data) => request('/backup/', { method: 'PUT', body: JSON.stringify(data) }),
   runBackupNow: () => request('/backup/run-now', { method: 'POST' }),
+
+  // Synchronisation Debot
+  compareDebot: () => request('/debot-sync/compare'),
+  resolveDebot: (resolutions) => request('/debot-sync/resolve', { method: 'POST', body: JSON.stringify({ resolutions }) }),
 };

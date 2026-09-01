@@ -25,6 +25,7 @@ import { Settings } from './pages/Settings';
 import { PrintView } from './pages/PrintView';
 import { RelancesList } from './pages/RelancesList';
 import { LogsView } from './pages/LogsView';
+import { DebotSync } from './pages/DebotSync';
 
 const LOADING = <div style={{ padding: '2rem', textAlign: 'center', color: 'white' }}>Chargement...</div>;
 
@@ -72,6 +73,7 @@ export const App = () => {
               <Route path="/article-purchases" element={<RoleRoute roles={['admin','gestionnaire_stock']}><ArticlePurchases /></RoleRoute>} />
               <Route path="/fournisseurs" element={<RoleRoute roles={['admin','gestionnaire_stock']}><FournisseursList /></RoleRoute>} />
               <Route path="/reglements-fournisseurs" element={<RoleRoute roles={['admin','gestionnaire_stock']}><ReglementsFournisseurs /></RoleRoute>} />
+              <Route path="/debot-sync" element={<RoleRoute roles={['admin','gestionnaire_stock']}><DebotSync /></RoleRoute>} />
 
               {/* Admin only */}
               <Route path="/facturations" element={<RoleRoute roles={['admin']}><FacturationsList /></RoleRoute>} />

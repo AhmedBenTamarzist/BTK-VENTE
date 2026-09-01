@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.api.v1 import (
     auth, users, enterprise, clients, fournisseurs, categories,
-    articles, achats, documents, retours, facturations, reglements, relances, logs, backup
+    articles, achats, documents, retours, facturations, reglements, relances, logs, backup, debot_sync
 )
 
 api_router = APIRouter()
@@ -21,3 +21,4 @@ api_router.include_router(reglements.router, prefix="/reglements", tags=["Règle
 api_router.include_router(relances.router, prefix="/relances", tags=["Relances Crédit"])
 api_router.include_router(logs.router, prefix="/logs", tags=["Logs Actions"])
 api_router.include_router(backup.router, prefix="/backup", tags=["Sauvegardes"])
+api_router.include_router(debot_sync.router, prefix="/debot-sync", tags=["Synchronisation Debot"])

@@ -53,6 +53,10 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     BACKUP_EMAIL_TO: str = ""
 
+    # Synchronisation des articles avec Debot (app dépôt/stock séparée)
+    DEBOT_API_URL: str = "https://gdstock.ddns.net/api"
+    DEBOT_API_KEY: str = ""
+
     @model_validator(mode="after")
     def _build_database_url(self):
         if not self.DATABASE_URL:
