@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi import HTTPException, Request
 from app.config import settings
 from app.api.v1.api import api_router
 
@@ -59,8 +60,19 @@ if os.path.isdir(FRONTEND_DIST):
     if os.path.isdir(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
-    @app.get("/{full_path:path}")
-    def serve_frontend(full_path: str):
+    @app.api_route("/{full_path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+    def serve_frontend(full_path: str, request: Request):
+        # Ne jamais avaler une route API inexistante/mal orthographiée, quelle que
+        # soit la méthode HTTP : elle doit rester une vraie 404 (sinon une route API
+        # manquante renvoyait ici du HTML sur GET, ou un 405 trompeur sur les autres
+        # méthodes puisque cette route ne gérait que GET).
+        api_prefix = settings.API_V1_STR.lstrip("/")
+        if full_path == api_prefix or full_path.startswith(api_prefix + "/"):
+            raise HTTPException(status_code=404, detail="Route API introuvable")
+
+        if request.method != "GET":
+            raise HTTPException(status_code=404, detail="Route introuvable")
+
         candidate = os.path.join(FRONTEND_DIST, full_path)
         if full_path and os.path.isfile(candidate):
             return FileResponse(candidate)
