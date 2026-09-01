@@ -159,6 +159,19 @@ def resolve_differences(
 
     results: List[ResolutionResult] = []
 
+    # Une seule requête vers Debot pour tout le lot, jamais une par ligne — un PC
+    # bas de gamme côté Debot ne supporte pas des dizaines de GET /articles
+    # (~780 lignes) en quelques secondes si un utilisateur applique une action
+    # groupée sur beaucoup de références à la fois.
+    needs_debot_list = any(r.action in ("use_debot", "create_in_venteapp") for r in body.resolutions)
+    debot_by_ref = {}
+    if needs_debot_list:
+        try:
+            debot_articles = debot_service.get_all_articles()
+            debot_by_ref = {(a.get("code_article") or "").strip(): a for a in debot_articles if a.get("code_article")}
+        except debot_service.DebotSyncError as e:
+            raise HTTPException(status_code=502, detail=str(e))
+
     for res in body.resolutions:
         ref = res.reference.strip()
         try:
@@ -169,8 +182,7 @@ def resolve_differences(
             v_art = db.query(Article).filter(Article.reference == ref).first()
 
             if res.action == "use_debot":
-                debot_articles = debot_service.get_all_articles()
-                d_art = next((a for a in debot_articles if (a.get("code_article") or "").strip() == ref), None)
+                d_art = debot_by_ref.get(ref)
                 if not d_art:
                     raise ValueError("Article introuvable côté Debot.")
                 if not v_art:
@@ -198,8 +210,7 @@ def resolve_differences(
                 results.append(ResolutionResult(reference=ref, action=res.action, success=True, message="Debot mis à jour depuis VenteApp."))
 
             elif res.action == "create_in_venteapp":
-                debot_articles = debot_service.get_all_articles()
-                d_art = next((a for a in debot_articles if (a.get("code_article") or "").strip() == ref), None)
+                d_art = debot_by_ref.get(ref)
                 if not d_art:
                     raise ValueError("Article introuvable côté Debot.")
                 if v_art:
