@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote_plus
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -13,9 +14,11 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "postgres")
     DB_NAME: str = os.getenv("DB_NAME", "quincaillerie_db")
     
+    # DB_USER/DB_PASSWORD sont encodés (quote_plus) : un mot de passe contenant
+    # @, /, #, %, etc. casserait sinon la construction de l'URL de connexion.
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        f"postgresql://{quote_plus(DB_USER)}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
 
     # JWT Authentication
