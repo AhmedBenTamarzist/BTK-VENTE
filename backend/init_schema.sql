@@ -311,6 +311,13 @@ CREATE TABLE IF NOT EXISTS facturation_documents (
     PRIMARY KEY (id_facturation, id_document)
 );
 
+-- 18b. LIAISON FACTURATION <-> BONS DE RETOUR
+CREATE TABLE IF NOT EXISTS facturation_retours (
+    id_facturation         INTEGER NOT NULL REFERENCES facturations(id_facturation) ON DELETE CASCADE,
+    id_retour             INTEGER NOT NULL REFERENCES bons_retour(id_retour),
+    PRIMARY KEY (id_facturation, id_retour)
+);
+
 -- 19. LIGNES DE FACTURATION
 CREATE TABLE IF NOT EXISTS lignes_facturation (
     id_ligne_facturation      SERIAL PRIMARY KEY,

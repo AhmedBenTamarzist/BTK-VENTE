@@ -21,6 +21,17 @@ _PENDING_COLUMNS = [
     ("lignes_achat", "taux_taxe_supplementaire", "NUMERIC(5,2) NOT NULL DEFAULT 0"),
     ("achats", "montant_taxe_supplementaire", "NUMERIC(12,3) NOT NULL DEFAULT 0"),
     ("facturations", "montant_timbre", "NUMERIC(12,3) NOT NULL DEFAULT 1"),
+    # Colonnes presentes dans les modeles SQLAlchemy depuis un moment mais jamais
+    # ajoutees a init_schema.sql ni a cette liste : invisibles en local (SQLite
+    # cree tout via Base.metadata.create_all) mais provoquaient un vrai
+    # "UndefinedColumn" sur une base PostgreSQL fraiche/existante.
+    ("documents", "montant_retourne", "NUMERIC(12,3) NOT NULL DEFAULT 0"),
+    ("facturations", "montant_retourne", "NUMERIC(12,3) NOT NULL DEFAULT 0"),
+    ("facturations", "remise_pct", "NUMERIC(5,2) NOT NULL DEFAULT 0"),
+    ("bons_retour", "facture_dans_facturation", "BOOLEAN NOT NULL DEFAULT FALSE"),
+    ("bons_retour", "mode_remboursement", "VARCHAR(20) NOT NULL DEFAULT 'credit'"),
+    ("lignes_achat", "nouveau_prix_vente_ttc", "NUMERIC(12,3)"),
+    ("lignes_achat", "nouvelle_remise_vente", "NUMERIC(5,2)"),
 ]
 
 def _apply_pending_column_migrations():
