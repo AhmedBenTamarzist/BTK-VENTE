@@ -31,6 +31,26 @@ def recalculate_client_payments(db: Session, client_id: int):
         Document.type_document.in_(['bon_livraison', 'facture_rapide'])
     ).all()
 
+    # Client Passage (ventes comptoir anonymes) : jamais de créance/crédit suivi.
+    # On ne peut pas relancer un client anonyme pour un reste à payer (ex: écart
+    # de caisse, monnaie non rendue) — chaque document est donc considéré soldé
+    # d'office, et le solde du compte reste toujours à 0.
+    if client.nom == "Client Passage":
+        for doc in all_docs:
+            doc.montant_paye = Decimal(str(doc.montant_ttc_final))
+            doc.montant_restant = Decimal('0.000')
+            doc.statut = "paye"
+        client.solde_compte = Decimal('0.000')
+
+        all_facts = db.query(Facturation).filter(Facturation.id_client == client_id).all()
+        for fact in all_facts:
+            fact.montant_paye = Decimal(str(fact.montant_ttc))
+            fact.montant_restant = Decimal('0.000')
+            fact.statut = "payee"
+
+        db.flush()
+        return
+
     # Appliquer les paiements ciblés sur les BLs
     for doc in all_docs:
         restant_initial = max(Decimal('0.000'), Decimal(str(doc.montant_ttc_final)))
