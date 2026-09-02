@@ -22,8 +22,10 @@ export const Login = () => {
 
     try {
       setLoading(true);
-      await login(nom.trim(), password);
-      navigate('/');
+      const userObj = await login(nom.trim(), password);
+      // Le Tableau de bord est réservé à l'admin : les autres rôles arrivent
+      // directement sur l'écran de vente.
+      navigate(userObj.role === 'admin' ? '/' : '/sales');
     } catch (err) {
       setError(err.message || 'Identifiants invalides. Veuillez vérifier votre nom et mot de passe.');
     } finally {

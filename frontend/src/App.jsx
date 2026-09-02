@@ -37,12 +37,15 @@ const ProtectedRoute = ({ children }) => {
   return <Layout>{children}</Layout>;
 };
 
-// RoleRoute — accepts a `roles` array; if empty/undefined = any authenticated user
+// RoleRoute — accepts a `roles` array; if empty/undefined = any authenticated user.
+// Le repli en cas d'accès refusé pointe vers /sales (accessible à tous les rôles),
+// jamais vers "/" — le Tableau de bord est réservé à l'admin, une redirection
+// vers "/" créerait une boucle infinie pour tout autre rôle.
 const RoleRoute = ({ children, roles }) => {
   const { user, isAuthenticated, loading } = useAuth();
   if (loading) return LOADING;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (roles && !roles.includes(user?.role)) return <Navigate to="/" replace />;
+  if (roles && !roles.includes(user?.role)) return <Navigate to="/sales" replace />;
   return <Layout>{children}</Layout>;
 };
 
@@ -56,8 +59,10 @@ export const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/print/:id" element={<PrintView />} />
 
+              {/* Admin only */}
+              <Route path="/" element={<RoleRoute roles={['admin']}><Dashboard /></RoleRoute>} />
+
               {/* All authenticated */}
-              <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/sales" element={<ProtectedRoute><SalesScreen /></ProtectedRoute>} />
               <Route path="/documents" element={<ProtectedRoute><DocumentsList /></ProtectedRoute>} />
               <Route path="/a-livrer" element={<ProtectedRoute><LivraisonsList /></ProtectedRoute>} />
@@ -83,7 +88,7 @@ export const App = () => {
               <Route path="/logs" element={<RoleRoute roles={['admin']}><LogsView /></RoleRoute>} />
               <Route path="/settings" element={<RoleRoute roles={['admin']}><Settings /></RoleRoute>} />
 
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/sales" replace />} />
             </Routes>
           </Router>
         </SalesTabsProvider>

@@ -10,7 +10,7 @@ import { useAuth } from '../../context/AuthContext';
 // ── Permission map ────────────────────────────────────────────────────────────
 // Each nav item has a `roles` array — if undefined = visible to all authenticated
 const ALL_NAV = [
-  { label: 'Tableau de bord',         path: '/',                    icon: LayoutDashboard },
+  { label: 'Tableau de bord',         path: '/',                    icon: LayoutDashboard, roles: ['admin'] },
   { label: 'Caisse / Ventes (+)',      path: '/sales',               icon: ShoppingCart, highlight: true },
   { label: 'Documents de Vente',       path: '/documents',           icon: FileText },
   { label: 'À Livrer',                 path: '/a-livrer',            icon: PackageCheck },
