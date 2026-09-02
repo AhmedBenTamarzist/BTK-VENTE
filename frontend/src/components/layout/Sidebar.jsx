@@ -52,23 +52,23 @@ export const Sidebar = ({ isOpen = false, onClose = () => {}, collapsed = false 
   };
 
   return (
-    <aside className={`sidebar-container ${isOpen ? 'open' : ''} ${collapsed ? 'collapsed' : ''}`} style={{ width: '250px', background: '#0f172a', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+    <aside className={`sidebar-container ${isOpen ? 'open' : ''} ${collapsed ? 'collapsed' : ''}`} style={{ width: '250px', background: 'var(--bg-surface)', borderRight: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
       {/* Brand */}
-      <div style={{ padding: '1.25rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div style={{ padding: '1.25rem 1rem', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'white', flexShrink: 0 }}>
           Q
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 style={{ fontSize: '1.05rem', margin: 0, fontWeight: '700', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #fff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h2 style={{ fontSize: '1.05rem', margin: 0, fontWeight: '700', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Quincaillerie POS
           </h2>
-          <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>ERP &amp; Ventes</span>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>ERP &amp; Ventes</span>
         </div>
         <button
           className="sidebar-close-btn"
           onClick={onClose}
           aria-label="Fermer le menu"
-          style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '0.25rem', display: 'none', flexShrink: 0 }}
+          style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.25rem', display: 'none', flexShrink: 0 }}
         >
           <X size={22} />
         </button>
@@ -89,13 +89,13 @@ export const Sidebar = ({ isOpen = false, onClose = () => {}, collapsed = false 
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.6rem 0.85rem', borderRadius: '8px', fontSize: '0.875rem',
                 fontWeight: isActive ? '600' : '400',
-                color: isActive ? '#ffffff' : item.highlight ? '#60a5fa' : '#94a3b8',
-                backgroundColor: isActive ? 'rgba(99,102,241,0.2)' : item.highlight ? 'rgba(99,102,241,0.08)' : 'transparent',
-                borderLeft: isActive ? '3px solid #6366f1' : '3px solid transparent',
+                color: isActive ? 'var(--accent-primary)' : item.highlight ? 'var(--accent-secondary)' : 'var(--text-muted)',
+                backgroundColor: isActive ? 'rgba(99,102,241,0.15)' : item.highlight ? 'rgba(99,102,241,0.08)' : 'transparent',
+                borderLeft: isActive ? '3px solid var(--accent-primary)' : '3px solid transparent',
                 transition: 'all 0.15s ease',
               })}
             >
-              <Icon size={18} color={item.highlight ? '#60a5fa' : undefined} />
+              <Icon size={18} color={item.highlight ? 'var(--accent-secondary)' : undefined} />
               <span>{item.label}</span>
             </NavLink>
           );
@@ -103,12 +103,12 @@ export const Sidebar = ({ isOpen = false, onClose = () => {}, collapsed = false 
       </nav>
 
       {/* User footer */}
-      <div style={{ padding: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(15,23,42,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ padding: '1rem', borderTop: '1px solid var(--border-color)', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ overflow: 'hidden' }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: '600', color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-main)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {user?.nom} {user?.prenom || ''}
           </div>
-          <div style={{ fontSize: '0.7rem', color: '#6366f1', textTransform: 'capitalize' }}>
+          <div style={{ fontSize: '0.7rem', color: 'var(--accent-primary)', textTransform: 'capitalize' }}>
             {ROLE_LABELS[role] || role}
           </div>
         </div>

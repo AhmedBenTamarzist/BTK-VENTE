@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SalesTabsProvider } from './context/SalesTabsContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Layout } from './components/layout/Layout';
 import { ToastProvider } from './contexts/ToastContext';
 
@@ -51,6 +52,7 @@ const RoleRoute = ({ children, roles }) => {
 
 export const App = () => {
   return (
+    <ThemeProvider>
     <ToastProvider>
       <AuthProvider>
         <SalesTabsProvider>
@@ -94,6 +96,7 @@ export const App = () => {
         </SalesTabsProvider>
       </AuthProvider>
     </ToastProvider>
+    </ThemeProvider>
   );
 };
 

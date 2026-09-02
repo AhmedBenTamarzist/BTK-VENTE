@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, PlusCircle, Wifi, Menu } from 'lucide-react';
+import { ShoppingCart, PlusCircle, Wifi, Menu, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useSalesTabs } from '../../context/SalesTabsContext';
+import { useTheme } from '../../context/ThemeContext';
 
 export const Header = ({ onMenuClick = () => {} }) => {
   const { user } = useAuth();
   const { addTab } = useSalesTabs();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,14 +20,14 @@ export const Header = ({ onMenuClick = () => {} }) => {
   };
 
   return (
-    <header className="header-container" style={{ height: '60px', background: '#1e293b', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1.5rem', flexShrink: 0, gap: '0.75rem' }}>
+    <header className="header-container" style={{ height: '60px', background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1.5rem', flexShrink: 0, gap: '0.75rem' }}>
       {/* Mobile menu toggle + Network / LAN Server Indicator */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0 }}>
         <button
           className="mobile-menu-btn"
           onClick={onMenuClick}
           aria-label="Ouvrir le menu"
-          style={{ display: 'none', background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', color: 'white', padding: '0.4rem', cursor: 'pointer', flexShrink: 0 }}
+          style={{ display: 'none', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-main)', padding: '0.4rem', cursor: 'pointer', flexShrink: 0 }}
         >
           <Menu size={20} />
         </button>
@@ -42,9 +44,19 @@ export const Header = ({ onMenuClick = () => {} }) => {
           <span className="header-new-sale-label">Nouveau Document Vente</span>
         </button>
 
-        <div className="header-session-label" style={{ fontSize: '0.85rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>
-          Session: <strong style={{ color: 'white' }}>{user?.nom}</strong>
+        <div className="header-session-label" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+          Session: <strong style={{ color: 'var(--text-main)' }}>{user?.nom}</strong>
         </div>
+
+        <button
+          className="btn btn-outline btn-sm"
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Passer au thème clair' : 'Passer au thème sombre'}
+          aria-label={theme === 'dark' ? 'Passer au thème clair' : 'Passer au thème sombre'}
+          style={{ padding: '0.4rem' }}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
       </div>
     </header>
   );

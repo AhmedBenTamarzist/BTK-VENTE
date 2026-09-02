@@ -54,7 +54,7 @@ export const Dashboard = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.6rem', fontWeight: '800', margin: 0 }}>Tableau de Bord & Vue d'Ensemble</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Résumé quotidien des ventes, encaissements et relances crédit prioritaires</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Résumé quotidien des ventes, encaissements et relances crédit prioritaires</p>
         </div>
 
         <button className="btn btn-primary" onClick={() => navigate('/sales')} style={{ background: 'linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%)', padding: '0.65rem 1.25rem' }}>
@@ -70,8 +70,8 @@ export const Dashboard = () => {
             <ShoppingCart size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '600', letterSpacing: '0.05em' }}>Ventes du Jour</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: '800', color: 'white' }}>{stats.todaySalesCount} docs</div>
+            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '0.05em' }}>Ventes du Jour</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--text-main)' }}>{stats.todaySalesCount} docs</div>
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export const Dashboard = () => {
             <DollarSign size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '600', letterSpacing: '0.05em' }}>Encaissé Aujourd'hui</div>
+            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '0.05em' }}>Encaissé Aujourd'hui</div>
             <div style={{ fontSize: '1.6rem', fontWeight: '800', color: '#34d399' }}>{stats.todayCollected.toFixed(3)} TND</div>
           </div>
         </div>
@@ -92,7 +92,7 @@ export const Dashboard = () => {
             <Clock size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#94a3b8', fontWeight: '600', letterSpacing: '0.05em' }}>Total Crédits Clients</div>
+            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '0.05em' }}>Total Crédits Clients</div>
             <div style={{ fontSize: '1.6rem', fontWeight: '800', color: '#f87171' }}>{stats.totalPendingDebt.toFixed(3)} TND</div>
           </div>
         </div>
@@ -120,12 +120,12 @@ export const Dashboard = () => {
               </thead>
               <tbody>
                 {recentDocs.length === 0 ? (
-                  <tr><td colSpan={4} style={{ textAlign: 'center', padding: '1.5rem', color: '#64748b' }}>Aucun document émis.</td></tr>
+                  <tr><td colSpan={4} style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-muted)' }}>Aucun document émis.</td></tr>
                 ) : (
                   recentDocs.map((doc) => (
                     <tr key={doc.id_document}>
                       <td><StatusBadge status={doc.type_document} /></td>
-                      <td><strong style={{ color: 'white' }}>{doc.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{doc.numero}</strong></td>
                       <td style={{ fontWeight: 'bold', color: '#34d399' }}>{parseFloat(doc.montant_ttc_final).toFixed(3)} TND</td>
                       <td style={{ textAlign: 'center' }}><StatusBadge status={doc.statut} /></td>
                     </tr>
@@ -145,16 +145,16 @@ export const Dashboard = () => {
           </div>
 
           {dueRelances.length === 0 ? (
-            <div style={{ padding: '1.5rem', textAlign: 'center', color: '#94a3b8', fontSize: '0.85rem' }}>
+            <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
               Aucune relance crédit planifiée pour aujourd'hui.
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {dueRelances.map((rel) => (
-                <div key={rel.id_relance} style={{ background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div key={rel.id_relance} style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <strong style={{ color: 'white', display: 'block', fontSize: '0.85rem' }}>Client #{rel.id_client} : {rel.nom} {rel.prenom || ''} </strong>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Planifiée: {new Date(rel.date_planifiee).toLocaleDateString('fr-FR')}</span>
+                    <strong style={{ color: 'var(--text-main)', display: 'block', fontSize: '0.85rem' }}>Client #{rel.id_client} : {rel.nom} {rel.prenom || ''} </strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Planifiée: {new Date(rel.date_planifiee).toLocaleDateString('fr-FR')}</span>
                   </div>
                   <button className="btn btn-outline btn-sm" onClick={() => navigate(`/clients/${rel.id_client}`)}>
                     Fiche Client
