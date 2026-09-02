@@ -246,7 +246,7 @@ export const DevisRapideModal = ({ isOpen, onClose }) => {
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label">Ajouter un article</label>
             <div style={{ position: 'relative' }}>
-              <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+              <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input
                 type="text"
                 className="form-input"
@@ -256,7 +256,7 @@ export const DevisRapideModal = ({ isOpen, onClose }) => {
                 onChange={(e) => setArticleSearch(e.target.value)}
               />
               {articleResults.length > 0 && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10, background: '#1e293b', border: '1px solid var(--border-color)', borderRadius: '8px', marginTop: '0.25rem', maxHeight: '220px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
+                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10, background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '8px', marginTop: '0.25rem', maxHeight: '220px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
                   {articleResults.map((art) => (
                     <div
                       key={art.id_article}
@@ -266,7 +266,7 @@ export const DevisRapideModal = ({ isOpen, onClose }) => {
                       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                     >
                       <span>{art.nom}</span>
-                      <span style={{ color: '#94a3b8' }}>{parseFloat(art.prix_vente_ttc).toFixed(3)} TND</span>
+                      <span style={{ color: 'var(--text-muted)' }}>{parseFloat(art.prix_vente_ttc).toFixed(3)} TND</span>
                     </div>
                   ))}
                 </div>

@@ -37,7 +37,7 @@ export const ReglementsFournisseurs = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Règlements Fournisseurs (Vue Global)</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Historique des paiements sortants vers les fournisseurs</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Historique des paiements sortants vers les fournisseurs</p>
         </div>
         <button className="btn btn-outline" onClick={fetchData}>
           <RefreshCw size={16} /> Actualiser
@@ -63,7 +63,7 @@ export const ReglementsFournisseurs = () => {
               {loading ? (
                 <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des règlements...</td></tr>
               ) : reglements.length === 0 ? (
-                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun règlement fournisseur trouvé.</td></tr>
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun règlement fournisseur trouvé.</td></tr>
               ) : (
                 reglements.map((r) => {
                   const f = fournisseursMap[r.id_fournisseur];
@@ -73,7 +73,7 @@ export const ReglementsFournisseurs = () => {
                       onClick={() => setSelectedReglement(r)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <td><strong style={{ color: 'white' }}>{r.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{r.numero}</strong></td>
                       <td>{new Date(r.date_reglement).toLocaleDateString('fr-FR')}</td>
                       <td>{f ? f.nom : `Fournisseur #${r.id_fournisseur}`}</td>
                       <td><span style={{ textTransform: 'capitalize' }}>{r.mode_paiement}</span></td>

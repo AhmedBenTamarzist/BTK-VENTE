@@ -97,7 +97,7 @@ export const DocumentsList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Documents de Vente</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Historique et gestion des Devis, Bons de Livraison et Factures Rapides</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Historique et gestion des Devis, Bons de Livraison et Factures Rapides</p>
         </div>
         <button className="btn btn-outline" onClick={fetchDocuments}>
           <RefreshCw size={16} /> Actualiser
@@ -107,7 +107,7 @@ export const DocumentsList = () => {
       {/* Filters Bar */}
       <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem', paddingRight: search ? '2.5rem' : undefined }}
@@ -116,7 +116,7 @@ export const DocumentsList = () => {
             placeholder="Rechercher : N° document, nom client, type..."
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', padding: 0 }}>
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
               <X size={14} />
             </button>
           )}
@@ -160,14 +160,14 @@ export const DocumentsList = () => {
               {loading ? (
                 <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des documents...</td></tr>
               ) : filteredDocs.length === 0 ? (
-                <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun document trouvé.</td></tr>
+                <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun document trouvé.</td></tr>
               ) : (
                 filteredDocs.map((doc) => {
                   const client = clientsMap[doc.id_client];
                   return (
                     <tr key={doc.id_document}>
                       <td><StatusBadge status={doc.type_document} /></td>
-                      <td><strong style={{ color: 'white' }}>{doc.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{doc.numero}</strong></td>
                       <td>{new Date(doc.date_document).toLocaleDateString('fr-FR')}</td>
                       <td>
                         {doc.id_client === passageClientId
@@ -177,7 +177,7 @@ export const DocumentsList = () => {
                       <td style={{ textAlign: 'right' }}>
                         {parseFloat(doc.montant_retourne) > 0 ? (
                           <div style={{ fontSize: '0.85rem', lineHeight: '1.2' }}>
-                            <div style={{ textDecoration: 'line-through', color: '#94a3b8' }}>
+                            <div style={{ textDecoration: 'line-through', color: 'var(--text-muted)' }}>
                               TTC: {parseFloat(doc.montant_ttc_final).toFixed(3)}
                             </div>
                             <div style={{ color: '#f87171' }}>
@@ -191,7 +191,7 @@ export const DocumentsList = () => {
                           <span style={{ fontWeight: 'bold', color: '#34d399' }}>{parseFloat(doc.montant_ttc_final).toFixed(3)} TND</span>
                         )}
                       </td>
-                      <td style={{ textAlign: 'right', color: parseFloat(doc.montant_restant) > 0 ? '#fbbf24' : '#94a3b8' }}>
+                      <td style={{ textAlign: 'right', color: parseFloat(doc.montant_restant) > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
                         {parseFloat(doc.montant_restant).toFixed(3)} TND
                       </td>
                       <td style={{ textAlign: 'center' }}><StatusBadge status={doc.statut} /></td>
@@ -254,7 +254,7 @@ export const DocumentsList = () => {
                 <div><strong>Client:</strong> {clientsMap[docFull.id_client]?.nom || `#${docFull.id_client}`}</div>
                 <div><strong>Date:</strong> {new Date(docFull.date_document).toLocaleString('fr-FR')}</div>
                 {vendeurNom && <div style={{ gridColumn: 'span 2' }}><strong>Vendeur:</strong> {vendeurNom}</div>}
-                {notesTexte && <div style={{ gridColumn: 'span 2', color: '#94a3b8' }}><strong>Notes:</strong> {notesTexte}</div>}
+                {notesTexte && <div style={{ gridColumn: 'span 2', color: 'var(--text-muted)' }}><strong>Notes:</strong> {notesTexte}</div>}
               </div>
 
               <h4 style={{ fontSize: '0.95rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -265,10 +265,10 @@ export const DocumentsList = () => {
                     background: docFull.statut_livraison === 'livre' ? 'rgba(16,185,129,0.15)' :
                                 docFull.statut_livraison === 'partiellement_livre' ? 'rgba(251,191,36,0.15)' : 'rgba(100,116,139,0.15)',
                     color: docFull.statut_livraison === 'livre' ? '#34d399' :
-                           docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : '#94a3b8',
+                           docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : 'var(--text-muted)',
                     border: '1px solid',
                     borderColor: docFull.statut_livraison === 'livre' ? '#10b981' :
-                                 docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : '#475569',
+                                 docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : 'var(--text-muted)',
                   }}>
                     {docFull.statut_livraison === 'livre' ? '✓ Livré' :
                      docFull.statut_livraison === 'partiellement_livre' ? '◑ Partiellement livré' :
@@ -290,7 +290,7 @@ export const DocumentsList = () => {
                 </thead>
                 <tbody>
                   {selectedDocFull === null && (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', color: '#64748b', padding: '1rem' }}>Chargement...</td></tr>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '1rem' }}>Chargement...</td></tr>
                   )}
                   {(docFull.lignes || []).map((l, i) => {
                     const qty = parseFloat(l.quantite);
@@ -305,19 +305,19 @@ export const DocumentsList = () => {
                     } else if (l.statut_livraison === 'partiellement_livre' || qtyLivree > 0) {
                       livraisonIcon = '◑ Partiel'; livraisonColor = '#fbbf24';
                     } else {
-                      livraisonIcon = '✗ Non livré'; livraisonColor = '#94a3b8';
+                      livraisonIcon = '✗ Non livré'; livraisonColor = 'var(--text-muted)';
                     }
 
                     return (
                       <tr key={i}>
                         <td>
-                          <strong style={{ color: 'white' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
-                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Réf: {l.article.reference}</div>}
+                          <strong style={{ color: 'var(--text-main)' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
+                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Réf: {l.article.reference}</div>}
                         </td>
                         <td style={{ textAlign: 'center' }}>{qty}</td>
-                        <td style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
+                        <td style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
                         <td style={{ textAlign: 'right' }}>{pu.toFixed(3)} TND</td>
-                        <td style={{ textAlign: 'right', color: remisePct > 0 ? '#fbbf24' : '#64748b' }}>
+                        <td style={{ textAlign: 'right', color: remisePct > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
                           {remisePct > 0 ? `-${remisePct}%` : '—'}
                         </td>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>{total.toFixed(3)} TND</td>
@@ -328,9 +328,9 @@ export const DocumentsList = () => {
                 </tbody>
               </table>
 
-              <div style={{ background: '#0f172a', padding: '0.75rem', borderRadius: '8px', fontSize: '0.9rem' }}>
+              <div style={{ background: 'var(--bg-primary)', padding: '0.75rem', borderRadius: '8px', fontSize: '0.9rem' }}>
                 {parseFloat(docFull.montant_remise) > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                     <span>Sous-total Brut:</span>
                     <span>{parseFloat(docFull.montant_ttc_sans_remise).toFixed(3)} TND</span>
                   </div>
@@ -349,7 +349,7 @@ export const DocumentsList = () => {
                   <span>Montant Payé:</span>
                   <span>{parseFloat(docFull.montant_paye).toFixed(3)} TND</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: parseFloat(docFull.montant_restant) > 0 ? '#fbbf24' : '#94a3b8', fontWeight: parseFloat(docFull.montant_restant) > 0 ? 'bold' : 'normal' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: parseFloat(docFull.montant_restant) > 0 ? '#fbbf24' : 'var(--text-muted)', fontWeight: parseFloat(docFull.montant_restant) > 0 ? 'bold' : 'normal' }}>
                   <span>Reste à Payer:</span>
                   <strong>{parseFloat(docFull.montant_restant).toFixed(3)} TND</strong>
                 </div>

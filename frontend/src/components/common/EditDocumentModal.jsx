@@ -242,7 +242,7 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
 
           {doc.type_document === 'devis' && (
             <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', marginRight: 'auto' }}>
-              <label style={{ fontSize: '0.8rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>Convertir en :</label>
+              <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>Convertir en :</label>
               <select
                 className="form-select"
                 style={{ padding: '0.3rem 0.6rem', fontSize: '0.85rem', minWidth: '170px' }}
@@ -317,12 +317,12 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
             style={{ fontStyle: isPassageClient ? 'italic' : 'normal' }}
           />
           {showClientDropdown && clientResults.length > 0 && (
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#1e293b', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 200, maxHeight: '180px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 200, maxHeight: '180px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
               {clientResults.map((c) => (
                 <div key={c.id_client} onClick={() => handleSelectClient(c)}
                   style={{ padding: '0.45rem 0.75rem', cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,0.05)', fontSize: '0.85rem' }}>
-                  <strong style={{ color: 'white' }}>{c.nom} {c.prenom || ''}</strong>
-                  <span style={{ color: '#94a3b8', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Tél: {c.telephone || 'N/A'}</span>
+                  <strong style={{ color: 'var(--text-main)' }}>{c.nom} {c.prenom || ''}</strong>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Tél: {c.telephone || 'N/A'}</span>
                 </div>
               ))}
             </div>
@@ -331,7 +331,7 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
 
         {/* Article search */}
         <div style={{ position: 'relative' }}>
-          <Search size={14} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+          <Search size={14} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.2rem' }}
@@ -340,13 +340,13 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
             placeholder="Ajouter un article (nom ou référence)..."
           />
           {showArticleDropdown && articleResults.length > 0 && (
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#1e293b', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 200, maxHeight: '200px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 200, maxHeight: '200px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
               {articleResults.map((art) => (
                 <div key={art.id_article} onClick={() => handleAddArticle(art)}
                   style={{ padding: '0.5rem 0.75rem', cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                   <span>
-                    <strong style={{ color: 'white' }}>{art.nom}</strong>
-                    <span style={{ color: '#94a3b8', marginLeft: '0.5rem' }}>Réf: {art.reference || '—'}</span>
+                    <strong style={{ color: 'var(--text-main)' }}>{art.nom}</strong>
+                    <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem' }}>Réf: {art.reference || '—'}</span>
                   </span>
                   <span style={{ color: '#34d399', fontWeight: 'bold' }}>{parseFloat(art.prix_vente_ttc).toFixed(3)} TND</span>
                 </div>
@@ -372,7 +372,7 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
             <tbody>
               {lignes.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: '1.5rem', color: '#64748b' }}>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-muted)' }}>
                     Aucun article — utilisez la recherche ci-dessus pour en ajouter.
                   </td>
                 </tr>
@@ -389,8 +389,8 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
                   return (
                     <tr key={i}>
                       <td>
-                        <strong style={{ color: 'white', fontSize: '0.88rem' }}>{l.nom_article}</strong>
-                        {l.reference && <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Réf: {l.reference}</div>}
+                        <strong style={{ color: 'var(--text-main)', fontSize: '0.88rem' }}>{l.nom_article}</strong>
+                        {l.reference && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Réf: {l.reference}</div>}
                       </td>
                       <td>
                         <input type="number" min="0.001" step="1" className="form-input"
@@ -417,7 +417,7 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
                               const val = Math.min(parseFloat(e.target.value) || 0, qty);
                               handleLineChange(i, 'quantite_livree', val);
                             }} />
-                          <span style={{ fontSize: '0.68rem', color: isFullyDelivered ? '#34d399' : isPartial ? '#fbbf24' : '#64748b', whiteSpace: 'nowrap' }}>
+                          <span style={{ fontSize: '0.68rem', color: isFullyDelivered ? '#34d399' : isPartial ? '#fbbf24' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                             {isFullyDelivered ? '✓' : isPartial ? '◑' : '✗'}/{qty}
                           </span>
                         </div>
@@ -452,9 +452,9 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
 
         {/* Totals */}
         {lignes.length > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '2rem', background: '#0f172a', padding: '0.65rem 1rem', borderRadius: '8px', fontSize: '0.88rem' }}>
-            <span style={{ color: '#94a3b8' }}>
-              Total Brut: <strong style={{ color: 'white' }}>{totals.brut.toFixed(3)} TND</strong>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '2rem', background: 'var(--bg-primary)', padding: '0.65rem 1rem', borderRadius: '8px', fontSize: '0.88rem' }}>
+            <span style={{ color: 'var(--text-muted)' }}>
+              Total Brut: <strong style={{ color: 'var(--text-main)' }}>{totals.brut.toFixed(3)} TND</strong>
             </span>
             <span style={{ color: '#fbbf24' }}>
               Remise: <strong>-{(totals.brut - totals.net).toFixed(3)} TND</strong>

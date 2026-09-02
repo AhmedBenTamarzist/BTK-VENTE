@@ -15,13 +15,13 @@ const Kbd = ({ children }) => (
     display: 'inline-block',
     padding: '1px 5px',
     margin: '0 1px',
-    background: '#1e293b',
+    background: 'var(--bg-surface)',
     border: '1px solid #334155',
     borderBottom: '2px solid #334155',
     borderRadius: '4px',
     fontFamily: 'monospace',
     fontSize: '0.7rem',
-    color: '#94a3b8'
+    color: 'var(--text-muted)'
   }}>
     {children}
   </kbd>
@@ -451,7 +451,7 @@ export const SalesScreen = () => {
   return (
     <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {/* 1. Multi-Tab Bar (Browser-like tabs) */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#0f172a', padding: '0.5rem', borderRadius: '10px', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-primary)', padding: '0.5rem', borderRadius: '10px', overflowX: 'auto' }}>
         {tabs.map((tab) => {
           const isActive = tab.id === activeTabId;
           return (
@@ -473,9 +473,9 @@ export const SalesScreen = () => {
                 gap: '0.5rem',
                 padding: '0.45rem 0.85rem',
                 borderRadius: '6px',
-                background: isActive ? '#1e293b' : 'transparent',
+                background: isActive ? 'var(--bg-surface)' : 'transparent',
                 border: isActive ? '1px solid var(--accent-primary)' : '1px solid transparent',
-                color: isActive ? 'white' : '#94a3b8',
+                color: isActive ? 'var(--text-main)' : 'var(--text-muted)',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: isActive ? '600' : '400',
@@ -491,7 +491,7 @@ export const SalesScreen = () => {
                 }}
                 onKeyDown={(e) => e.stopPropagation()}
                 aria-label={`Fermer l'onglet ${tab.title}`}
-                style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 0 }}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0 }}
               >
                 <X size={14} />
               </button>
@@ -505,7 +505,7 @@ export const SalesScreen = () => {
       </div>
 
       {/* Barre d'aide raccourcis clavier — pour travailler sans souris */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem 1.2rem', padding: '0.3rem 0.5rem', fontSize: '0.72rem', color: '#64748b' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem 1.2rem', padding: '0.3rem 0.5rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
         <span><Kbd>↑</Kbd><Kbd>↓</Kbd><Kbd>←</Kbd><Kbd>→</Kbd> Se déplacer (surbrillance)</span>
         <span><Kbd>Entrée</Kbd> Activer le champ sélectionné</span>
         <span><Kbd>Échap</Kbd> Quitter le champ, revenir au déplacement</span>
@@ -618,7 +618,7 @@ export const SalesScreen = () => {
           />
 
           {showClientDropdown && clientResults.length > 0 && (
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#1e293b', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 100, maxHeight: '200px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '8px', zIndex: 100, maxHeight: '200px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
               {clientResults.map((c, idx) => (
                 <div
                   key={c.id_client}
@@ -631,8 +631,8 @@ export const SalesScreen = () => {
                     background: clientFocusedIndex === idx ? 'rgba(56, 189, 248, 0.1)' : 'transparent'
                   }}
                 >
-                  <strong style={{ color: 'white' }}>{c.nom} {c.prenom || ''}</strong>
-                  <span style={{ color: '#94a3b8', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Tél: {c.telephone || 'N/A'} | Solde: {parseFloat(c.solde_compte).toFixed(3)} TND</span>
+                  <strong style={{ color: 'var(--text-main)' }}>{c.nom} {c.prenom || ''}</strong>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Tél: {c.telephone || 'N/A'} | Solde: {parseFloat(c.solde_compte).toFixed(3)} TND</span>
                 </div>
               ))}
             </div>
@@ -751,7 +751,7 @@ export const SalesScreen = () => {
             <tbody>
               {(!activeTab.lignes || activeTab.lignes.length === 0) ? (
                 <tr>
-                  <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                     Aucun article dans ce document. Utilisez le champ ci-dessus pour ajouter des articles.
                   </td>
                 </tr>
@@ -772,9 +772,9 @@ export const SalesScreen = () => {
                   return (
                     <tr key={index}>
                       <td>
-                        <strong style={{ color: 'white' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
+                        <strong style={{ color: 'var(--text-main)' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
                         {l.article?.reference && (
-                          <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Réf: {l.article.reference}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Réf: {l.article.reference}</div>
                         )}
                       </td>
 
@@ -835,7 +835,7 @@ export const SalesScreen = () => {
                           }}
                           onKeyDown={handleLineFieldEnter}
                         />
-                        <div style={{ fontSize: '0.7rem', textAlign: 'center', marginTop: '0.2rem', color: isFullyDelivered ? '#34d399' : isPartial ? '#fbbf24' : '#64748b', whiteSpace: 'nowrap' }}>
+                        <div style={{ fontSize: '0.7rem', textAlign: 'center', marginTop: '0.2rem', color: isFullyDelivered ? '#34d399' : isPartial ? '#fbbf24' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                           {isFullyDelivered ? '✓ Livré' : isPartial ? `◑ ${qtyLivree}/${qty}` : '✗ Non livré'}
                         </div>
                       </td>
@@ -938,16 +938,16 @@ export const SalesScreen = () => {
                   return (
                     <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem', color: '#fbbf24' }}>
                       <span style={{ color: '#f59e0b' }}>▸</span>
-                      <strong style={{ color: 'white' }}>{artName}</strong>
-                      {artRef && <span style={{ color: '#94a3b8', fontSize: '0.72rem' }}>({artRef})</span>}
+                      <strong style={{ color: 'var(--text-main)' }}>{artName}</strong>
+                      {artRef && <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>({artRef})</span>}
                       <span>: remise appliquée <strong style={{ color: '#f87171' }}>{remisePct}%</strong></span>
-                      <span style={{ color: '#94a3b8' }}>| max autorisé :</span>
+                      <span style={{ color: 'var(--text-muted)' }}>| max autorisé :</span>
                       <strong style={{ color: '#34d399' }}>{maxRemise}%</strong>
                     </div>
                   );
                 })}
                 {totals.globalRemisePct > 0 && (
-                  <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(245,158,11,0.3)', color: '#94a3b8', fontSize: '0.75rem' }}>
+                  <div style={{ marginTop: '0.4rem', paddingTop: '0.4rem', borderTop: '1px solid rgba(245,158,11,0.3)', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
                     Remise globale appliquée : <strong style={{ color: '#fbbf24' }}>{totals.globalRemisePct.toFixed(1)}%</strong>
                     &nbsp;&mdash;&nbsp;Max théorique : <strong style={{ color: '#34d399' }}>{totals.maxTheoreticalPct.toFixed(1)}%</strong>
                   </div>
@@ -960,7 +960,7 @@ export const SalesScreen = () => {
         {/* Summary Card & Save Actions */}
         <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.9rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
               <span>Total Brut TTC:</span>
               <span>{totals.ttcSansRemise.toFixed(3)} TND</span>
             </div>
@@ -1009,7 +1009,7 @@ export const SalesScreen = () => {
             return (
               <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                  <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>
+                  <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>
                     Remise proportionnelle
                   </label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -1024,7 +1024,7 @@ export const SalesScreen = () => {
                         width: '55px',
                         padding: '0.15rem 0.3rem',
                         textAlign: 'center',
-                        background: '#0f172a',
+                        background: 'var(--bg-primary)',
                         border: '1px solid var(--border-color)',
                         borderRadius: '4px',
                         color: trackColor,
@@ -1058,14 +1058,14 @@ export const SalesScreen = () => {
                     const artName = l.article?.nom || `Art #${l.id_article}`;
                     const barWidth = maxArt > 0 ? `${(effectivePct / maxArt) * 100}%` : '0%';
                     return (
-                      <div key={i} style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                      <div key={i} style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-                          <span style={{ color: 'white', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{artName}</span>
+                          <span style={{ color: 'var(--text-main)', maxWidth: '65%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{artName}</span>
                           <span style={{ color: effectivePct >= maxArt ? '#34d399' : trackColor }}>
                             {effectivePct}% / max {maxArt}%
                           </span>
                         </div>
-                        <div style={{ height: '3px', background: '#1e293b', borderRadius: '2px', overflow: 'hidden' }}>
+                        <div style={{ height: '3px', background: 'var(--bg-surface)', borderRadius: '2px', overflow: 'hidden' }}>
                           <div style={{ height: '100%', width: barWidth, background: effectivePct >= maxArt ? '#34d399' : trackColor, borderRadius: '2px', transition: 'width 0.15s ease' }} />
                         </div>
                       </div>

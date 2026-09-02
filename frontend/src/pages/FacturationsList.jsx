@@ -298,7 +298,7 @@ export const FacturationsList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Facturation Fiscale Groupée</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Regroupement de plusieurs Bons de Livraison en Factures Officiels (format 0001/26)</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Regroupement de plusieurs Bons de Livraison en Factures Officiels (format 0001/26)</p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button className="btn btn-outline" onClick={() => setShowDevisModal(true)}>
@@ -332,13 +332,13 @@ export const FacturationsList = () => {
               {loading ? (
                 <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des factures...</td></tr>
               ) : facturations.length === 0 ? (
-                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucune facture fiscale groupée.</td></tr>
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucune facture fiscale groupée.</td></tr>
               ) : (
                 facturations.map((f) => {
                   const client = clients.find((c) => c.id_client === f.id_client);
                   return (
                     <tr key={f.id_facturation}>
-                      <td><strong style={{ color: 'white' }}>{f.numero_facture}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{f.numero_facture}</strong></td>
                       <td>{new Date(f.date_facturation).toLocaleDateString('fr-FR')}</td>
                       <td>{client ? `${client.nom} ${client.prenom || ''}` : `Client #${f.id_client}`}</td>
                       <td style={{ textAlign: 'right' }}>{parseFloat(f.montant_ht).toFixed(3)} TND</td>
@@ -346,7 +346,7 @@ export const FacturationsList = () => {
                       <td style={{ textAlign: 'right' }}>
                         {parseFloat(f.montant_retourne) > 0 ? (
                           <div style={{ fontSize: '0.85rem', lineHeight: '1.2' }}>
-                            <div style={{ textDecoration: 'line-through', color: '#94a3b8' }}>
+                            <div style={{ textDecoration: 'line-through', color: 'var(--text-muted)' }}>
                               TTC: {parseFloat(f.montant_ttc).toFixed(3)}
                             </div>
                             <div style={{ color: '#f87171' }}>
@@ -417,11 +417,11 @@ export const FacturationsList = () => {
           <>
             <h4 style={{ fontSize: '0.95rem', margin: '1rem 0 0.5rem 0' }}>Bons de Livraison Non Facturés</h4>
             {availableBls.length === 0 ? (
-              <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#94a3b8', fontSize: '0.85rem' }}>
+              <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                 Aucun Bon de Livraison en attente de facturation pour ce client.
               </div>
             ) : (
-              <div style={{ maxHeight: '180px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
+              <div style={{ maxHeight: '180px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
                 {availableBls.map((bl) => {
                   const isChecked = selectedBlIds.includes(bl.id_document);
                   return (
@@ -432,8 +432,8 @@ export const FacturationsList = () => {
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         {isChecked ? <CheckSquare size={16} color="#6366f1" /> : <Square size={16} color="#94a3b8" />}
-                        <strong style={{ color: 'white' }}>BL N° {bl.numero}</strong>
-                        <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>({new Date(bl.date_document).toLocaleDateString('fr-FR')})</span>
+                        <strong style={{ color: 'var(--text-main)' }}>BL N° {bl.numero}</strong>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(bl.date_document).toLocaleDateString('fr-FR')})</span>
                       </div>
                       <div style={{ fontWeight: 'bold', color: '#34d399' }}>
                         {parseFloat(bl.montant_ttc_final).toFixed(3)} TND
@@ -447,11 +447,11 @@ export const FacturationsList = () => {
             {/* Uninvoiced Retours */}
             <h4 style={{ fontSize: '0.95rem', margin: '1rem 0 0.5rem 0', color: '#f87171' }}>Bons de Retour Non Facturés</h4>
             {availableRetours.length === 0 ? (
-              <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#94a3b8', fontSize: '0.85rem' }}>
+              <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                 Aucun Bon de Retour en attente de facturation pour ce client.
               </div>
             ) : (
-              <div style={{ maxHeight: '180px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
+              <div style={{ maxHeight: '180px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
                 {availableRetours.map((r) => {
                   const isChecked = selectedRetourIds.includes(r.id_retour);
                   return (
@@ -463,7 +463,7 @@ export const FacturationsList = () => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         {isChecked ? <CheckSquare size={16} color="#f87171" /> : <Square size={16} color="#94a3b8" />}
                         <strong style={{ color: '#f87171' }}>Retour N° {r.numero}</strong>
-                        <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
                       </div>
                       <div style={{ fontWeight: 'bold', color: '#f87171' }}>
                         -{parseFloat(r.montant_ttc).toFixed(3)} TND
@@ -503,7 +503,7 @@ export const FacturationsList = () => {
               </table>
             </div>
 
-            <div style={{ background: '#0f172a', padding: '0.75rem', borderRadius: '8px', marginTop: '1rem', display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <div style={{ background: 'var(--bg-primary)', padding: '0.75rem', borderRadius: '8px', marginTop: '1rem', display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <span>Total HT: <strong>{preview.totHt.toFixed(3)} TND</strong></span>
               <span>TVA: <strong>{preview.totTva.toFixed(3)} TND</strong></span>
               <span>Timbre: <strong>{preview.totTimbre.toFixed(3)} TND</strong></span>
@@ -537,17 +537,17 @@ export const FacturationsList = () => {
             </div>
 
             {/* BLs li\u00e9s */}
-            <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: '#94a3b8' }}>Bons de Livraison group\u00e9s</h4>
+            <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Bons de Livraison group\u00e9s</h4>
             {loadingDetailBls ? (
-              <div style={{ padding: '0.5rem', color: '#64748b', fontSize: '0.85rem' }}>Chargement...</div>
+              <div style={{ padding: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>Chargement...</div>
             ) : detailBls.length === 0 ? (
-              <div style={{ padding: '0.5rem', color: '#64748b', fontSize: '0.85rem' }}>Aucun BL li\u00e9.</div>
+              <div style={{ padding: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>Aucun BL li\u00e9.</div>
             ) : (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
                 {detailBls.map((bl) => (
                   <div key={bl.id_document} style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)', borderRadius: '6px', padding: '0.4rem 0.75rem', fontSize: '0.82rem' }}>
                     <strong style={{ color: '#818cf8' }}>BL N\u00b0 {bl.numero}</strong>
-                    <span style={{ color: '#94a3b8', marginLeft: '0.5rem' }}>
+                    <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem' }}>
                       {bl.date_document ? new Date(bl.date_document).toLocaleDateString('fr-FR') : ''}
                     </span>
                     <span style={{ color: '#34d399', marginLeft: '0.5rem', fontWeight: '600' }}>
@@ -565,7 +565,7 @@ export const FacturationsList = () => {
                   {selectedFactuation.retours.map((r) => (
                     <div key={r.id_retour} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: '6px', padding: '0.4rem 0.75rem', fontSize: '0.82rem' }}>
                       <strong style={{ color: '#f87171' }}>Retour N° {r.numero}</strong>
-                      <span style={{ color: '#94a3b8', marginLeft: '0.5rem' }}>
+                      <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem' }}>
                         {r.date_retour ? new Date(r.date_retour).toLocaleDateString('fr-FR') : ''}
                       </span>
                       <span style={{ color: '#f87171', marginLeft: '0.5rem', fontWeight: '600' }}>

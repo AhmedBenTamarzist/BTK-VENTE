@@ -280,7 +280,7 @@ export const CreateRetourModal = ({ isOpen, onClose, onSuccess }) => {
 
         <div style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h3 style={{ fontWeight: '600', color: 'white', margin: 0 }}>Articles Retournés</h3>
+            <h3 style={{ fontWeight: '600', color: 'var(--text-main)', margin: 0 }}>Articles Retournés</h3>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button type="button" className="btn btn-primary btn-sm" onClick={() => handleAddLine('historic')}>
                 <Plus size={16} /> Ajouter Article Acheté
@@ -292,7 +292,7 @@ export const CreateRetourModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
           
           {lignes.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#1e293b', borderRadius: '0.375rem', color: '#94a3b8' }}>
+            <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: "var(--bg-surface)", borderRadius: '0.375rem', color: 'var(--text-muted)' }}>
               Aucun article ajouté. Utilisez les boutons ci-dessus pour commencer.
             </div>
           ) : (
@@ -300,7 +300,7 @@ export const CreateRetourModal = ({ isOpen, onClose, onSuccess }) => {
               {lignes.map((ligne, index) => {
                 const listId = `articles-list-${index}`;
                 return (
-                  <div key={index} style={{ padding: '1rem', backgroundColor: '#1e293b', borderRadius: '0.375rem', border: ligne.warning ? '1px solid #fbbf24' : '1px solid #334155' }}>
+                  <div key={index} style={{ padding: '1rem', backgroundColor: "var(--bg-surface)", borderRadius: '0.375rem', border: ligne.warning ? '1px solid #fbbf24' : '1px solid #334155' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr 1fr auto', gap: '1rem', alignItems: 'end' }}>
                       
                       {ligne.type_ligne === 'historic' ? (
@@ -433,10 +433,10 @@ export const CreateRetourModal = ({ isOpen, onClose, onSuccess }) => {
           )}
         </div>
 
-        <div style={{ padding: '1.5rem', backgroundColor: '#1e293b', borderRadius: '0.5rem', marginBottom: '1.5rem' }}>
+        <div style={{ padding: '1.5rem', backgroundColor: "var(--bg-surface)", borderRadius: '0.5rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
             <div>
-              <h4 style={{ margin: '0 0 0.5rem 0', color: '#94a3b8' }}>Méthode de remboursement</h4>
+              <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-muted)' }}>Méthode de remboursement</h4>
               
               {selectedClientId && total > 0 && (
                 <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '0.375rem', fontSize: '0.875rem', color: '#38bdf8' }}>
@@ -505,7 +505,7 @@ export const CreateRetourModal = ({ isOpen, onClose, onSuccess }) => {
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Montant Total à Retourner</div>
+              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Montant Total à Retourner</div>
               <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#f87171' }}>
                 {total.toFixed(3)} TND
               </div>

@@ -54,7 +54,7 @@ export const ReglementsClients = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Règlements Clients (Vue Transverse)</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Suivi global des paiements reçus et contrôle du statut des chèques et traites</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Suivi global des paiements reçus et contrôle du statut des chèques et traites</p>
         </div>
         <button className="btn btn-outline" onClick={fetchData}>
           <RefreshCw size={16} /> Actualiser
@@ -63,7 +63,7 @@ export const ReglementsClients = () => {
 
       <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             type="text"
             className="form-input"
@@ -109,7 +109,7 @@ export const ReglementsClients = () => {
               {loading ? (
                 <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des règlements...</td></tr>
               ) : filteredReglements.length === 0 ? (
-                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun règlement trouvé.</td></tr>
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun règlement trouvé.</td></tr>
               ) : (
                 filteredReglements.map((r) => {
                   const client = clientsMap[r.id_client];
@@ -119,7 +119,7 @@ export const ReglementsClients = () => {
                       onClick={() => setSelectedReglement(r)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <td><strong style={{ color: 'white' }}>{r.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{r.numero}</strong></td>
                       <td>{new Date(r.date_reglement).toLocaleDateString('fr-FR')}</td>
                       <td>{client ? `${client.nom} ${client.prenom || ''}` : `Client #${r.id_client}`}</td>
                       <td><span style={{ textTransform: 'capitalize' }}>{r.mode_paiement}</span></td>

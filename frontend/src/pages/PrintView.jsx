@@ -34,7 +34,7 @@ export const PrintView = () => {
   if (!document) return <div style={{ padding: '2rem', textAlign: 'center', color: '#f87171' }}>Document introuvable.</div>;
 
   return (
-    <div style={{ background: '#0f172a', minHeight: '100vh', padding: '2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ background: 'var(--bg-primary)', minHeight: '100vh', padding: '2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div className="no-print" style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem' }}>
         <button className="btn btn-primary" onClick={() => window.print()}>
           <Printer size={18} /> Imprimer le Ticket

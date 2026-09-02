@@ -185,7 +185,7 @@ export const DebotSync = () => {
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <GitCompare size={22} /> Synchronisation Debot
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Compare le catalogue d'articles avec Debot (référence VenteApp ↔ code_article Debot)
           </p>
         </div>
@@ -196,9 +196,9 @@ export const DebotSync = () => {
 
       {totals && (
         <div className="glass-card" style={{ display: 'flex', gap: '2rem', padding: '1rem' }}>
-          <div><strong style={{ color: 'white' }}>{totals.venteapp}</strong> <span style={{ color: '#94a3b8' }}>articles VenteApp</span></div>
-          <div><strong style={{ color: 'white' }}>{totals.debot}</strong> <span style={{ color: '#94a3b8' }}>articles Debot</span></div>
-          <div><strong style={{ color: '#fbbf24' }}>{totals.diff}</strong> <span style={{ color: '#94a3b8' }}>à examiner</span></div>
+          <div><strong style={{ color: 'var(--text-main)' }}>{totals.venteapp}</strong> <span style={{ color: 'var(--text-muted)' }}>articles VenteApp</span></div>
+          <div><strong style={{ color: 'var(--text-main)' }}>{totals.debot}</strong> <span style={{ color: 'var(--text-muted)' }}>articles Debot</span></div>
+          <div><strong style={{ color: '#fbbf24' }}>{totals.diff}</strong> <span style={{ color: 'var(--text-muted)' }}>à examiner</span></div>
         </div>
       )}
 
@@ -210,12 +210,12 @@ export const DebotSync = () => {
               placeholder="Filtrer par référence..."
               value={search} onChange={(e) => setSearch(e.target.value)}
             />
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: '#94a3b8' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
               <input type="checkbox" checked={showIdentiques} onChange={(e) => setShowIdentiques(e.target.checked)} />
               Afficher aussi les identiques
             </label>
             <div style={{ flex: 1 }} />
-            <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
               {selected.size} sélectionnée(s)
             </span>
             <select className="form-input" style={{ maxWidth: '300px' }} value={bulkAction} onChange={(e) => setBulkAction(e.target.value)}>
@@ -244,7 +244,7 @@ export const DebotSync = () => {
                 </thead>
                 <tbody>
                   {visibleItems.length === 0 ? (
-                    <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Rien à afficher.</td></tr>
+                    <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Rien à afficher.</td></tr>
                   ) : (
                     visibleItems.map((it) => {
                       const st = STATUT_BADGE[it.statut];
@@ -254,9 +254,9 @@ export const DebotSync = () => {
                           <td>
                             <input type="checkbox" checked={selected.has(it.reference)} onChange={() => toggleSelectOne(it.reference)} />
                           </td>
-                          <td><strong style={{ color: 'white' }}>{it.reference}</strong></td>
+                          <td><strong style={{ color: 'var(--text-main)' }}>{it.reference}</strong></td>
                           <td><span className={`badge ${st.badge}`}>{st.label}</span></td>
-                          <td style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                          <td style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                             {it.differences.length === 0 ? '—' : it.differences.map((d) => (
                               <div key={d.champ}>
                                 <strong>{d.libelle}</strong> : VenteApp = {d.valeur_venteapp} / Debot = {d.valeur_debot}
@@ -297,7 +297,7 @@ export const DebotSync = () => {
             padding: '0.85rem 1.5rem', background: 'rgba(15,23,42,0.97)',
             borderTop: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 -4px 20px rgba(0,0,0,0.35)',
           }}>
-            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
               {Object.values(actions).filter((a) => a !== 'ignore').length} action(s) en attente
             </span>
             <button className="btn btn-primary" onClick={handleApply} disabled={applying}>
@@ -311,7 +311,7 @@ export const DebotSync = () => {
         <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Search size={22} /> Doublons potentiels (par nom)
         </h2>
-        <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
           Repère les articles dont le nom se ressemble fortement au sein d'un même catalogue (fautes de frappe, saisies en double) — diagnostic uniquement, rien n'est modifié, à toi de corriger dans Debot ou VenteApp.
         </p>
       </div>
@@ -339,7 +339,7 @@ export const DebotSync = () => {
 
       {dupResult && (
         <div className="glass-card">
-          <div style={{ padding: '0.85rem 1rem', color: '#94a3b8', fontSize: '0.85rem' }}>
+          <div style={{ padding: '0.85rem 1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             {dupResult.total_articles} articles analysés — <strong style={{ color: '#fbbf24' }}>{dupResult.paires.length}</strong> paire(s) suspecte(s)
             {dupResult.paires.length === 300 && ' (limité aux 300 plus similaires)'}
           </div>
@@ -354,17 +354,17 @@ export const DebotSync = () => {
               </thead>
               <tbody>
                 {dupResult.paires.length === 0 ? (
-                  <tr><td colSpan={3} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun doublon potentiel trouvé.</td></tr>
+                  <tr><td colSpan={3} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun doublon potentiel trouvé.</td></tr>
                 ) : (
                   dupResult.paires.map((p, i) => (
                     <tr key={i}>
                       <td>
-                        <strong style={{ color: 'white' }}>{p.nom_1}</strong>
-                        {p.reference_1 && <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Réf: {p.reference_1}</div>}
+                        <strong style={{ color: 'var(--text-main)' }}>{p.nom_1}</strong>
+                        {p.reference_1 && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Réf: {p.reference_1}</div>}
                       </td>
                       <td>
-                        <strong style={{ color: 'white' }}>{p.nom_2}</strong>
-                        {p.reference_2 && <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Réf: {p.reference_2}</div>}
+                        <strong style={{ color: 'var(--text-main)' }}>{p.nom_2}</strong>
+                        {p.reference_2 && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Réf: {p.reference_2}</div>}
                       </td>
                       <td style={{ textAlign: 'center' }}>
                         <span className={`badge ${p.similarite >= 97 ? 'badge-danger' : p.similarite >= 92 ? 'badge-warning' : 'badge-info'}`}>

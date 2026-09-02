@@ -115,7 +115,7 @@ export const ArticlesCatalog = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Catalogue des Articles</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Gestion du catalogue d'articles, prix de vente TTC et remises autorisées</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Gestion du catalogue d'articles, prix de vente TTC et remises autorisées</p>
         </div>
         <button className="btn btn-primary" onClick={() => handleOpenEdit(null)} style={{ display: canEdit ? '' : 'none' }}>
           <Plus size={16} /> + Nouvel Article
@@ -125,7 +125,7 @@ export const ArticlesCatalog = () => {
       {/* Filter Bar */}
       <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 0.5fr', gap: '1rem', alignItems: 'center' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem' }}
@@ -170,13 +170,13 @@ export const ArticlesCatalog = () => {
               {loading ? (
                 <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des articles...</td></tr>
               ) : articles.length === 0 ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun article trouvé.</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun article trouvé.</td></tr>
               ) : (
                 articles.map((art) => {
                   const cat = categories.find((c) => c.id_categorie === art.id_categorie);
                   return (
                     <tr key={art.id_article}>
-                      <td><strong style={{ color: 'white' }}>{art.reference || 'N/A'}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{art.reference || 'N/A'}</strong></td>
                       <td>{art.nom}</td>
                       <td>{cat ? cat.nom : '-'}</td>
                       <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#34d399' }}>
@@ -276,7 +276,7 @@ export const ArticlesCatalog = () => {
           </thead>
           <tbody>
             {priceHistory.length === 0 ? (
-              <tr><td colSpan={3} style={{ textAlign: 'center', padding: '1.5rem', color: '#64748b' }}>Aucun changement de prix enregistré.</td></tr>
+              <tr><td colSpan={3} style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-muted)' }}>Aucun changement de prix enregistré.</td></tr>
             ) : (
               priceHistory.map((h, i) => (
                 <tr key={i}>

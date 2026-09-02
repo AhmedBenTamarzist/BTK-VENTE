@@ -110,28 +110,28 @@ export const ClientDetail = () => {
       <span style={{ color: '#818cf8', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
         <Calendar size={14} /> Extrait par date :
       </span>
-      <label style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+      <label style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
         Du
         <input
           type="date"
           value={dateDebut}
           onChange={(e) => setDateDebut(e.target.value)}
           style={{
-            background: '#0f172a', border: '1px solid rgba(99,102,241,0.4)',
-            color: 'white', borderRadius: '6px', padding: '0.25rem 0.5rem',
+            background: 'var(--bg-primary)', border: '1px solid rgba(99,102,241,0.4)',
+            color: 'var(--text-main)', borderRadius: '6px', padding: '0.25rem 0.5rem',
             fontSize: '0.82rem', cursor: 'pointer'
           }}
         />
       </label>
-      <label style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+      <label style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
         Au
         <input
           type="date"
           value={dateFin}
           onChange={(e) => setDateFin(e.target.value)}
           style={{
-            background: '#0f172a', border: '1px solid rgba(99,102,241,0.4)',
-            color: 'white', borderRadius: '6px', padding: '0.25rem 0.5rem',
+            background: 'var(--bg-primary)', border: '1px solid rgba(99,102,241,0.4)',
+            color: 'var(--text-main)', borderRadius: '6px', padding: '0.25rem 0.5rem',
             fontSize: '0.82rem', cursor: 'pointer'
           }}
         />
@@ -146,7 +146,7 @@ export const ClientDetail = () => {
         </button>
       )}
       {(dateDebut || dateFin) && (
-        <span style={{ marginLeft: 'auto', color: '#64748b', fontSize: '0.78rem' }}>
+        <span style={{ marginLeft: 'auto', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
           {label}
         </span>
       )}
@@ -361,7 +361,7 @@ export const ClientDetail = () => {
             </button>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', color: '#94a3b8', fontSize: '0.875rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
             {client.telephone && <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Phone size={14} /> {client.telephone}</span>}
             {client.email && <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}><Mail size={14} /> {client.email}</span>}
             {client.matricule_fiscal && <span>MF: <strong>{client.matricule_fiscal}</strong></span>}
@@ -377,7 +377,7 @@ export const ClientDetail = () => {
           <div style={{ fontSize: '2rem', fontWeight: '900', color: isOwing ? '#f87171' : '#34d399', margin: '0.25rem 0' }}>
             {solde.toFixed(3)} TND
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             Plafond Crédit: {parseFloat(client.plafond_credit).toFixed(3)} TND | Délai Relance: {client.delai_relance_jours} jours
           </div>
         </div>
@@ -445,7 +445,7 @@ export const ClientDetail = () => {
                 </thead>
                 <tbody>
                   {filteredDocuments.length === 0 ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                       {documents.length === 0 ? 'Aucun document pour ce client.' : 'Aucun document dans cette période.'}
                     </td></tr>
                   ) : (
@@ -456,17 +456,17 @@ export const ClientDetail = () => {
                       return (
                         <tr key={d.id_document}>
                           <td><StatusBadge status={d.type_document} /></td>
-                          <td><strong style={{ color: 'white' }}>{d.numero}</strong></td>
+                          <td><strong style={{ color: 'var(--text-main)' }}>{d.numero}</strong></td>
                           <td>
                             <div style={{ lineHeight: '1.3' }}>
                               <div style={{ fontWeight: '500' }}>{dateDoc.toLocaleDateString('fr-FR')}</div>
-                              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{dateDoc.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{dateDoc.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
                             </div>
                           </td>
                           <td style={{ textAlign: 'right' }}>
                             {parseFloat(d.montant_retourne) > 0 ? (
                               <div style={{ fontSize: '0.85rem', lineHeight: '1.2' }}>
-                                <div style={{ textDecoration: 'line-through', color: '#94a3b8' }}>
+                                <div style={{ textDecoration: 'line-through', color: 'var(--text-muted)' }}>
                                   TTC: {parseFloat(d.montant_ttc_final).toFixed(3)}
                                 </div>
                                 <div style={{ color: '#f87171' }}>
@@ -480,7 +480,7 @@ export const ClientDetail = () => {
                               <span style={{ fontWeight: 'bold' }}>{parseFloat(d.montant_ttc_final).toFixed(3)} TND</span>
                             )}
                           </td>
-                          <td style={{ textAlign: 'right', color: restant > 0 ? '#fbbf24' : '#94a3b8' }}>{restant.toFixed(3)} TND</td>
+                          <td style={{ textAlign: 'right', color: restant > 0 ? '#fbbf24' : 'var(--text-muted)' }}>{restant.toFixed(3)} TND</td>
                           <td style={{ textAlign: 'center' }}><StatusBadge status={d.statut} /></td>
                           <td style={{ textAlign: 'right' }}>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.35rem', alignItems: 'center' }}>
@@ -542,7 +542,7 @@ export const ClientDetail = () => {
                 </thead>
                 <tbody>
                   {filteredReglements.length === 0 ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                       {reglements.length === 0 ? 'Aucun règlement enregistré.' : 'Aucun règlement dans cette période.'}
                     </td></tr>
                   ) : (
@@ -554,11 +554,11 @@ export const ClientDetail = () => {
                           onClick={() => setSelectedReglement(r)}
                           style={{ cursor: 'pointer' }}
                         >
-                          <td><strong style={{ color: 'white' }}>{r.numero}</strong></td>
+                          <td><strong style={{ color: 'var(--text-main)' }}>{r.numero}</strong></td>
                           <td>
                             <div style={{ lineHeight: '1.3' }}>
                               <div style={{ fontWeight: '500' }}>{dateReg.toLocaleDateString('fr-FR')}</div>
-                              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{dateReg.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{dateReg.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
                             </div>
                           </td>
                           <td><span style={{ textTransform: 'capitalize' }}>{r.mode_paiement}</span></td>
@@ -605,11 +605,11 @@ export const ClientDetail = () => {
                 </thead>
                 <tbody>
                   {relances.length === 0 ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucune relance crédit enregistrée.</td></tr>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucune relance crédit enregistrée.</td></tr>
                   ) : (
                     relances.map((rel) => (
                       <tr key={rel.id_relance}>
-                        <td><strong style={{ color: 'white' }}>{new Date(rel.date_planifiee).toLocaleDateString('fr-FR')}</strong></td>
+                        <td><strong style={{ color: 'var(--text-main)' }}>{new Date(rel.date_planifiee).toLocaleDateString('fr-FR')}</strong></td>
                         <td>{rel.delai_jours_utilise} j</td>
                         <td>{rel.solde_au_moment ? `${parseFloat(rel.solde_au_moment).toFixed(3)} TND` : 'N/A'}</td>
                         <td><span style={{ textTransform: 'capitalize' }}>{rel.canal_prevu}</span></td>
@@ -652,7 +652,7 @@ export const ClientDetail = () => {
                 </thead>
                 <tbody>
                   {filteredRetours.length === 0 ? (
-                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                       {retours.length === 0 ? 'Aucun bon de retour pour ce client.' : 'Aucun bon de retour dans cette période.'}
                     </td></tr>
                   ) : (
@@ -660,11 +660,11 @@ export const ClientDetail = () => {
                       const dateRet = new Date(ret.date_retour);
                       return (
                         <tr key={ret.id_retour}>
-                          <td><strong style={{ color: 'white' }}>{ret.numero}</strong></td>
+                          <td><strong style={{ color: 'var(--text-main)' }}>{ret.numero}</strong></td>
                           <td>
                             <div style={{ lineHeight: '1.3' }}>
                               <div style={{ fontWeight: '500' }}>{dateRet.toLocaleDateString('fr-FR')}</div>
-                              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{dateRet.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{dateRet.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
                             </div>
                           </td>
                           <td>{ret.motif || 'N/A'}</td>
@@ -733,7 +733,7 @@ export const ClientDetail = () => {
           const typeConfig = {
             bon_livraison:   { label: 'Bon de Livraison', color: '#38bdf8', bg: 'rgba(56,189,248,0.1)',   icon: <FileText size={14} /> },
             facture_rapide:  { label: 'Facture Rapide',   color: '#818cf8', bg: 'rgba(129,140,248,0.1)', icon: <FileText size={14} /> },
-            devis:           { label: 'Devis',            color: '#94a3b8', bg: 'rgba(148,163,184,0.1)', icon: <FileText size={14} /> },
+            devis:           { label: 'Devis',            color: 'var(--text-muted)', bg: 'rgba(148,163,184,0.1)', icon: <FileText size={14} /> },
             reglement:       { label: 'Règlement',        color: '#34d399', bg: 'rgba(52,211,153,0.1)',  icon: <CreditCard size={14} /> },
             retour:          { label: 'Bon de Retour',    color: '#f87171', bg: 'rgba(248,113,113,0.1)', icon: <RotateCcw size={14} /> },
           };
@@ -771,7 +771,7 @@ export const ClientDetail = () => {
               <DateFilterBar label={`${filteredEvents.length} événement(s) affiché(s)`} />
 
               {filteredEvents.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
+                <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                   <Activity size={40} style={{ opacity: 0.3, marginBottom: '0.75rem' }} />
                   <div>{allEvents.length === 0 ? 'Aucune activité pour ce client.' : 'Aucune activité dans cette période.'}</div>
                 </div>
@@ -797,7 +797,7 @@ export const ClientDetail = () => {
 
                     let montant = 0;
                     let montantLabel = '';
-                    let montantColor = '#94a3b8';
+                    let montantColor = 'var(--text-muted)';
                     let montantSign = '';
                     let ref = '';
                     let statut = null;
@@ -805,7 +805,7 @@ export const ClientDetail = () => {
 
                     if (isDoc) {
                       montant = parseFloat(ev.data.montant_ttc_final || 0);
-                      montantColor = docType === 'devis' ? '#94a3b8' : '#f87171';
+                      montantColor = docType === 'devis' ? 'var(--text-muted)' : '#f87171';
                       montantSign = docType !== 'devis' ? '-' : '';
                       montantLabel = 'TTC';
                       ref = ev.data.numero;
@@ -887,9 +887,9 @@ export const ClientDetail = () => {
                             }}>
                               {cfg.label}
                             </span>
-                            <strong style={{ color: 'white', fontSize: '0.88rem', whiteSpace: 'nowrap' }}>{ref}</strong>
+                            <strong style={{ color: 'var(--text-main)', fontSize: '0.88rem', whiteSpace: 'nowrap' }}>{ref}</strong>
                             {detail && (
-                              <span style={{ color: '#64748b', fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {detail}
                               </span>
                             )}
@@ -897,15 +897,15 @@ export const ClientDetail = () => {
 
                           {/* Right: date + amount */}
                           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexShrink: 0 }}>
-                            <div style={{ textAlign: 'right', color: '#64748b', fontSize: '0.75rem', lineHeight: '1.3' }}>
-                              <div style={{ color: '#94a3b8', fontWeight: '500' }}>{dateStr}</div>
+                            <div style={{ textAlign: 'right', color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.3' }}>
+                              <div style={{ color: 'var(--text-muted)', fontWeight: '500' }}>{dateStr}</div>
                               <div>{timeStr}</div>
                             </div>
                             <div style={{ textAlign: 'right', minWidth: '110px' }}>
                               <div style={{ fontSize: '0.95rem', fontWeight: '800', color: montantColor }}>
                                 {montantSign} {montant.toFixed(3)} TND
                               </div>
-                              <div style={{ fontSize: '0.7rem', color: '#475569', textTransform: 'capitalize' }}>{montantLabel}</div>
+                              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{montantLabel}</div>
                             </div>
                           </div>
                         </div>
@@ -928,7 +928,7 @@ export const ClientDetail = () => {
               </button>
             </div>
             {facturations.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+              <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                 Aucune facturation fiscale pour ce client.
               </div>
             ) : (
@@ -955,11 +955,11 @@ export const ClientDetail = () => {
                           <td><strong style={{ color: '#818cf8' }}>{f.numero_facture}</strong></td>
                           <td>{new Date(f.date_facturation).toLocaleDateString('fr-FR')}</td>
                           <td style={{ textAlign: 'right' }}>{parseFloat(f.montant_ht).toFixed(3)} TND</td>
-                          <td style={{ textAlign: 'right', color: '#94a3b8' }}>{parseFloat(f.montant_tva).toFixed(3)} TND</td>
+                          <td style={{ textAlign: 'right', color: 'var(--text-muted)' }}>{parseFloat(f.montant_tva).toFixed(3)} TND</td>
                           <td style={{ textAlign: 'right' }}>
                             {parseFloat(f.montant_retourne) > 0 ? (
                               <div style={{ fontSize: '0.85rem', lineHeight: '1.2' }}>
-                                <div style={{ textDecoration: 'line-through', color: '#94a3b8' }}>
+                                <div style={{ textDecoration: 'line-through', color: 'var(--text-muted)' }}>
                                   TTC: {parseFloat(f.montant_ttc).toFixed(3)}
                                 </div>
                                 <div style={{ color: '#f87171' }}>
@@ -973,10 +973,10 @@ export const ClientDetail = () => {
                               <span style={{ fontWeight: 'bold', color: '#34d399' }}>{parseFloat(f.montant_ttc).toFixed(3)} TND</span>
                             )}
                           </td>
-                          <td style={{ textAlign: 'center', color: remisePct > 0 ? '#fbbf24' : '#64748b' }}>
+                          <td style={{ textAlign: 'center', color: remisePct > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
                             {remisePct > 0 ? `${remisePct.toFixed(1)}%` : '—'}
                           </td>
-                          <td style={{ textAlign: 'right', color: parseFloat(f.montant_restant) > 0 ? '#fbbf24' : '#94a3b8' }}>
+                          <td style={{ textAlign: 'right', color: parseFloat(f.montant_restant) > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
                             {parseFloat(f.montant_restant).toFixed(3)} TND
                           </td>
                           <td style={{ textAlign: 'center' }}><StatusBadge status={f.statut} /></td>
@@ -999,7 +999,7 @@ export const ClientDetail = () => {
                   </tbody>
                   <tfoot>
                     <tr style={{ borderTop: '2px solid var(--border-color)' }}>
-                      <td colSpan={4} style={{ fontWeight: '700', color: '#94a3b8', paddingTop: '0.5rem' }}>
+                      <td colSpan={4} style={{ fontWeight: '700', color: 'var(--text-muted)', paddingTop: '0.5rem' }}>
                         TOTAL ({facturations.length} facture{facturations.length > 1 ? 's' : ''})
                       </td>
                       <td style={{ textAlign: 'right', fontWeight: '900', color: '#34d399', fontSize: '1rem', paddingTop: '0.5rem' }}>
@@ -1056,17 +1056,17 @@ export const ClientDetail = () => {
               </div>
             </div>
 
-            <h4 style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '0.5rem' }}>Bons de Livraison groupés</h4>
+            <h4 style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Bons de Livraison groupés</h4>
             {loadingDetailBls ? (
-              <div style={{ color: '#64748b', fontSize: '0.85rem' }}>Chargement...</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Chargement...</div>
             ) : (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
                 {detailBls.length === 0 ? (
-                  <span style={{ color: '#64748b', fontSize: '0.85rem' }}>Aucun BL lié.</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Aucun BL lié.</span>
                 ) : detailBls.map((bl) => (
                   <div key={bl.id_document} style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.3)', borderRadius: '6px', padding: '0.3rem 0.65rem', fontSize: '0.8rem' }}>
                     <strong style={{ color: '#818cf8' }}>BL N° {bl.numero}</strong>
-                    <span style={{ color: '#94a3b8', marginLeft: '0.4rem' }}>{bl.date_document ? new Date(bl.date_document).toLocaleDateString('fr-FR') : ''}</span>
+                    <span style={{ color: 'var(--text-muted)', marginLeft: '0.4rem' }}>{bl.date_document ? new Date(bl.date_document).toLocaleDateString('fr-FR') : ''}</span>
                     <span style={{ color: '#34d399', marginLeft: '0.4rem', fontWeight: '600' }}>{parseFloat(bl.montant_ttc_final).toFixed(3)} TND</span>
                   </div>
                 ))}
@@ -1122,11 +1122,11 @@ export const ClientDetail = () => {
 
         <h4 style={{ fontSize: '0.95rem', margin: '0 0 0.5rem 0' }}>Bons de Livraison Non Facturés</h4>
         {availableBls.length === 0 ? (
-          <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#94a3b8', fontSize: '0.85rem' }}>
+          <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Aucun Bon de Livraison en attente de facturation pour ce client.
           </div>
         ) : (
-          <div style={{ maxHeight: '200px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
+          <div style={{ maxHeight: '200px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
             {availableBls.map((bl) => {
               const isChecked = selectedBlIds.includes(bl.id_document);
               return (
@@ -1137,8 +1137,8 @@ export const ClientDetail = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     {isChecked ? <CheckSquare size={16} color="#6366f1" /> : <Square size={16} color="#94a3b8" />}
-                    <strong style={{ color: 'white' }}>BL N° {bl.numero}</strong>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>({new Date(bl.date_document).toLocaleDateString('fr-FR')})</span>
+                    <strong style={{ color: 'var(--text-main)' }}>BL N° {bl.numero}</strong>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(bl.date_document).toLocaleDateString('fr-FR')})</span>
                   </div>
                   <div style={{ fontWeight: 'bold', color: '#34d399' }}>
                     {parseFloat(bl.montant_ttc_final).toFixed(3)} TND
@@ -1151,11 +1151,11 @@ export const ClientDetail = () => {
 
         <h4 style={{ fontSize: '0.95rem', margin: '1rem 0 0.5rem 0', color: '#f87171' }}>Bons de Retour Non Facturés</h4>
         {availableRetours.length === 0 ? (
-          <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#94a3b8', fontSize: '0.85rem' }}>
+          <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Aucun Bon de Retour en attente de facturation pour ce client.
           </div>
         ) : (
-          <div style={{ maxHeight: '180px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
+          <div style={{ maxHeight: '180px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem' }}>
             {availableRetours.map((r) => {
               const isChecked = selectedRetourIds.includes(r.id_retour);
               return (
@@ -1167,7 +1167,7 @@ export const ClientDetail = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     {isChecked ? <CheckSquare size={16} color="#f87171" /> : <Square size={16} color="#94a3b8" />}
                     <strong style={{ color: '#f87171' }}>Retour N° {r.numero}</strong>
-                    <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
                   </div>
                   <div style={{ fontWeight: 'bold', color: '#f87171' }}>
                     -{parseFloat(r.montant_ttc).toFixed(3)} TND
@@ -1229,7 +1229,7 @@ export const ClientDetail = () => {
                 <div><strong>Client:</strong> {client?.nom || `#${docFull.id_client}`}</div>
                 <div><strong>Date:</strong> {new Date(docFull.date_document).toLocaleString('fr-FR')}</div>
                 {vendeurNom && <div style={{ gridColumn: 'span 2' }}><strong>Vendeur:</strong> {vendeurNom}</div>}
-                {notesTexte && <div style={{ gridColumn: 'span 2', color: '#94a3b8' }}><strong>Notes:</strong> {notesTexte}</div>}
+                {notesTexte && <div style={{ gridColumn: 'span 2', color: 'var(--text-muted)' }}><strong>Notes:</strong> {notesTexte}</div>}
               </div>
 
               <h4 style={{ fontSize: '0.95rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1240,10 +1240,10 @@ export const ClientDetail = () => {
                     background: docFull.statut_livraison === 'livre' ? 'rgba(16,185,129,0.15)' :
                                 docFull.statut_livraison === 'partiellement_livre' ? 'rgba(251,191,36,0.15)' : 'rgba(100,116,139,0.15)',
                     color: docFull.statut_livraison === 'livre' ? '#34d399' :
-                           docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : '#94a3b8',
+                           docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : 'var(--text-muted)',
                     border: '1px solid',
                     borderColor: docFull.statut_livraison === 'livre' ? '#10b981' :
-                                 docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : '#475569',
+                                 docFull.statut_livraison === 'partiellement_livre' ? '#fbbf24' : 'var(--text-muted)',
                   }}>
                     {docFull.statut_livraison === 'livre' ? '✓ Livré' :
                      docFull.statut_livraison === 'partiellement_livre' ? '◑ Partiellement livré' :
@@ -1265,7 +1265,7 @@ export const ClientDetail = () => {
                 </thead>
                 <tbody>
                   {selectedDocFull === null && (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', color: '#64748b', padding: '1rem' }}>Chargement...</td></tr>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '1rem' }}>Chargement...</td></tr>
                   )}
                   {(docFull.lignes || []).map((l, i) => {
                     const qty = parseFloat(l.quantite);
@@ -1280,19 +1280,19 @@ export const ClientDetail = () => {
                     } else if (l.statut_livraison === 'partiellement_livre' || qtyLivree > 0) {
                       livraisonIcon = '◑ Partiel'; livraisonColor = '#fbbf24';
                     } else {
-                      livraisonIcon = '✗ Non livré'; livraisonColor = '#94a3b8';
+                      livraisonIcon = '✗ Non livré'; livraisonColor = 'var(--text-muted)';
                     }
 
                     return (
                       <tr key={i}>
                         <td>
-                          <strong style={{ color: 'white' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
-                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Réf: {l.article.reference}</div>}
+                          <strong style={{ color: 'var(--text-main)' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
+                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Réf: {l.article.reference}</div>}
                         </td>
                         <td style={{ textAlign: 'center' }}>{qty}</td>
-                        <td style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
+                        <td style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
                         <td style={{ textAlign: 'right' }}>{pu.toFixed(3)} TND</td>
-                        <td style={{ textAlign: 'right', color: remisePct > 0 ? '#fbbf24' : '#64748b' }}>
+                        <td style={{ textAlign: 'right', color: remisePct > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
                           {remisePct > 0 ? `-${remisePct}%` : '—'}
                         </td>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>{total.toFixed(3)} TND</td>
@@ -1303,9 +1303,9 @@ export const ClientDetail = () => {
                 </tbody>
               </table>
 
-              <div style={{ background: '#0f172a', padding: '0.75rem', borderRadius: '8px', fontSize: '0.9rem' }}>
+              <div style={{ background: 'var(--bg-primary)', padding: '0.75rem', borderRadius: '8px', fontSize: '0.9rem' }}>
                 {parseFloat(docFull.montant_remise) > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                     <span>Sous-total Brut:</span>
                     <span>{parseFloat(docFull.montant_ttc_sans_remise).toFixed(3)} TND</span>
                   </div>
@@ -1324,7 +1324,7 @@ export const ClientDetail = () => {
                   <span>Montant Payé:</span>
                   <span>{parseFloat(docFull.montant_paye).toFixed(3)} TND</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: parseFloat(docFull.montant_restant) > 0 ? '#fbbf24' : '#94a3b8', fontWeight: parseFloat(docFull.montant_restant) > 0 ? 'bold' : 'normal' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: parseFloat(docFull.montant_restant) > 0 ? '#fbbf24' : 'var(--text-muted)', fontWeight: parseFloat(docFull.montant_restant) > 0 ? 'bold' : 'normal' }}>
                   <span>Reste à Payer:</span>
                   <strong>{parseFloat(docFull.montant_restant).toFixed(3)} TND</strong>
                 </div>

@@ -63,7 +63,7 @@ export const ArticlePurchases = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Historique d'Achat par Article & Comparateur</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Analyse des offres fournisseurs et comparaison des meilleurs prix d'achat par article</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Analyse des offres fournisseurs et comparaison des meilleurs prix d'achat par article</p>
         </div>
       </div>
 
@@ -94,8 +94,8 @@ export const ArticlePurchases = () => {
             {bestPrice ? (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <h3 style={{ fontSize: '1.4rem', margin: '0 0 0.25rem 0', color: 'white' }}>{bestPrice.nom_fournisseur}</h3>
-                  <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                  <h3 style={{ fontSize: '1.4rem', margin: '0 0 0.25rem 0', color: 'var(--text-main)' }}>{bestPrice.nom_fournisseur}</h3>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                     Dernière offre reçue le : {new Date(bestPrice.date_derniere_offre).toLocaleDateString('fr-FR')}
                   </div>
                 </div>
@@ -103,11 +103,11 @@ export const ArticlePurchases = () => {
                   <div style={{ fontSize: '1.8rem', fontWeight: '900', color: '#34d399' }}>
                     {parseFloat(bestPrice.prix_achat_ttc).toFixed(3)} TND TTC
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Prix d'achat TTC unitaire</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Prix d'achat TTC unitaire</div>
                 </div>
               </div>
             ) : (
-              <div style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                 Aucune offre d'achat enregistrée pour cet article. Enregistrez un achat fournisseur pour alimenter le comparateur.
               </div>
             )}
@@ -137,11 +137,11 @@ export const ArticlePurchases = () => {
                   {loading ? (
                     <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>Chargement de l'historique...</td></tr>
                   ) : achats.length === 0 ? (
-                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun achat trouvé pour cet article.</td></tr>
+                    <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun achat trouvé pour cet article.</td></tr>
                   ) : (
                     achats.map((item, idx) => (
                       <tr key={idx}>
-                        <td><strong style={{ color: 'white' }}>{item.achat?.fournisseur?.nom || `Fournisseur #${item.achat?.id_fournisseur}`}</strong></td>
+                        <td><strong style={{ color: 'var(--text-main)' }}>{item.achat?.fournisseur?.nom || `Fournisseur #${item.achat?.id_fournisseur}`}</strong></td>
                         <td>{item.achat?.numero_facture_fournisseur || 'N/A'}</td>
                         <td>{new Date(item.achat?.date_achat).toLocaleDateString('fr-FR')}</td>
                         <td style={{ textAlign: 'right', fontWeight: 'bold' }}>{parseFloat(item.quantite)}</td>

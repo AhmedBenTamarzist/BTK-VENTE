@@ -53,7 +53,7 @@ export const SmartSearchBar = React.forwardRef(({
       position: "absolute",
       top: dropPos.top, left: dropPos.left, width: dropPos.width,
       zIndex: 99999,
-      background: "#1e293b", border: "1px solid #334155", borderRadius: "10px",
+      background: "var(--bg-surface)", border: "1px solid #334155", borderRadius: "10px",
       boxShadow: "0 16px 48px rgba(0,0,0,0.7)", overflow: "hidden", maxHeight: "380px", overflowY: "auto",
     }}>
       {loading

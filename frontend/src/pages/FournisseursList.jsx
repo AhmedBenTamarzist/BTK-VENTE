@@ -86,7 +86,7 @@ export const FournisseursList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Gestion des Fournisseurs</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Répertoire des fournisseurs et partenaires d'approvisionnement</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Répertoire des fournisseurs et partenaires d'approvisionnement</p>
         </div>
         <button className="btn btn-primary" onClick={() => handleOpenModal(null)}>
           <Plus size={16} /> + Nouveau Fournisseur
@@ -95,7 +95,7 @@ export const FournisseursList = () => {
 
       <div className="glass-card" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem' }}
@@ -126,11 +126,11 @@ export const FournisseursList = () => {
               {loading ? (
                 <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des fournisseurs...</td></tr>
               ) : fournisseurs.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun fournisseur trouvé.</td></tr>
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun fournisseur trouvé.</td></tr>
               ) : (
                 fournisseurs.map((f) => (
                   <tr key={f.id_fournisseur}>
-                    <td><strong style={{ color: 'white' }}>{f.nom}</strong></td>
+                    <td><strong style={{ color: 'var(--text-main)' }}>{f.nom}</strong></td>
                     <td>{f.matricule_fiscal || 'N/A'}</td>
                     <td>{f.telephone || 'N/A'}</td>
                     <td>{f.email || 'N/A'}</td>

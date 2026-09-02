@@ -68,7 +68,7 @@ export const LivraisonsList = () => {
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Truck size={22} /> À Livrer
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Documents dont la livraison n'est pas terminée (non livrés ou partiellement livrés)</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Documents dont la livraison n'est pas terminée (non livrés ou partiellement livrés)</p>
         </div>
         <button className="btn btn-outline" onClick={() => fetchDocuments()}>
           <RefreshCw size={16} /> Actualiser
@@ -77,7 +77,7 @@ export const LivraisonsList = () => {
 
       <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem', paddingRight: search ? '2.5rem' : undefined }}
@@ -86,7 +86,7 @@ export const LivraisonsList = () => {
             placeholder="Rechercher : N° document, nom client..."
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', padding: 0 }}>
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
               <X size={14} />
             </button>
           )}
@@ -116,14 +116,14 @@ export const LivraisonsList = () => {
               {loading ? (
                 <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>Chargement...</td></tr>
               ) : filteredDocs.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Rien à livrer — tout est à jour.</td></tr>
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Rien à livrer — tout est à jour.</td></tr>
               ) : (
                 filteredDocs.map((doc) => {
                   const client = clientsMap[doc.id_client];
                   return (
                     <tr key={doc.id_document}>
                       <td><StatusBadge status={doc.type_document} /></td>
-                      <td><strong style={{ color: 'white' }}>{doc.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{doc.numero}</strong></td>
                       <td>{new Date(doc.date_document).toLocaleDateString('fr-FR')}</td>
                       <td>{client ? `${client.nom} ${client.prenom || ''}`.trim() : `Client #${doc.id_client}`}</td>
                       <td style={{ textAlign: 'center' }}><StatusBadge status={doc.statut_livraison} /></td>
@@ -187,16 +187,16 @@ export const LivraisonsList = () => {
                     } else if (l.statut_livraison === 'partiellement_livre' || qtyLivree > 0) {
                       livraisonIcon = '◑ Partiel'; livraisonColor = '#fbbf24';
                     } else {
-                      livraisonIcon = '✗ Non livré'; livraisonColor = '#94a3b8';
+                      livraisonIcon = '✗ Non livré'; livraisonColor = 'var(--text-muted)';
                     }
                     return (
                       <tr key={i}>
                         <td>
-                          <strong style={{ color: 'white' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
-                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Réf: {l.article.reference}</div>}
+                          <strong style={{ color: 'var(--text-main)' }}>{l.article?.nom || `Art #${l.id_article}`}</strong>
+                          {l.article?.reference && <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Réf: {l.article.reference}</div>}
                         </td>
                         <td style={{ textAlign: 'center' }}>{qty}</td>
-                        <td style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
+                        <td style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>{qtyLivree} / {qty}</td>
                         <td style={{ textAlign: 'center', color: livraisonColor, fontSize: '0.75rem', fontWeight: '600' }}>{livraisonIcon}</td>
                       </tr>
                     );

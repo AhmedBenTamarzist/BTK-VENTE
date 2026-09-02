@@ -99,7 +99,7 @@ export const UsersManagement = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Gestion des Utilisateurs & Accès</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Administration des comptes vendeurs, caissiers et gestionnaires de stock</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Administration des comptes vendeurs, caissiers et gestionnaires de stock</p>
         </div>
         <button className="btn btn-primary" onClick={() => handleOpenModal(null)}>
           <Plus size={16} /> + Nouvel Utilisateur
@@ -125,7 +125,7 @@ export const UsersManagement = () => {
               ) : (
                 users.map((u) => (
                   <tr key={u.id_utilisateur}>
-                    <td><strong style={{ color: 'white' }}>{u.nom} {u.prenom || ''}</strong></td>
+                    <td><strong style={{ color: 'var(--text-main)' }}>{u.nom} {u.prenom || ''}</strong></td>
                     <td>{u.email}</td>
                     <td>
                       <span className={`badge ${u.role === 'admin' ? 'badge-danger' : u.role === 'caissier' ? 'badge-warning' : 'badge-info'}`}>

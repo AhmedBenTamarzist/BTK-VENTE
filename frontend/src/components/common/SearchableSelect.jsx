@@ -47,7 +47,7 @@ export const SearchableSelect = ({ options = [], value, onChange, placeholder = 
       open && filtered.length > 0 && React.createElement("div", {
         style: {
           position: "absolute", top: "100%", left: 0, right: 0, zIndex: 1000,
-          background: "#1e293b", border: "1px solid var(--border-color)",
+          background: "var(--bg-surface)", border: "1px solid var(--border-color)",
           borderRadius: "6px", maxHeight: "220px", overflowY: "auto",
           boxShadow: "0 8px 24px rgba(0,0,0,0.4)", marginTop: "2px"
         }
@@ -66,7 +66,7 @@ export const SearchableSelect = ({ options = [], value, onChange, placeholder = 
       open && filtered.length === 0 && React.createElement("div", {
         style: {
           position: "absolute", top: "100%", left: 0, right: 0, zIndex: 1000,
-          background: "#1e293b", border: "1px solid var(--border-color)",
+          background: "var(--bg-surface)", border: "1px solid var(--border-color)",
           borderRadius: "6px", padding: "0.5rem 0.75rem", fontSize: "0.8rem",
           color: "#64748b", marginTop: "2px"
         }

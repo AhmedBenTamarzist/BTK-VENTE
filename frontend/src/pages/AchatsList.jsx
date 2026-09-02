@@ -132,7 +132,7 @@ function LignesTab({ achat, articles, onUpdated }) {
         </div>
         <div style={{ overflowX: 'auto' }}>
           {lignes.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucune ligne.</div>
+            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucune ligne.</div>
           ) : (
             <table className="custom-table">
               <thead>
@@ -152,8 +152,8 @@ function LignesTab({ achat, articles, onUpdated }) {
               <tbody>
                 {lignes.map((l, i) => (
                   <tr key={i}>
-                    <td><strong style={{ color: 'white' }}>{l.article?.nom || `Art #${l.id_article}`}</strong></td>
-                    <td style={{ color: '#94a3b8', fontSize: '0.78rem' }}>{l.article?.reference || '-'}</td>
+                    <td><strong style={{ color: 'var(--text-main)' }}>{l.article?.nom || `Art #${l.id_article}`}</strong></td>
+                    <td style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{l.article?.reference || '-'}</td>
                     <td style={{ textAlign: 'center' }}>{parseFloat(l.quantite)}</td>
                     <td style={{ textAlign: 'right' }}>{parseFloat(l.prix_achat_ht).toFixed(3)} TND</td>
                     <td style={{ textAlign: 'right' }}>{parseFloat(l.prix_achat_ttc).toFixed(3)} TND</td>
@@ -162,14 +162,14 @@ function LignesTab({ achat, articles, onUpdated }) {
                     <td style={{ textAlign: 'center' }}>{parseFloat(l.remise_pourcentage) > 0 ? `${parseFloat(l.remise_pourcentage)}%` : '-'}</td>
                     <td style={{ textAlign: 'right', fontWeight: '700', color: '#34d399' }}>{parseFloat(l.montant_ligne_ttc).toFixed(3)} TND</td>
                     <td style={{ textAlign: 'right', color: '#60a5fa' }}>
-                      {l.nouveau_prix_vente_ttc ? `${parseFloat(l.nouveau_prix_vente_ttc).toFixed(3)} TND` : <span style={{ color: '#475569' }}>-</span>}
+                      {l.nouveau_prix_vente_ttc ? `${parseFloat(l.nouveau_prix_vente_ttc).toFixed(3)} TND` : <span style={{ color: 'var(--text-muted)' }}>-</span>}
                     </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan={8} style={{ textAlign: 'right', fontWeight: '700', color: '#94a3b8', padding: '0.5rem 0.75rem' }}>TOTAL TTC</td>
+                  <td colSpan={8} style={{ textAlign: 'right', fontWeight: '700', color: 'var(--text-muted)', padding: '0.5rem 0.75rem' }}>TOTAL TTC</td>
                   <td style={{ textAlign: 'right', fontWeight: '700', color: '#34d399', padding: '0.5rem 0.75rem' }}>
                     {lignes.reduce((s, l) => s + parseFloat(l.montant_ligne_ttc || 0), 0).toFixed(3)} TND
                   </td>
@@ -210,7 +210,7 @@ function LignesTab({ achat, articles, onUpdated }) {
           // Le TTC est déjà net (remise et taxes incluses) : le total de ligne s'obtient directement.
           const lineTtc = qty * ttc;
           return (
-            <div key={i} style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '10px', padding: '0.75rem', position: 'relative' }}>
+            <div key={i} style={{ background: 'var(--bg-primary)', border: '1px solid #334155', borderRadius: '10px', padding: '0.75rem', position: 'relative' }}>
               <button
                 style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: 'none', border: 'none', cursor: 'pointer', color: '#f87171', padding: '0.2rem' }}
                 onClick={() => setEditLignes(editLignes.filter((_, j) => j !== i))}
@@ -220,7 +220,7 @@ function LignesTab({ achat, articles, onUpdated }) {
               {/* Row 1: Article + Qté + Remise */}
               <div style={{ display: 'grid', gridTemplateColumns: '2.5fr 0.8fr 0.8fr', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.2rem' }}>Article</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Article</div>
                   <select
                     className="form-select"
                     style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}
@@ -233,11 +233,11 @@ function LignesTab({ achat, articles, onUpdated }) {
                   </select>
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.2rem' }}>Qté</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Qté</div>
                   <input {...INP} type="number" step="1" min="0.001" value={l.quantite} onChange={e => handleLineChange(i, 'quantite', e.target.value)} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.2rem' }}>Remise %</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Remise %</div>
                   <input {...INP} type="number" step="0.1" value={l.remise_pourcentage} onChange={e => handleLineChange(i, 'remise_pourcentage', e.target.value)} />
                 </div>
               </div>
@@ -253,7 +253,7 @@ function LignesTab({ achat, articles, onUpdated }) {
                   <input {...INP} type="number" step="0.001" value={l.prix_achat_ttc} onChange={e => handleLineChange(i, 'prix_achat_ttc', e.target.value)} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.2rem' }}>TVA %</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>TVA %</div>
                   <input {...INP} type="number" step="1" value={l.taux_tva_achat} onChange={e => handleLineChange(i, 'taux_tva_achat', e.target.value)} />
                 </div>
                 <div>
@@ -273,7 +273,7 @@ function LignesTab({ achat, articles, onUpdated }) {
                   <input {...INP} type="number" step="0.1" value={l.nouvelle_remise_vente} onChange={e => handleLineChange(i, 'nouvelle_remise_vente', e.target.value)} placeholder="Optionnel" />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'right' }}>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Total Ligne TTC</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Total Ligne TTC</div>
                   <strong style={{ color: '#34d399', fontSize: '0.95rem' }}>{lineTtc.toFixed(3)} TND</strong>
                 </div>
               </div>
@@ -283,8 +283,8 @@ function LignesTab({ achat, articles, onUpdated }) {
       </div>
 
       {editLignes.length > 0 && (
-        <div style={{ marginTop: '0.75rem', background: '#0f172a', border: '1px solid #1e293b', borderRadius: '8px', padding: '0.6rem 1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem', fontSize: '0.9rem' }}>
-          <span style={{ color: '#94a3b8' }}>TOTAL TTC (modifié) :</span>
+        <div style={{ marginTop: '0.75rem', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.6rem 1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem', fontSize: '0.9rem' }}>
+          <span style={{ color: 'var(--text-muted)' }}>TOTAL TTC (modifié) :</span>
           <strong style={{ color: '#34d399' }}>{totTtc.toFixed(3)} TND</strong>
         </div>
       )}
@@ -368,7 +368,7 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
         padding: '0.5rem 1rem', borderRadius: '8px',
         background: tab === id ? 'rgba(99,102,241,0.2)' : 'transparent',
         border: tab === id ? '1px solid rgba(99,102,241,0.4)' : '1px solid transparent',
-        color: tab === id ? '#a5b4fc' : '#64748b',
+        color: tab === id ? '#a5b4fc' : 'var(--text-muted)',
         cursor: 'pointer', fontSize: '0.85rem', fontWeight: tab === id ? '600' : '400',
         transition: 'all 0.15s',
       }}
@@ -395,11 +395,11 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
         {[
           { label: 'Total TTC', value: `${montantTtc.toFixed(3)} TND`, color: '#34d399' },
           { label: 'Montant Payé', value: `${montantPaye.toFixed(3)} TND`, color: '#60a5fa' },
-          { label: 'Reste à Payer', value: `${resteAPayer.toFixed(3)} TND`, color: resteAPayer > 0 ? '#fbbf24' : '#94a3b8' },
-          { label: 'Statut', value: achat.statut_paiement?.replace(/_/g,' ') || '-', color: statColor[achat.statut_paiement] || '#94a3b8' },
+          { label: 'Reste à Payer', value: `${resteAPayer.toFixed(3)} TND`, color: resteAPayer > 0 ? '#fbbf24' : 'var(--text-muted)' },
+          { label: 'Statut', value: achat.statut_paiement?.replace(/_/g,' ') || '-', color: statColor[achat.statut_paiement] || 'var(--text-muted)' },
         ].map(({ label, value, color }) => (
-          <div key={label} style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '10px', padding: '0.75rem 1rem' }}>
-            <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>{label}</div>
+          <div key={label} style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '0.75rem 1rem' }}>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>{label}</div>
             <div style={{ fontSize: '1rem', fontWeight: '700', color }}>{value}</div>
           </div>
         ))}
@@ -407,13 +407,13 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
 
       {/* Progress bar */}
       {montantTtc > 0 && (
-        <div style={{ background: '#1e293b', borderRadius: '6px', height: '6px', marginBottom: '1.25rem', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--bg-surface)', borderRadius: '6px', height: '6px', marginBottom: '1.25rem', overflow: 'hidden' }}>
           <div style={{ width: `${Math.min(100, (montantPaye / montantTtc) * 100)}%`, height: '100%', background: 'linear-gradient(90deg,#6366f1,#22c55e)', borderRadius: '6px', transition: 'width 0.4s ease' }} />
         </div>
       )}
 
       {/* ── Tabs ── */}
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', borderBottom: '1px solid #1e293b', paddingBottom: '0.75rem' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
         <TAB id="infos" icon={FileText} label="Informations" />
         <TAB id="lignes" icon={Package} label={`Articles (${lignes.length})`} />
         <TAB id="paiement" icon={CreditCard} label="Enregistrer Paiement" />
@@ -437,47 +437,47 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             {/* Fournisseur */}
-            <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '10px', padding: '1rem' }}>
+            <div style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                 <Building2 size={16} style={{ color: '#6366f1' }} />
-                <span style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Fournisseur</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Fournisseur</span>
               </div>
-              <div style={{ fontWeight: '700', fontSize: '1rem', color: 'white', marginBottom: '0.25rem' }}>{fournisseurNom}</div>
-              {fournisseur?.telephone && <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>📞 {fournisseur.telephone}</div>}
-              {fournisseur?.email && <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>✉️ {fournisseur.email}</div>}
-              {fournisseur?.adresse && <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>📍 {fournisseur.adresse}</div>}
+              <div style={{ fontWeight: '700', fontSize: '1rem', color: 'var(--text-main)', marginBottom: '0.25rem' }}>{fournisseurNom}</div>
+              {fournisseur?.telephone && <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>📞 {fournisseur.telephone}</div>}
+              {fournisseur?.email && <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>✉️ {fournisseur.email}</div>}
+              {fournisseur?.adresse && <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>📍 {fournisseur.adresse}</div>}
             </div>
 
             {/* Identifiants */}
-            <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '10px', padding: '1rem' }}>
+            <div style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                 <Hash size={16} style={{ color: '#0ea5e9' }} />
-                <span style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identifiants</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identifiants</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '0.2rem' }}>N° Facture Fournisseur</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>N° Facture Fournisseur</div>
                   {editMode ? (
                     <input className="form-input" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem' }}
                       value={numFacture} onChange={e => setNumFacture(e.target.value)} placeholder="ex: FF-2026-89" />
                   ) : (
-                    <span style={{ color: 'white', fontWeight: '600' }}>{achat.numero_facture_fournisseur || <span style={{ color: '#475569' }}>Non renseigné</span>}</span>
+                    <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{achat.numero_facture_fournisseur || <span style={{ color: 'var(--text-muted)' }}>Non renseigné</span>}</span>
                   )}
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '0.2rem' }}>Date d'Achat</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Date d'Achat</div>
                   {editMode ? (
                     <input className="form-input" type="date" style={{ padding: '0.4rem 0.6rem', fontSize: '0.85rem' }}
                       value={dateAchat} onChange={e => setDateAchat(e.target.value)} />
                   ) : (
-                    <span style={{ color: 'white', fontWeight: '600' }}>
+                    <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>
                       {achat.date_achat ? new Date(achat.date_achat).toLocaleDateString('fr-FR') : '-'}
                     </span>
                   )}
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '0.2rem' }}>Date de Création</div>
-                  <span style={{ color: '#94a3b8', fontSize: '0.82rem' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Date de Création</div>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
                     {new Date(achat.date_creation).toLocaleString('fr-FR')}
                   </span>
                 </div>
@@ -486,34 +486,34 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
           </div>
 
           {/* Notes */}
-          <div style={{ marginTop: '1rem', background: '#0f172a', border: '1px solid #1e293b', borderRadius: '10px', padding: '1rem' }}>
+          <div style={{ marginTop: '1rem', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <StickyNote size={15} style={{ color: '#f59e0b' }} />
-              <span style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Notes</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Notes</span>
             </div>
             {editMode ? (
               <textarea className="form-input" rows={3} style={{ fontSize: '0.85rem', resize: 'vertical' }}
                 value={notes} onChange={e => setNotes(e.target.value)} placeholder="Notes internes..." />
             ) : (
-              <p style={{ color: achat.notes ? '#cbd5e1' : '#475569', fontSize: '0.85rem', margin: 0 }}>
+              <p style={{ color: achat.notes ? 'var(--text-muted)' : 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
                 {achat.notes || 'Aucune note.'}
               </p>
             )}
           </div>
 
           {/* Récap financier */}
-          <div style={{ marginTop: '1rem', background: '#0f172a', border: '1px solid #1e293b', borderRadius: '10px', padding: '1rem' }}>
-            <div style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>Récapitulatif Financier</div>
+          <div style={{ marginTop: '1rem', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '1rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>Récapitulatif Financier</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               {[
                 ['Montant HT', parseFloat(achat.montant_ht).toFixed(3)],
                 ['TVA', parseFloat(achat.montant_tva).toFixed(3)],
                 ['Montant TTC', parseFloat(achat.montant_ttc).toFixed(3), '#34d399', true],
                 ['Montant Payé', parseFloat(achat.montant_paye).toFixed(3), '#60a5fa'],
-                ['Reste à Payer', parseFloat(achat.montant_restant).toFixed(3), resteAPayer > 0 ? '#fbbf24' : '#94a3b8'],
+                ['Reste à Payer', parseFloat(achat.montant_restant).toFixed(3), resteAPayer > 0 ? '#fbbf24' : 'var(--text-muted)'],
               ].map(([label, val, color, bold]) => (
                 <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.3rem 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                  <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{label}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{label}</span>
                   <span style={{ color: color || 'white', fontWeight: bold ? '700' : '500', fontSize: '0.85rem' }}>{val} TND</span>
                 </div>
               ))}
@@ -532,7 +532,7 @@ function AchatDetailModal({ achat: initialAchat, fournisseurs, articles, onClose
             <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
               <CheckCircle size={48} style={{ color: '#22c55e', marginBottom: '0.5rem' }} />
               <div style={{ color: '#22c55e', fontWeight: '700', fontSize: '1.1rem' }}>Facture intégralement payée</div>
-              <div style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '0.25rem' }}>Montant payé : {montantPaye.toFixed(3)} TND</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>Montant payé : {montantPaye.toFixed(3)} TND</div>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -774,7 +774,7 @@ export const AchatsList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Achats & Factures Fournisseur</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginTop: '0.2rem' }}>Enregistrement des factures d'achat fournisseur et approvisionnement</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.2rem' }}>Enregistrement des factures d'achat fournisseur et approvisionnement</p>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button className="btn btn-outline btn-sm" onClick={fetchData}><RefreshCw size={14} /></button>
@@ -793,7 +793,7 @@ export const AchatsList = () => {
           { label: 'Reste Global à Payer', value: `${totalRestant.toFixed(3)} TND`, color: '#ef4444' },
         ].map(({ label, value, color }) => (
           <div key={label} className="glass-card" style={{ padding: '0.75rem 1rem' }}>
-            <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
             <div style={{ fontSize: '1.25rem', fontWeight: '800', color, marginTop: '0.2rem' }}>{value}</div>
           </div>
         ))}
@@ -808,7 +808,7 @@ export const AchatsList = () => {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <ShoppingBag size={15} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+        <ShoppingBag size={15} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
       </div>
 
       {/* Table */}
@@ -832,19 +832,19 @@ export const AchatsList = () => {
               {loading ? (
                 <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem' }}>Chargement...</td></tr>
               ) : filteredAchats.length === 0 ? (
-                <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun achat trouvé.</td></tr>
+                <tr><td colSpan={9} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun achat trouvé.</td></tr>
               ) : filteredAchats.map((a) => {
                 const f = fournisseurs.find(fourn => fourn.id_fournisseur === a.id_fournisseur);
                 const restant = parseFloat(a.montant_restant) || 0;
                 return (
                   <tr key={a.id_achat}>
-                    <td style={{ color: '#64748b', fontSize: '0.8rem' }}>#{a.id_achat}</td>
-                    <td><strong style={{ color: 'white' }}>{f ? f.nom : `Fournisseur #${a.id_fournisseur}`}</strong></td>
-                    <td style={{ color: '#94a3b8' }}>{a.numero_facture_fournisseur || <span style={{ color: '#475569' }}>-</span>}</td>
+                    <td style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>#{a.id_achat}</td>
+                    <td><strong style={{ color: 'var(--text-main)' }}>{f ? f.nom : `Fournisseur #${a.id_fournisseur}`}</strong></td>
+                    <td style={{ color: 'var(--text-muted)' }}>{a.numero_facture_fournisseur || <span style={{ color: 'var(--text-muted)' }}>-</span>}</td>
                     <td>{new Date(a.date_achat).toLocaleDateString('fr-FR')}</td>
                     <td style={{ textAlign: 'right' }}>{parseFloat(a.montant_ht).toFixed(3)} TND</td>
                     <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#34d399' }}>{parseFloat(a.montant_ttc).toFixed(3)} TND</td>
-                    <td style={{ textAlign: 'right', color: restant > 0 ? '#fbbf24' : '#94a3b8', fontWeight: restant > 0 ? '600' : '400' }}>
+                    <td style={{ textAlign: 'right', color: restant > 0 ? '#fbbf24' : 'var(--text-muted)', fontWeight: restant > 0 ? '600' : '400' }}>
                       {restant.toFixed(3)} TND
                     </td>
                     <td style={{ textAlign: 'center' }}><StatusBadge status={a.statut_paiement} /></td>
@@ -913,7 +913,7 @@ export const AchatsList = () => {
             const pVenteFinal = pVenteTtc * (1 - remVente / 100);
 
             return (
-              <div key={index} style={{ background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', position: 'relative' }}>
+              <div key={index} style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', position: 'relative' }}>
                 <button
                   className="btn btn-outline btn-sm"
                   style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', color: '#f87171', borderColor: '#f87171' }}
@@ -969,11 +969,11 @@ export const AchatsList = () => {
                     <input type="number" step="0.1" className="form-input form-input-sm" value={l.nouvelle_remise_vente} onChange={(e) => handleLineChange(index, 'nouvelle_remise_vente', e.target.value)} />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>P. Vente Final TTC</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>P. Vente Final TTC</span>
                     <strong style={{ color: '#38bdf8' }}>{pVenteFinal.toFixed(3)} TND</strong>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'right' }}>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Total Ligne TTC</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Ligne TTC</span>
                     <strong style={{ color: '#34d399' }}>{lineTtc.toFixed(3)} TND</strong>
                   </div>
                 </div>
@@ -982,7 +982,7 @@ export const AchatsList = () => {
           })}
         </div>
 
-        <div style={{ background: '#0f172a', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', border: '1px solid var(--border-color)' }}>
+        <div style={{ background: 'var(--bg-primary)', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem', border: '1px solid var(--border-color)' }}>
           <span>Total HT: <strong>{totals.totHt.toFixed(3)} TND</strong></span>
           <span>TVA: <strong>{totals.totTva.toFixed(3)} TND</strong></span>
           {totals.totTaxeSuppl > 0 && (

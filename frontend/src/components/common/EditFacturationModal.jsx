@@ -238,19 +238,19 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
       {/* BLs disponibles */}
       <h4 style={{ fontSize: '0.95rem', margin: '0.5rem 0' }}>
         Bons de Livraison
-        <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+        <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
           (les BLs actuellement liés sont pré-sélectionnés)
         </span>
       </h4>
 
       {loadingBls ? (
-        <div style={{ padding: '1rem', color: '#94a3b8', textAlign: 'center' }}>Chargement des BLs...</div>
+        <div style={{ padding: '1rem', color: 'var(--text-muted)', textAlign: 'center' }}>Chargement des BLs...</div>
       ) : availableBls.length === 0 ? (
-        <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#64748b', fontSize: '0.85rem' }}>
+        <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
           Aucun BL disponible pour ce client.
         </div>
       ) : (
-        <div style={{ maxHeight: '200px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
+        <div style={{ maxHeight: '200px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
           {availableBls.map((bl) => {
             const isSelected = selectedBlIds.includes(bl.id_document);
             const isCurrent = currentBlIds.includes(bl.id_document);
@@ -266,8 +266,8 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {isSelected ? <CheckSquare size={16} color="#6366f1" /> : <Square size={16} color="#94a3b8" />}
-                  <strong style={{ color: 'white' }}>BL N° {bl.numero}</strong>
-                  <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                  <strong style={{ color: 'var(--text-main)' }}>BL N° {bl.numero}</strong>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     ({bl.date_document ? new Date(bl.date_document).toLocaleDateString('fr-FR') : '—'})
                   </span>
                   {isCurrent && (
@@ -287,16 +287,16 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
 
       <h4 style={{ fontSize: '0.95rem', margin: '0.5rem 0', color: '#f87171' }}>
         Bons de Retour
-        <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+        <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
           (les Retours actuellement liés sont pré-sélectionnés)
         </span>
       </h4>
       {availableRetours.length === 0 ? (
-        <div style={{ padding: '1rem', background: '#0f172a', borderRadius: '6px', color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1rem' }}>
+        <div style={{ padding: '1rem', background: 'var(--bg-primary)', borderRadius: '6px', color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>
           Aucun Bon de Retour disponible.
         </div>
       ) : (
-        <div style={{ maxHeight: '180px', overflowY: 'auto', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
+        <div style={{ maxHeight: '180px', overflowY: 'auto', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem' }}>
           {availableRetours.map((r) => {
             const isChecked = selectedRetourIds.includes(r.id_retour);
             const isCurrent = currentBlIds && currentBlIds.length > 0 ? false : false; // Fix: just checking if current, we have currentRetIds in state? We didn't save currentRetIds in state, but we can just check facturation.retours
@@ -314,7 +314,7 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {isChecked ? <CheckSquare size={16} color="#f87171" /> : <Square size={16} color="#94a3b8" />}
                   <strong style={{ color: '#f87171' }}>Retour N° {r.numero}</strong>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
                   {isCurrentRet && (
                     <span style={{ fontSize: '0.7rem', background: 'rgba(248,113,113,0.2)', color: '#f87171', padding: '0.1rem 0.35rem', borderRadius: '3px' }}>
                       Actuel
@@ -332,18 +332,18 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
 
       {/* Preview totaux */}
       {preview.nbBls > 0 && (
-        <div style={{ background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.88rem' }}>
-          <span style={{ color: '#94a3b8' }}>
+        <div style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', fontSize: '0.88rem' }}>
+          <span style={{ color: 'var(--text-muted)' }}>
             {preview.nbBls} BL{preview.nbBls > 1 ? 's' : ''} · Brut TTC:
-            <strong style={{ color: 'white', marginLeft: '0.3rem' }}>{preview.brut.toFixed(3)} TND</strong>
+            <strong style={{ color: 'var(--text-main)', marginLeft: '0.3rem' }}>{preview.brut.toFixed(3)} TND</strong>
           </span>
           {parseFloat(remisePct) > 0 && (
             <span style={{ color: '#fbbf24' }}>
               Remise {remisePct}%: <strong>-{preview.remiseVal.toFixed(3)} TND</strong>
             </span>
           )}
-          <span style={{ color: '#94a3b8' }}>
-            Timbre: <strong style={{ color: 'white' }}>{preview.timbre.toFixed(3)} TND</strong>
+          <span style={{ color: 'var(--text-muted)' }}>
+            Timbre: <strong style={{ color: 'var(--text-main)' }}>{preview.timbre.toFixed(3)} TND</strong>
           </span>
           <span style={{ color: '#34d399', fontWeight: 'bold', fontSize: '1rem' }}>
             TOTAL NET TTC: {preview.net.toFixed(3)} TND

@@ -66,7 +66,7 @@ export const LogsView = () => {
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Activity size={22} /> Journal des Activités
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Historique de toutes les actions effectuées dans l'application</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Historique de toutes les actions effectuées dans l'application</p>
         </div>
         <button className="btn btn-outline" onClick={fetchLogs}>
           <RefreshCw size={16} /> Actualiser
@@ -121,24 +121,24 @@ export const LogsView = () => {
               {loading ? (
                 <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem' }}>Chargement du journal...</td></tr>
               ) : logs.length === 0 ? (
-                <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucune activité trouvée.</td></tr>
+                <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucune activité trouvée.</td></tr>
               ) : (
                 logs.map((log) => {
                   const action = ACTION_STYLES[log.type_action] || { label: log.type_action, badge: 'badge-secondary' };
                   return (
                     <tr key={log.id_log}>
-                      <td style={{ whiteSpace: 'nowrap', color: '#94a3b8', fontSize: '0.8rem' }}>
+                      <td style={{ whiteSpace: 'nowrap', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                         {new Date(log.date_action).toLocaleString('fr-FR')}
                       </td>
                       <td>
                         {log.utilisateur ? (
-                          <strong style={{ color: 'white' }}>{log.utilisateur.nom} {log.utilisateur.prenom || ''}</strong>
+                          <strong style={{ color: 'var(--text-main)' }}>{log.utilisateur.nom} {log.utilisateur.prenom || ''}</strong>
                         ) : (
-                          <span style={{ color: '#64748b' }}>Système</span>
+                          <span style={{ color: 'var(--text-muted)' }}>Système</span>
                         )}
                       </td>
                       <td><span className={`badge ${action.badge}`}>{action.label}</span></td>
-                      <td style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{TABLE_LABELS[log.table_concernee] || log.table_concernee || '—'}</td>
+                      <td style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{TABLE_LABELS[log.table_concernee] || log.table_concernee || '—'}</td>
                       <td style={{ fontSize: '0.85rem' }}>{log.description || '—'}</td>
                     </tr>
                   );

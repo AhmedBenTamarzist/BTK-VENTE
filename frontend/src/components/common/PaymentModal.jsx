@@ -141,7 +141,7 @@ export const PaymentModal = ({ isOpen, onClose, document, onPaymentCompleted, fo
           padding: '1rem 1.25rem',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Montant Total à Régler
           </div>
           <div style={{ fontSize: '2.4rem', fontWeight: '900', color: '#34d399', letterSpacing: '-0.02em' }}>
@@ -149,7 +149,7 @@ export const PaymentModal = ({ isOpen, onClose, document, onPaymentCompleted, fo
             <span style={{ fontSize: '1rem', fontWeight: '500', marginLeft: '0.4rem' }}>TND</span>
           </div>
           {parseFloat(document.montant_paye) > 0 && (
-            <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '0.3rem' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
               Déjà payé : {parseFloat(document.montant_paye).toFixed(3)} TND &nbsp;|&nbsp;
               Total doc : {parseFloat(document.montant_ttc_final).toFixed(3)} TND
             </div>
@@ -174,7 +174,7 @@ export const PaymentModal = ({ isOpen, onClose, document, onPaymentCompleted, fo
               fontSize: '1.7rem',
               fontWeight: '800',
               textAlign: 'center',
-              color: '#f8fafc',
+              color: 'var(--text-main)',
               padding: '0.8rem',
               letterSpacing: '-0.01em',
             }}
@@ -227,7 +227,7 @@ export const PaymentModal = ({ isOpen, onClose, document, onPaymentCompleted, fo
                   borderRadius: '6px',
                   border: `1px solid ${modePaiement === val ? '#10b981' : 'rgba(255,255,255,0.1)'}`,
                   background: modePaiement === val ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.04)',
-                  color: modePaiement === val ? '#34d399' : '#94a3b8',
+                  color: modePaiement === val ? '#34d399' : 'var(--text-muted)',
                   fontWeight: modePaiement === val ? '700' : '400',
                   cursor: 'pointer',
                   fontSize: '0.77rem',

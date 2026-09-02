@@ -142,7 +142,7 @@ export const Settings = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxWidth: '800px' }}>
       <div>
         <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Paramètres de l'Entreprise</h2>
-        <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Informations de l'établissement imprimées sur les tickets de caisse et factures</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Informations de l'établissement imprimées sur les tickets de caisse et factures</p>
       </div>
 
 
@@ -192,7 +192,7 @@ export const Settings = () => {
         <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <DatabaseBackup size={22} /> Sauvegardes Automatiques
         </h2>
-        <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Sauvegarde quotidienne de la base de données, envoyée par email</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Sauvegarde quotidienne de la base de données, envoyée par email</p>
       </div>
 
       <div className="glass-card">
@@ -243,7 +243,7 @@ export const Settings = () => {
               </div>
             </div>
 
-            <p style={{ color: '#64748b', fontSize: '0.78rem', marginTop: '-0.25rem' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '-0.25rem' }}>
               Le mot de passe normal du compte Gmail ne fonctionne pas — il faut générer un
               "mot de passe d'application" (myaccount.google.com/apppasswords), avec la validation
               en 2 étapes activée sur ce compte Google.

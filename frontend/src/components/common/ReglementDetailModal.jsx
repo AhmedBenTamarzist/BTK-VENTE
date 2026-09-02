@@ -108,61 +108,61 @@ export const ReglementDetailModal = ({ isOpen, onClose, reglement, clientName, c
         {/* Screen Only View */}
         <div className="no-print" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', fontSize: '0.9rem' }}>
           <div>
-            <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>{type === 'fournisseur' ? 'Fournisseur' : 'Client'}</strong>
-            <div style={{ color: 'white' }}>
+            <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>{type === 'fournisseur' ? 'Fournisseur' : 'Client'}</strong>
+            <div style={{ color: 'var(--text-main)' }}>
               {type === 'fournisseur'
                 ? (clientName || `Fournisseur #${reglement.id_fournisseur}`)
                 : (clientName || (client ? `${client.nom} ${client.prenom || ''}` : `Client #${reglement.id_client}`))}
             </div>
           </div>
           <div>
-            <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Date</strong>
-            <div style={{ color: 'white' }}>{new Date(reglement.date_reglement).toLocaleString('fr-FR')}</div>
+            <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Date</strong>
+            <div style={{ color: 'var(--text-main)' }}>{new Date(reglement.date_reglement).toLocaleString('fr-FR')}</div>
           </div>
 
           <div>
-            <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Montant</strong>
+            <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Montant</strong>
             <div style={{ color: '#34d399', fontWeight: 'bold', fontSize: '1.1rem' }}>
               {parseFloat(reglement.montant).toFixed(3)} TND
             </div>
           </div>
           <div>
-            <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Mode de Paiement</strong>
-            <div style={{ textTransform: 'capitalize', color: 'white' }}>{reglement.mode_paiement}</div>
+            <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Mode de Paiement</strong>
+            <div style={{ textTransform: 'capitalize', color: 'var(--text-main)' }}>{reglement.mode_paiement}</div>
           </div>
 
           {(reglement.reference_paiement || reglement.mode_paiement !== 'espece') && (
             <div>
-              <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Référence / N°</strong>
-              <div style={{ color: 'white' }}>{reglement.reference_paiement || 'N/A'}</div>
+              <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Référence / N°</strong>
+              <div style={{ color: 'var(--text-main)' }}>{reglement.reference_paiement || 'N/A'}</div>
             </div>
           )}
 
           {reglement.date_echeance && (
             <div>
-              <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Date d'échéance</strong>
-              <div style={{ color: 'white' }}>{new Date(reglement.date_echeance).toLocaleDateString('fr-FR')}</div>
+              <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Date d'échéance</strong>
+              <div style={{ color: 'var(--text-main)' }}>{new Date(reglement.date_echeance).toLocaleDateString('fr-FR')}</div>
             </div>
           )}
 
           {reglement.statut_cheque && (
             <div>
-              <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Statut Chèque/Traite</strong>
+              <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Statut Chèque/Traite</strong>
               <StatusBadge status={reglement.statut_cheque} />
             </div>
           )}
 
           {reglement.id_document && (
             <div>
-              <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Document Cible</strong>
-              <div style={{ color: 'white' }}>{reglement.numero_document || `Doc #${reglement.id_document}`}</div>
+              <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Document Cible</strong>
+              <div style={{ color: 'var(--text-main)' }}>{reglement.numero_document || `Doc #${reglement.id_document}`}</div>
             </div>
           )}
 
           {reglement.id_facturation && (
             <div>
-              <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem' }}>Facture Cible</strong>
-              <div style={{ color: 'white' }}>{reglement.numero_facturation || `Facture #${reglement.id_facturation}`}</div>
+              <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Facture Cible</strong>
+              <div style={{ color: 'var(--text-main)' }}>{reglement.numero_facturation || `Facture #${reglement.id_facturation}`}</div>
             </div>
           )}
         </div>
@@ -170,7 +170,7 @@ export const ReglementDetailModal = ({ isOpen, onClose, reglement, clientName, c
         {/* Screen Only Notes */}
         {reglement.notes && (
           <div className="no-print" style={{ marginTop: '0.5rem' }}>
-            <strong style={{ display: 'block', color: '#94a3b8', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Notes</strong>
+            <strong style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Notes</strong>
             <div style={{ 
               background: 'rgba(255, 255, 255, 0.05)', 
               padding: '0.75rem', 

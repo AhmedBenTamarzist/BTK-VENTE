@@ -62,7 +62,7 @@ export const RetourDetailModal = ({ isOpen, onClose, retourId }) => {
       }
     >
       {loading ? (
-        <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
           <Loader className="spin" size={24} style={{ marginBottom: '1rem', display: 'inline-block' }} />
           <p>Chargement des détails...</p>
         </div>
@@ -74,35 +74,35 @@ export const RetourDetailModal = ({ isOpen, onClose, retourId }) => {
         <div>
           {/* Screen Only View */}
           <div className="no-print">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem', backgroundColor: '#1e293b', padding: '1rem', borderRadius: '0.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem', backgroundColor: "var(--bg-surface)", padding: '1rem', borderRadius: '0.5rem' }}>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Date</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Date</div>
                 <div style={{ fontWeight: '500' }}>{new Date(retour.date_retour).toLocaleString()}</div>
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Montant Total TTC</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Montant Total TTC</div>
                 <div style={{ fontWeight: 'bold', color: '#f87171' }}>{parseFloat(retour.montant_ttc).toFixed(3)} TND</div>
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Document lié</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Document lié</div>
                 {retour.numero_document ? (
                   <div style={{ fontWeight: '600', color: '#34d399' }}>📄 {retour.numero_document}</div>
                 ) : (
-                  <div style={{ fontWeight: '500', color: '#94a3b8', fontStyle: 'italic' }}>Retour Global (sans BL)</div>
+                  <div style={{ fontWeight: '500', color: 'var(--text-muted)', fontStyle: 'italic' }}>Retour Global (sans BL)</div>
                 )}
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Motif</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Motif</div>
                 <div style={{ fontWeight: '500' }}>{retour.motif || 'Aucun'}</div>
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8' }}>Statut</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Statut</div>
                 <div style={{ fontWeight: '500', textTransform: 'capitalize' }}>
                   <span className="badge badge-success">{retour.statut}</span>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginBottom: '0.3rem' }}>Mode de Remboursement</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>Mode de Remboursement</div>
                 {retour.mode_remboursement === 'especes' ? (
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.8rem', background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.4)', borderRadius: '20px', color: '#fbbf24', fontWeight: '600', fontSize: '0.85rem' }}>
                     💵 Remboursé en Espèces
@@ -132,7 +132,7 @@ export const RetourDetailModal = ({ isOpen, onClose, retourId }) => {
                     <tr key={idx}>
                       <td>
                         <div>{l.article?.nom || `Article ID ${l.id_article}`}</div>
-                        {l.article?.reference && <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Ref: {l.article.reference}</div>}
+                        {l.article?.reference && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Ref: {l.article.reference}</div>}
                       </td>
                       <td style={{ textAlign: 'right' }}>{parseFloat(l.quantite).toFixed(2)}</td>
                       <td style={{ textAlign: 'right' }}>{parseFloat(l.prix_unitaire_ttc).toFixed(3)}</td>

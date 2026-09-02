@@ -130,7 +130,7 @@ export const RelancesList = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', height: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'white' }}>Relances de Crédit à Effectuer</h2>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-main)' }}>Relances de Crédit à Effectuer</h2>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button className="btn btn-primary" onClick={openPlanifier}>
             <CalendarPlus size={16} /> Planifier
@@ -143,7 +143,7 @@ export const RelancesList = () => {
 
       <div className="glass-card" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             type="text"
             className="form-input"
@@ -186,7 +186,7 @@ export const RelancesList = () => {
                   <td style={{ color: '#f87171', fontWeight: 'bold' }}>
                     {parseFloat(Math.abs(r.client?.solde_compte || 0)).toFixed(3)} TND
                   </td>
-                  <td style={{ whiteSpace: 'pre-line', fontSize: '0.8rem', color: '#cbd5e1' }}>
+                  <td style={{ whiteSpace: 'pre-line', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                     {r.notes || '-'}
                   </td>
                   <td style={{ textAlign: 'right' }}>
@@ -229,8 +229,8 @@ export const RelancesList = () => {
         }
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ fontSize: '0.875rem', color: '#cbd5e1' }}>
-            Client : <strong style={{ color: 'white' }}>{sendModalRelance?.client?.nom} {sendModalRelance?.client?.prenom || ''}</strong>
+          <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+            Client : <strong style={{ color: 'var(--text-main)' }}>{sendModalRelance?.client?.nom} {sendModalRelance?.client?.prenom || ''}</strong>
           </div>
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label">Si le crédit persiste, renvoyer une relance dans (jours)</label>
@@ -244,7 +244,7 @@ export const RelancesList = () => {
               autoFocus
             />
           </div>
-          <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
             La relance actuelle sera marquée comme effectuée et la prochaine sera automatiquement programmée à cette échéance (si le client a toujours du crédit à ce moment-là).
           </div>
         </div>
@@ -269,12 +269,12 @@ export const RelancesList = () => {
           <div className="form-group" style={{ margin: 0 }}>
             <label className="form-label">Client</label>
             {planSelectedClient ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.55rem 0.75rem', background: '#0f172a', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.55rem 0.75rem', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
                 <span>{planSelectedClient.nom} {planSelectedClient.prenom || ''} {planSelectedClient.telephone ? `— ${planSelectedClient.telephone}` : ''}</span>
                 <button
                   type="button"
                   onClick={() => { setPlanSelectedClient(null); setPlanClientSearch(''); }}
-                  style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
                 >
                   <X size={16} />
                 </button>
@@ -290,7 +290,7 @@ export const RelancesList = () => {
                   autoFocus
                 />
                 {planClientResults.length > 0 && (
-                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10, background: '#1e293b', border: '1px solid var(--border-color)', borderRadius: '8px', marginTop: '0.25rem', maxHeight: '220px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10, background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '8px', marginTop: '0.25rem', maxHeight: '220px', overflowY: 'auto', boxShadow: 'var(--shadow-lg)' }}>
                     {planClientResults.map((c) => (
                       <div
                         key={c.id_client}
@@ -299,8 +299,8 @@ export const RelancesList = () => {
                         onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
                         onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                       >
-                        <div style={{ color: 'white' }}>{c.nom} {c.prenom || ''}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{c.telephone || 'Sans téléphone'}</div>
+                        <div style={{ color: 'var(--text-main)' }}>{c.nom} {c.prenom || ''}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{c.telephone || 'Sans téléphone'}</div>
                       </div>
                     ))}
                   </div>
@@ -330,7 +330,7 @@ export const RelancesList = () => {
             />
           </div>
 
-          <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
             Cette relance n'apparaîtra dans la liste "à effectuer" qu'à partir de la date choisie, et seulement si le client a encore du crédit à ce moment-là.
           </div>
         </div>

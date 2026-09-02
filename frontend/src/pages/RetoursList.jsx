@@ -80,7 +80,7 @@ export const RetoursList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Bons de Retour</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Gestion des retours clients et de leurs remboursements</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Gestion des retours clients et de leurs remboursements</p>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <button className="btn btn-outline" onClick={fetchData} title="Rafraîchir">
@@ -95,7 +95,7 @@ export const RetoursList = () => {
       {/* Search Bar */}
       <div className="glass-card">
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem', paddingRight: search ? '2.5rem' : undefined }}
@@ -104,7 +104,7 @@ export const RetoursList = () => {
             placeholder="Rechercher : N° retour, client, motif..."
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', padding: 0 }}>
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
               <X size={14} />
             </button>
           )}
@@ -130,16 +130,16 @@ export const RetoursList = () => {
               {loading ? (
                 <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des retours...</td></tr>
               ) : filteredRetours.length === 0 ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun bon de retour trouvé.</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun bon de retour trouvé.</td></tr>
               ) : (
                 filteredRetours.map((r) => {
                   const client = clientsMap[r.id_client];
                   return (
                     <tr key={r.id_retour} onClick={() => openDetail(r.id_retour)} style={{ cursor: 'pointer' }}>
-                      <td><strong style={{ color: 'white' }}>{r.numero}</strong></td>
+                      <td><strong style={{ color: 'var(--text-main)' }}>{r.numero}</strong></td>
                       <td>{new Date(r.date_retour).toLocaleDateString('fr-FR')}</td>
                       <td>{client ? `${client.nom} ${client.prenom || ''}` : `Client #${r.id_client}`}</td>
-                      <td style={{ color: '#94a3b8' }}>{r.motif || '—'}</td>
+                      <td style={{ color: 'var(--text-muted)' }}>{r.motif || '—'}</td>
                       <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#f87171' }}>{parseFloat(r.montant_ttc).toFixed(3)} TND</td>
                       <td style={{ textAlign: 'center' }}><StatusBadge status={r.statut} /></td>
                       <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>

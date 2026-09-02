@@ -51,7 +51,7 @@ export const ClientsList = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>Gestion des Clients</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Liste des clients particuliers et sociétés, soldes et plafonds de crédit</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Liste des clients particuliers et sociétés, soldes et plafonds de crédit</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
           <UserPlus size={16} /> + Nouveau Client
@@ -61,7 +61,7 @@ export const ClientsList = () => {
       {/* Filter & Search Bar */}
       <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 0.5fr', gap: '1rem' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+          <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
           <input
             className="form-input"
             style={{ paddingLeft: '2.5rem', paddingRight: search ? '2.5rem' : undefined }}
@@ -70,7 +70,7 @@ export const ClientsList = () => {
             placeholder="Rechercher : nom, prénom, téléphone, matricule fiscal..."
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', padding: 0 }}>
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', padding: 0 }}>
               <X size={14} />
             </button>
           )}
@@ -106,7 +106,7 @@ export const ClientsList = () => {
               {loading ? (
                 <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>Chargement des clients...</td></tr>
               ) : filteredClients.length === 0 ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>Aucun client trouvé.</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Aucun client trouvé.</td></tr>
               ) : (
                 filteredClients.map((c) => {
                   const solde = parseFloat(c.solde_compte);
@@ -120,7 +120,7 @@ export const ClientsList = () => {
                         </span>
                       </td>
                       <td>
-                        <strong style={{ color: 'white' }}>{c.nom} {c.prenom || ''}</strong>
+                        <strong style={{ color: 'var(--text-main)' }}>{c.nom} {c.prenom || ''}</strong>
                       </td>
                       <td>{c.telephone || 'N/A'}</td>
                       <td>{c.matricule_fiscal || 'N/A'}</td>
