@@ -53,7 +53,9 @@ def get_article(
 def create_article(
     article_in: ArticleCreate,
     db: Session = Depends(get_db),
-    current_user: Utilisateur = Depends(require_roles(["admin", "gestionnaire_stock"]))
+    # vendeur/caissier inclus : necessaire pour la "Creation rapide" d'article
+    # depuis l'ecran de vente quand un produit n'existe pas encore au catalogue
+    current_user: Utilisateur = Depends(require_roles(["admin", "gestionnaire_stock", "vendeur", "caissier"]))
 ):
     if article_in.reference:
         existing = db.query(Article).filter(Article.reference == article_in.reference).first()
