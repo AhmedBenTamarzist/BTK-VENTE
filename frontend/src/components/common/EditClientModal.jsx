@@ -30,7 +30,12 @@ export const EditClientModal = ({ isOpen, onClose, client, onClientUpdated }) =>
       setEmail(client.email || '');
       setActif(client.actif ?? true);
     }
-  }, [client, isOpen]);
+    // Ne dépend que de l'identité du client (pas de l'objet entier) : sinon
+    // le rafraîchissement automatique en arrière-plan (usePolling) fournit un
+    // nouvel objet `client` toutes les 20s et écrase ce que l'utilisateur est
+    // en train de taper dans le formulaire, même sans changer de client.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client?.id_client, isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

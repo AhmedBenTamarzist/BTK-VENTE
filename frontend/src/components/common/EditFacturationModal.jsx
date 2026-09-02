@@ -73,7 +73,11 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
         toast.error("Erreur lors du chargement des documents.");
       })
       .finally(() => setLoadingBls(false));
-  }, [isOpen, facturation]);
+    // Ne dépend que de l'id de la facturation : un nouvel objet `facturation`
+    // fourni par le rafraîchissement automatique en arrière-plan ne doit pas
+    // réinitialiser le formulaire pendant que l'utilisateur modifie.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, facturation?.id_facturation]);
 
   const toggleBl = (blId) => {
     setSelectedBlIds((prev) =>

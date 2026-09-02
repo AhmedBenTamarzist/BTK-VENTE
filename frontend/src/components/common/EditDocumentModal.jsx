@@ -79,7 +79,11 @@ export const EditDocumentModal = ({ isOpen, onClose, document: doc, onSaved, onC
         }))
       );
     });
-  }, [isOpen, doc]);
+    // Ne dépend que de l'id du document : un nouvel objet `doc` fourni par le
+    // rafraîchissement automatique en arrière-plan ne doit pas réinitialiser
+    // le formulaire pendant que l'utilisateur modifie.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, doc?.id_document]);
 
   // Client search
   useEffect(() => {

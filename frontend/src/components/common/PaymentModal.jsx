@@ -32,7 +32,11 @@ export const PaymentModal = ({ isOpen, onClose, document, onPaymentCompleted, fo
       // Auto-focus and auto-select the amount input
       setTimeout(() => inputRef.current?.select(), 120);
     }
-  }, [isOpen, document]);
+    // Ne dépend que de l'id du document : un nouvel objet `document` fourni
+    // par le rafraîchissement automatique en arrière-plan ne doit pas
+    // réinitialiser le montant en cours de saisie.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, document?.id_document]);
 
   if (!document) return null;
 
