@@ -61,14 +61,23 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
         })()}
       </div>
 
-      {/* Articles Table */}
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '8px', fontSize: '11px' }}>
+      {/* Articles Table — colonnes de largeur fixe pour laisser un maximum de
+          place au nom de l'article sur un ticket 80mm et eviter que chaque
+          mot se coupe sur sa propre ligne */}
+      <table style={{ width: '100%', tableLayout: 'fixed', borderCollapse: 'collapse', marginBottom: '8px', fontSize: '11px' }}>
+        <colgroup>
+          <col style={{ width: '42%' }} />
+          <col style={{ width: '15%' }} />
+          <col style={{ width: '16%' }} />
+          <col style={{ width: '12%' }} />
+          <col style={{ width: '15%' }} />
+        </colgroup>
         <thead>
           <tr style={{ borderBottom: '1px solid #000', textAlign: 'left' }}>
             <th>Article</th>
-            <th style={{ textAlign: 'center' }}>Qté/Livré</th>
-            <th style={{ textAlign: 'right', paddingRight: '6px' }}>P.U</th>
-            <th style={{ textAlign: 'center', paddingLeft: '6px' }}>Remise</th>
+            <th style={{ textAlign: 'center' }}>Qté/Liv</th>
+            <th style={{ textAlign: 'right' }}>P.U</th>
+            <th style={{ textAlign: 'center' }}>Rem.</th>
             <th style={{ textAlign: 'right' }}>Total</th>
           </tr>
         </thead>
@@ -77,7 +86,6 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
             // Support double source: l.article.nom (API) ou l.nom_article (local state)
             const art = l.article || {};
             const artName = art.nom || l.nom_article || `Art #${l.id_article}`;
-            const artRef = art.reference || l.reference || null;
             const pu = parseFloat(l.prix_unitaire_ttc);
             const remisePct = parseFloat(l.remise_pourcentage || 0);
             const qty = parseFloat(l.quantite);
@@ -98,15 +106,10 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
 
             return (
               <tr key={index} style={{ borderBottom: '1px dotted #ccc' }}>
-                <td style={{ padding: '3px 0' }}>
-                  <div style={{ fontWeight: 'bold' }}>{artName}</div>
-                  {artRef && (
-                    <div style={{ fontSize: '10px', color: '#555' }}>Réf: {artRef}</div>
-                  )}
-                </td>
+                <td style={{ padding: '3px 2px 3px 0', fontWeight: 'bold', wordBreak: 'break-word' }}>{artName}</td>
                 <td style={{ textAlign: 'center', ...livraisonStyle }}>{qty}/{qtyLivree}</td>
-                <td style={{ textAlign: 'right', paddingRight: '6px' }}>{pu.toFixed(3)}</td>
-                <td style={{ textAlign: 'center', paddingLeft: '6px' }}>{remisePct > 0 ? `${remisePct}%` : '—'}</td>
+                <td style={{ textAlign: 'right' }}>{pu.toFixed(3)}</td>
+                <td style={{ textAlign: 'center' }}>{remisePct > 0 ? `${remisePct}%` : '—'}</td>
                 <td style={{ textAlign: 'right' }}>{lineTotal.toFixed(3)}</td>
               </tr>
             );
