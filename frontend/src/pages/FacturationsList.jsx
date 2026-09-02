@@ -8,7 +8,7 @@ import { DevisRapideModal } from '../components/common/DevisRapideModal';
 import { FacturePrint } from '../components/print/FacturePrint';
 import { exportFacturationToExcel } from '../utils/exportFacturationExcel';
 import { generateFacturePdf } from '../utils/generateFacturePdf';
-import { FileSpreadsheet, Plus, CheckSquare, Square, Eye, RefreshCw, Pencil, Trash2, Printer, FileDown, FileText } from 'lucide-react';
+import { FileSpreadsheet, Plus, CheckSquare, Square, Eye, RefreshCw, Pencil, Trash2, Printer, FileDown, FileText, CalendarCheck } from 'lucide-react';
 import { usePolling } from '../hooks/usePolling';
 
 export const FacturationsList = () => {
@@ -69,6 +69,21 @@ export const FacturationsList = () => {
   };
 
   usePolling(fetchData, []);
+
+  const [closingDay, setClosingDay] = useState(false);
+  const handleClotureJour = async () => {
+    if (!window.confirm("Générer la facture de clôture de journée ? Ce document occupe un numéro dans la séquence fiscale, sans article ni montant.")) return;
+    try {
+      setClosingDay(true);
+      const fact = await api.createClotureJour();
+      toast.success(`Clôture de journée créée : Facture N° ${fact.numero_facture}`);
+      fetchData();
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setClosingDay(false);
+    }
+  };
 
   const handlePrint = (f) => {
     setPrintFacturation(f);
@@ -288,6 +303,9 @@ export const FacturationsList = () => {
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button className="btn btn-outline" onClick={() => setShowDevisModal(true)}>
             <FileText size={16} /> Devis Rapide
+          </button>
+          <button className="btn btn-outline" onClick={handleClotureJour} disabled={closingDay} title="Génère une facture sans article pour occuper le numéro du jour">
+            <CalendarCheck size={16} /> {closingDay ? 'Clôture en cours...' : 'Clôture du Jour'}
           </button>
           <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
             <Plus size={16} /> + Nouvelle Facture Groupée

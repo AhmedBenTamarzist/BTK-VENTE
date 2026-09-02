@@ -1,3 +1,4 @@
+from datetime import date
 from decimal import Decimal
 from typing import List, Optional, Dict
 from sqlalchemy.orm import Session
@@ -5,6 +6,38 @@ from fastapi import HTTPException
 from app.models import Document, Facturation, FacturationDocument, LigneFacturation, Article, Client, Reglement, BonRetour, FacturationRetour
 from app.schemas import FacturationCreate, FacturationUpdate
 from app.services.numbering_service import generate_next_number
+
+def create_day_closing_invoice(db: Session, user_id: Optional[int] = None) -> Facturation:
+    """Facture de clôture de journée : occupe un numéro dans la séquence
+    fiscale des facturations sans contenir aucun article/ligne — utilisée en
+    fin de journée, sans montant ni timbre (aucune transaction réelle)."""
+    passage = db.query(Client).filter(Client.nom == "Client Passage").first()
+    if not passage:
+        raise HTTPException(status_code=500, detail="Client Passage non trouvé en base. Veuillez relancer l'initialisation.")
+
+    numero_facture = generate_next_number(db, "facturation")
+    today = date.today()
+
+    facturation = Facturation(
+        numero_facture=numero_facture,
+        id_client=passage.id_client,
+        periode_debut=today,
+        periode_fin=today,
+        montant_ht=Decimal('0.000'),
+        montant_tva=Decimal('0.000'),
+        montant_timbre=Decimal('0.000'),
+        montant_ttc=Decimal('0.000'),
+        montant_paye=Decimal('0.000'),
+        montant_restant=Decimal('0.000'),
+        remise_pct=Decimal('0.00'),
+        statut="payee",
+        id_utilisateur=user_id,
+        lignes=[]
+    )
+    db.add(facturation)
+    db.flush()
+    return facturation
+
 
 def create_fiscal_invoice_from_bls(
     db: Session,

@@ -8,7 +8,8 @@ from app.api.deps import get_current_user, require_roles
 from app.services.invoice_service import (
     create_fiscal_invoice_from_bls,
     update_fiscal_invoice,
-    delete_fiscal_invoice
+    delete_fiscal_invoice,
+    create_day_closing_invoice
 )
 from app.services.log_service import log_system_action
 
@@ -110,6 +111,23 @@ def create_facturation(
     log_system_action(
         db, type_action="facturation_fiscale", table_concernee="facturations", id_enregistrement=fact.id_facturation,
         description=f"Création Facture Fiscale N° {fact.numero_facture} (Montant TTC: {fact.montant_ttc} TND)",
+        id_utilisateur=current_user.id_utilisateur
+    )
+    db.commit()
+    db.refresh(fact)
+    return fact
+
+@router.post("/cloture-jour", response_model=FacturationOut, status_code=status.HTTP_201_CREATED)
+def create_cloture_jour(
+    db: Session = Depends(get_db),
+    current_user: Utilisateur = Depends(require_roles(["admin", "vendeur", "caissier"]))
+):
+    """Facture de clôture de journée : occupe un numéro dans la séquence
+    fiscale, sans aucun article ni montant — à cliquer en fin de journée."""
+    fact = create_day_closing_invoice(db, user_id=current_user.id_utilisateur)
+    log_system_action(
+        db, type_action="facturation_fiscale", table_concernee="facturations", id_enregistrement=fact.id_facturation,
+        description=f"Clôture de journée — Facture N° {fact.numero_facture} (sans article)",
         id_utilisateur=current_user.id_utilisateur
     )
     db.commit()

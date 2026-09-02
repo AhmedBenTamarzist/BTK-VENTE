@@ -148,6 +148,7 @@ export const api = {
   },
   getFacturation: (id) => request(`/facturations/${id}`),
   createFacturation: (data) => request('/facturations/', { method: 'POST', body: JSON.stringify(data) }),
+  createClotureJour: () => request('/facturations/cloture-jour', { method: 'POST' }),
   updateFacturation: (id, data) => request(`/facturations/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteFacturation: (id) => request(`/facturations/${id}`, { method: 'DELETE' }),
   getFacturationBls: (id) => request(`/facturations/${id}/bls`),
