@@ -319,7 +319,45 @@ a {
   display: none;
 }
 
+.sidebar-container {
+  transition: width 0.2s ease;
+}
+
+.sidebar-collapse-toggle {
+  position: fixed;
+  top: 1rem;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--bg-surface-hover, #1e293b);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: left 0.2s ease, background 0.15s ease;
+}
+
+.sidebar-collapse-toggle:hover {
+  background: rgba(99,102,241,0.25);
+  color: white;
+}
+
+@media (min-width: 901px) {
+  .sidebar-container.collapsed {
+    width: 0 !important;
+    overflow: hidden;
+    border-right: none !important;
+  }
+}
+
 @media (max-width: 900px) {
+  .sidebar-collapse-toggle {
+    display: none !important;
+  }
+
   .app-container {
     position: relative;
   }

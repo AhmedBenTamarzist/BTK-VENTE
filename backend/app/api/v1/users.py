@@ -5,7 +5,7 @@ from app.database import get_db
 from app.models import Utilisateur
 from app.schemas import UserCreate, UserUpdate, UserOut
 from app.services.auth_service import get_password_hash
-from app.api.deps import require_roles
+from app.api.deps import require_roles, get_current_user
 from app.services.log_service import log_system_action
 
 router = APIRouter()
@@ -13,7 +13,10 @@ router = APIRouter()
 @router.get("/", response_model=List[UserOut])
 def list_users(
     db: Session = Depends(get_db),
-    current_user: Utilisateur = Depends(require_roles(["admin"]))
+    # Lecture ouverte à tous les utilisateurs connectés (nécessaire pour la
+    # sélection du vendeur dans l'écran de vente) — création/modification
+    # restent admin uniquement.
+    current_user: Utilisateur = Depends(get_current_user)
 ):
     return db.query(Utilisateur).all()
 

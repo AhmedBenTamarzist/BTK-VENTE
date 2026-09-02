@@ -33,7 +33,7 @@ const ALL_NAV = [
   { label: 'Paramètres Entreprise',    path: '/settings',            icon: Settings,        roles: ['admin'] },
 ];
 
-export const Sidebar = ({ isOpen = false, onClose = () => {} }) => {
+export const Sidebar = ({ isOpen = false, onClose = () => {}, collapsed = false }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const role = user?.role || '';
@@ -52,7 +52,7 @@ export const Sidebar = ({ isOpen = false, onClose = () => {} }) => {
   };
 
   return (
-    <aside className={`sidebar-container ${isOpen ? 'open' : ''}`} style={{ width: '250px', background: '#0f172a', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+    <aside className={`sidebar-container ${isOpen ? 'open' : ''} ${collapsed ? 'collapsed' : ''}`} style={{ width: '250px', background: '#0f172a', borderRight: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
       {/* Brand */}
       <div style={{ padding: '1.25rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'white', flexShrink: 0 }}>
