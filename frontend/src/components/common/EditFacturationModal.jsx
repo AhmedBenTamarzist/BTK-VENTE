@@ -265,7 +265,7 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {isSelected ? <CheckSquare size={16} color="#6366f1" /> : <Square size={16} color="#94a3b8" />}
+                  {isSelected ? <CheckSquare size={16} color="#6366f1" /> : <Square size={16} color="var(--text-muted)" />}
                   <strong style={{ color: 'var(--text-main)' }}>BL N° {bl.numero}</strong>
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     ({bl.date_document ? new Date(bl.date_document).toLocaleDateString('fr-FR') : '—'})
@@ -312,7 +312,7 @@ export const EditFacturationModal = ({ isOpen, onClose, facturation, onUpdated }
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {isChecked ? <CheckSquare size={16} color="#f87171" /> : <Square size={16} color="#94a3b8" />}
+                  {isChecked ? <CheckSquare size={16} color="#f87171" /> : <Square size={16} color="var(--text-muted)" />}
                   <strong style={{ color: '#f87171' }}>Retour N° {r.numero}</strong>
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>({new Date(r.date_retour).toLocaleDateString('fr-FR')})</span>
                   {isCurrentRet && (

@@ -57,12 +57,12 @@ export const SmartSearchBar = React.forwardRef(({
       boxShadow: "0 16px 48px rgba(0,0,0,0.7)", overflow: "hidden", maxHeight: "380px", overflowY: "auto",
     }}>
       {loading
-        ? <div style={{ padding: "1rem", textAlign: "center", color: "#64748b", fontSize: "0.85rem" }}>Recherche...</div>
+        ? <div style={{ padding: "1rem", textAlign: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>Recherche...</div>
         : flatItems.length === 0
-          ? <div style={{ padding: "1rem", textAlign: "center", color: "#64748b", fontSize: "0.85rem" }}>Aucun resultat pour "{value}"</div>
+          ? <div style={{ padding: "1rem", textAlign: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>Aucun resultat pour "{value}"</div>
           : results.map(group => (
             <div key={group.category}>
-              <div style={{ padding: "0.35rem 0.75rem", fontSize: "0.68rem", fontWeight: "700", letterSpacing: "0.1em", color: "#475569", textTransform: "uppercase", background: "rgba(255,255,255,0.03)", borderBottom: "1px solid #1e2a3a" }}>{group.category}</div>
+              <div style={{ padding: "0.35rem 0.75rem", fontSize: "0.68rem", fontWeight: "700", letterSpacing: "0.1em", color: "var(--text-muted)", textTransform: "uppercase", background: "rgba(255,255,255,0.03)", borderBottom: "1px solid #1e2a3a" }}>{group.category}</div>
               {group.items.map(item => {
                 const gi = flatItems.indexOf(item);
                 return (
@@ -72,8 +72,8 @@ export const SmartSearchBar = React.forwardRef(({
                     style={{ padding: "0.55rem 0.75rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.75rem", borderBottom: "1px solid rgba(255,255,255,0.04)", background: focusedIdx === gi ? "rgba(99,102,241,0.15)" : "transparent", transition: "background 0.12s" }}>
                     {item.icon && <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: "600", color: "white", fontSize: "0.85rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.title}</div>
-                      {(item.sub1 || item.sub2) && <div style={{ fontSize: "0.73rem", color: "#94a3b8", display: "flex", gap: "0.75rem", marginTop: "1px" }}>{item.sub1 && <span>{item.sub1}</span>}{item.sub2 && <span style={{ color: "#64748b" }}>{item.sub2}</span>}</div>}
+                      <div style={{ fontWeight: "600", color: "var(--text-main)", fontSize: "0.85rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.title}</div>
+                      {(item.sub1 || item.sub2) && <div style={{ fontSize: "0.73rem", color: "var(--text-muted)", display: "flex", gap: "0.75rem", marginTop: "1px" }}>{item.sub1 && <span>{item.sub1}</span>}{item.sub2 && <span style={{ color: "var(--text-muted)" }}>{item.sub2}</span>}</div>}
                     </div>
                     {item.badge && <span style={{ padding: "0.15rem 0.5rem", borderRadius: "20px", fontSize: "0.7rem", fontWeight: "700", flexShrink: 0, background: (item.badgeColor || "#6366f1") + "22", color: item.badgeColor || "#6366f1", border: "1px solid " + (item.badgeColor || "#6366f1") + "55" }}>{item.badge}</span>}
                   </div>
@@ -88,7 +88,7 @@ export const SmartSearchBar = React.forwardRef(({
   return (
     <>
       <div ref={containerRef} style={{ position: "relative", ...style }}>
-        <Search size={16} style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "#64748b", pointerEvents: "none", zIndex: 1 }} />
+        <Search size={16} style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)", pointerEvents: "none", zIndex: 1 }} />
         <input
           ref={ref}
           className="form-input"
@@ -100,7 +100,7 @@ export const SmartSearchBar = React.forwardRef(({
           placeholder={placeholder}
           autoComplete="off"
         />
-        {value && <button onClick={() => { onClear(); setOpen(false); }} style={{ position: "absolute", right: "0.75rem", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#64748b", display: "flex", padding: 0, zIndex: 1 }}><X size={14} /></button>}
+        {value && <button onClick={() => { onClear(); setOpen(false); }} style={{ position: "absolute", right: "0.75rem", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", display: "flex", padding: 0, zIndex: 1 }}><X size={14} /></button>}
       </div>
       {dropdown && createPortal(dropdown, document.body)}
     </>

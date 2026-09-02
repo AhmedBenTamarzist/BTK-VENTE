@@ -58,7 +58,7 @@ export const SearchableSelect = ({ options = [], value, onChange, placeholder = 
           style: {
             padding: "0.45rem 0.75rem", cursor: "pointer", fontSize: "0.82rem",
             background: String(opt.value) === String(value) ? "rgba(59,130,246,0.2)" : "transparent",
-            color: String(opt.value) === String(value) ? "#60a5fa" : "#cbd5e1",
+            color: String(opt.value) === String(value) ? "#60a5fa" : "var(--text-muted)",
             borderBottom: "1px solid rgba(255,255,255,0.04)"
           }
         }, opt.label)
@@ -68,7 +68,7 @@ export const SearchableSelect = ({ options = [], value, onChange, placeholder = 
           position: "absolute", top: "100%", left: 0, right: 0, zIndex: 1000,
           background: "var(--bg-surface)", border: "1px solid var(--border-color)",
           borderRadius: "6px", padding: "0.5rem 0.75rem", fontSize: "0.8rem",
-          color: "#64748b", marginTop: "2px"
+          color: "var(--text-muted)", marginTop: "2px"
         }
       }, "Aucun article trouve")
     )
