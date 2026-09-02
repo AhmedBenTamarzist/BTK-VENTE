@@ -25,9 +25,9 @@ export const Layout = ({ children }) => {
         onClick={toggleCollapsed}
         title={collapsed ? 'Afficher le menu' : 'Masquer le menu'}
         aria-label={collapsed ? 'Afficher le menu' : 'Masquer le menu'}
-        style={{ left: collapsed ? '0.5rem' : '234px' }}
+        style={{ left: collapsed ? '0.75rem' : '200px' }}
       >
-        {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+        {collapsed ? <PanelLeftOpen size={22} /> : <PanelLeftClose size={22} />}
       </button>
 
       <div className="main-content">
