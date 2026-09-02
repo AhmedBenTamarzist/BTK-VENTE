@@ -123,6 +123,7 @@ export const api = {
   getDocument: (id) => request(`/documents/${id}`),
   createDocument: (data) => request('/documents/', { method: 'POST', body: JSON.stringify(data) }),
   updateDocument: (id, data) => request(`/documents/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteDocument: (id) => request(`/documents/${id}`, { method: 'DELETE' }),
   deliverDocument: (id, data) => request(`/documents/${id}/deliver`, { method: 'POST', body: JSON.stringify(data) }),
   convertDevisToBl: (id) => request(`/documents/${id}/convert-to-bl`, { method: 'POST' }),
   convertDevisToFacture: (id) => request(`/documents/${id}/convert-to-facture`, { method: 'POST' }),

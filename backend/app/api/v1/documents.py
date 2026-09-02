@@ -5,7 +5,7 @@ from app.database import get_db
 from app.models import Document, Utilisateur
 from app.schemas import DocumentCreate, DocumentOut, DeliveryBatchCreate
 from app.api.deps import get_current_user, require_roles
-from app.services.document_service import create_sales_document, update_sales_document, convert_devis_to_bl, convert_devis_to_facture, record_partial_delivery
+from app.services.document_service import create_sales_document, update_sales_document, convert_devis_to_bl, convert_devis_to_facture, record_partial_delivery, delete_sales_document
 from app.services.log_service import log_system_action
 from app.services.whatsapp_service import whatsapp_service
 
@@ -95,6 +95,26 @@ def update_document(
     db.commit()
     db.refresh(doc)
     return doc
+
+@router.delete("/{document_id}", status_code=204)
+def delete_document(
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: Utilisateur = Depends(require_roles(["admin"]))
+):
+    doc = db.query(Document).filter(Document.id_document == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document non trouvé")
+    numero, type_doc = doc.numero, doc.type_document
+
+    delete_sales_document(db, document_id)
+
+    log_system_action(
+        db, type_action="suppression", table_concernee="documents", id_enregistrement=document_id,
+        description=f"Suppression document {type_doc} N° {numero}",
+        id_utilisateur=current_user.id_utilisateur
+    )
+    db.commit()
 
 @router.post("/{document_id}/deliver", response_model=DocumentOut)
 def deliver_document_items(

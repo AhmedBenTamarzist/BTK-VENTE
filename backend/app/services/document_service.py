@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models import Document, LigneDocument, Article, Client
+from app.models import Document, LigneDocument, Article, Client, Reglement, BonRetour
 from app.schemas import DocumentCreate, DeliveryBatchCreate, LigneDocumentCreate
 from app.services.numbering_service import generate_next_number
 from app.services.article_service import adjust_stock
@@ -260,6 +260,46 @@ def update_sales_document(
             update_fiscal_invoice(db, link.id_facturation, FacturationUpdate(document_ids=fact_doc_ids))
 
     return doc
+
+def delete_sales_document(db: Session, document_id: int) -> None:
+    """Supprime un document (devis/BL/facture rapide) — uniquement s'il n'a
+    aucun impact financier déjà enregistré ailleurs, pour ne jamais corrompre
+    l'historique des paiements/retours/facturations."""
+    doc = db.query(Document).filter(Document.id_document == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document introuvable")
+
+    if doc.facture_dans_facturation:
+        raise HTTPException(
+            status_code=400,
+            detail="Ce document est inclus dans une facturation groupée. Retirez-le de la facturation avant de le supprimer."
+        )
+
+    if db.query(Reglement).filter(Reglement.id_document == document_id).first():
+        raise HTTPException(
+            status_code=400,
+            detail="Ce document a des règlements enregistrés. Impossible de le supprimer directement."
+        )
+
+    if db.query(BonRetour).filter(BonRetour.id_document == document_id).first():
+        raise HTTPException(
+            status_code=400,
+            detail="Un bon de retour est lié à ce document. Impossible de le supprimer directement."
+        )
+
+    # Reverser le stock déduit à la livraison (BL / facture rapide)
+    for line in doc.lignes:
+        qty_livree = Decimal(str(line.quantite_livree or 0))
+        if qty_livree > 0:
+            adjust_stock(db, line.id_article, qty_livree, allow_negative=True)
+
+    client_id = doc.id_client
+    db.delete(doc)
+    db.flush()
+
+    from app.services.payment_service import recalculate_client_payments
+    recalculate_client_payments(db, client_id)
+
 
 def record_partial_delivery(
     db: Session,

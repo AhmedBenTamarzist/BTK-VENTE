@@ -14,10 +14,13 @@ import { User, Phone, Mail, MapPin, CreditCard, DollarSign, Calendar, FileText, 
 import { ReglementDetailModal } from '../components/common/ReglementDetailModal';
 import { EditClientModal } from '../components/common/EditClientModal';
 import { usePolling } from '../hooks/usePolling';
+import { useAuth } from '../context/AuthContext';
 
 export const ClientDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   const [client, setClient] = useState(null);
   const [documents, setDocuments] = useState([]);
@@ -190,6 +193,17 @@ export const ClientDetail = () => {
   };
 
   usePolling(fetchClientData, [id]);
+
+  const handleDeleteDocument = async (doc) => {
+    if (!window.confirm(`Supprimer définitivement le document N° ${doc.numero} ? Cette action est irréversible.`)) return;
+    try {
+      await api.deleteDocument(doc.id_document);
+      toast.success(`Document N° ${doc.numero} supprimé.`);
+      fetchClientData();
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
 
   useEffect(() => {
     if (showAddFacturation && id) {
@@ -479,6 +493,11 @@ export const ClientDetail = () => {
                               {d.statut !== 'annule' && (
                                 <button className="btn btn-outline btn-sm" title="Modifier le document" onClick={() => { setEditDoc(d); setShowEditModal(true); }} style={{ color: '#38bdf8', borderColor: '#38bdf8' }}>
                                   <Pencil size={14} />
+                                </button>
+                              )}
+                              {isAdmin && (
+                                <button className="btn btn-outline btn-sm" title="Supprimer le document" onClick={() => handleDeleteDocument(d)} style={{ color: '#f87171', borderColor: '#f87171' }}>
+                                  <Trash2 size={14} />
                                 </button>
                               )}
                               {isPaid && (
