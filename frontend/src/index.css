@@ -490,6 +490,15 @@ a {
     border-color: #000 !important;
   }
 
+  /* Un <thead> a "table-header-group" comme affichage par defaut, ce qui
+     pousse la plupart des navigateurs a le repeter automatiquement sur
+     chaque page imprimee si le ticket est coupe en plusieurs pages (rouleau
+     mal configure comme A4 au lieu de continu). En le traitant comme un
+     groupe de lignes normal, il ne s'affiche qu'une seule fois. */
+  .printable-ticket table thead {
+    display: table-row-group !important;
+  }
+
   /* A4 Facture Print Format */
   /* Les couleurs (accent, texte, fonds) sont volontaires et définies en inline
      dans FacturePrint.jsx — on ne les écrase pas ici, seule la visibilité et le
