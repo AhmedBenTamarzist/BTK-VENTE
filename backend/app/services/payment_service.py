@@ -31,26 +31,6 @@ def recalculate_client_payments(db: Session, client_id: int):
         Document.type_document.in_(['bon_livraison', 'facture_rapide'])
     ).all()
 
-    # Client Passage (ventes comptoir anonymes) : jamais de créance/crédit suivi.
-    # On ne peut pas relancer un client anonyme pour un reste à payer (ex: écart
-    # de caisse, monnaie non rendue) — chaque document est donc considéré soldé
-    # d'office, et le solde du compte reste toujours à 0.
-    if client.nom == "Client Passage":
-        for doc in all_docs:
-            doc.montant_paye = Decimal(str(doc.montant_ttc_final))
-            doc.montant_restant = Decimal('0.000')
-            doc.statut = "paye"
-        client.solde_compte = Decimal('0.000')
-
-        all_facts = db.query(Facturation).filter(Facturation.id_client == client_id).all()
-        for fact in all_facts:
-            fact.montant_paye = Decimal(str(fact.montant_ttc))
-            fact.montant_restant = Decimal('0.000')
-            fact.statut = "payee"
-
-        db.flush()
-        return
-
     # Appliquer les paiements ciblés sur les BLs
     for doc in all_docs:
         restant_initial = max(Decimal('0.000'), Decimal(str(doc.montant_ttc_final)))
@@ -76,6 +56,13 @@ def recalculate_client_payments(db: Session, client_id: int):
     total_debt = sum((Decimal(str(d.montant_ttc_final)) for d in all_docs), Decimal('0.000'))
     total_paid_historique = sum((Decimal(str(r.montant)) for r in all_regs if r.statut_cheque != "rejete"), Decimal('0.000'))
     client.solde_compte = total_paid_historique + total_credit_retours - total_debt
+
+    # Client Passage (ventes comptoir anonymes) : on ne peut pas relancer un
+    # client anonyme pour un reste à payer, donc son solde de compte ne doit
+    # jamais afficher de créance/crédit — mais chaque document garde son
+    # montant_paye/montant_restant/statut réel (aucun changement ci-dessous).
+    if client.nom == "Client Passage":
+        client.solde_compte = Decimal('0.000')
 
     # 5. Distribuer globalement (règlements non ciblés + crédit retours) chronologiquement sur les BLs
     # Le crédit retour agit comme un paiement virtuel : il réduit le montant_restant des BLs
