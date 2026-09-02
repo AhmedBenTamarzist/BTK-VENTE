@@ -50,6 +50,36 @@ def _apply_pending_column_migrations():
             except Exception as e:
                 print(f"Note migration colonne {table}.{column}: {e}")
 
+# Contraintes CHECK dont la liste de valeurs autorisées était en retard sur le
+# code (ex: compteurs_numerotation n'autorisait pas 'reglement', ce qui faisait
+# planter tout paiement enregistré sur une base PostgreSQL). PostgreSQL
+# uniquement : SQLite ne nomme/n'applique pas ces contraintes de la même façon,
+# et Base.metadata.create_all() y recrée toujours le bon schéma.
+_PENDING_CHECK_CONSTRAINTS = [
+    (
+        "compteurs_numerotation", "compteurs_numerotation_type_compteur_check", "type_compteur",
+        "('devis','bon_livraison','facture_rapide','facturation','reglement','reglement_fournisseur','bon_retour')"
+    ),
+]
+
+def _apply_pending_constraint_migrations():
+    if engine.dialect.name != "postgresql":
+        return
+    inspector = inspect(engine)
+    with engine.connect() as conn:
+        for table, constraint_name, column, allowed_values_sql in _PENDING_CHECK_CONSTRAINTS:
+            if not inspector.has_table(table):
+                continue
+            try:
+                conn.execute(text(f"ALTER TABLE {table} DROP CONSTRAINT IF EXISTS {constraint_name}"))
+                conn.execute(text(
+                    f"ALTER TABLE {table} ADD CONSTRAINT {constraint_name} CHECK ({column} IN {allowed_values_sql})"
+                ))
+                conn.commit()
+            except Exception as e:
+                conn.rollback()
+                print(f"Note migration contrainte {table}.{constraint_name}: {e}")
+
 def init_db():
     print("Initialisation des tables et données par défaut...")
 
@@ -76,6 +106,7 @@ def init_db():
         print("Tables créées avec succès via SQLAlchemy metadata.")
 
     _apply_pending_column_migrations()
+    _apply_pending_constraint_migrations()
 
     db: Session = SessionLocal()
     try:
