@@ -27,6 +27,11 @@ def create_user(
     if existing:
         raise HTTPException(status_code=400, detail="Un utilisateur avec cet email existe déjà")
 
+    # Le nom sert d'identifiant de connexion : il doit être unique
+    existing_nom = db.query(Utilisateur).filter(Utilisateur.nom == user_in.nom).first()
+    if existing_nom:
+        raise HTTPException(status_code=400, detail="Un utilisateur avec ce nom existe déjà (le nom sert à la connexion, il doit être unique)")
+
     db_user = Utilisateur(
         nom=user_in.nom,
         prenom=user_in.prenom,
@@ -60,6 +65,12 @@ def update_user(
 
     champs_modifies = []
     if user_in.nom is not None:
+        if user_in.nom != user.nom:
+            existing_nom = db.query(Utilisateur).filter(
+                Utilisateur.nom == user_in.nom, Utilisateur.id_utilisateur != user_id
+            ).first()
+            if existing_nom:
+                raise HTTPException(status_code=400, detail="Un utilisateur avec ce nom existe déjà (le nom sert à la connexion, il doit être unique)")
         user.nom = user_in.nom
         champs_modifies.append("nom")
     if user_in.prenom is not None:

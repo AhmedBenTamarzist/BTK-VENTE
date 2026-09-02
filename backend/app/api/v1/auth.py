@@ -15,11 +15,11 @@ def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
-    user = db.query(Utilisateur).filter(Utilisateur.email == form_data.username, Utilisateur.actif == True).first()
+    user = db.query(Utilisateur).filter(Utilisateur.nom == form_data.username, Utilisateur.actif == True).first()
     if not user or not verify_password(form_data.password, user.mot_de_passe_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email ou mot de passe incorrect",
+            detail="Nom ou mot de passe incorrect",
             headers={"WWW-Authenticate": "Bearer"},
         )
     

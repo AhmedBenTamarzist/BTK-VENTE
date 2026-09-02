@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, Lock, Mail, ShieldAlert } from 'lucide-react';
+import { LogIn, Lock, User, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
+  const [nom, setNom] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,17 +15,17 @@ export const Login = () => {
     e.preventDefault();
     setError('');
 
-    if (!email || !password) {
-      setError('Veuillez remplir votre adresse email et votre mot de passe.');
+    if (!nom || !password) {
+      setError('Veuillez remplir votre nom et votre mot de passe.');
       return;
     }
 
     try {
       setLoading(true);
-      await login(email.trim(), password);
+      await login(nom.trim(), password);
       navigate('/');
     } catch (err) {
-      setError(err.message || 'Identifiants invalides. Veuillez vérifier votre email et mot de passe.');
+      setError(err.message || 'Identifiants invalides. Veuillez vérifier votre nom et mot de passe.');
     } finally {
       setLoading(false);
     }
@@ -52,16 +52,16 @@ export const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Adresse Email</label>
+            <label className="form-label">Nom d'utilisateur</label>
             <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+              <User size={18} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
               <input
-                type="email"
+                type="text"
                 className="form-input"
                 style={{ paddingLeft: '2.5rem' }}
-                placeholder="admin@quincaillerie.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Votre nom"
+                value={nom}
+                onChange={(e) => setNom(e.target.value)}
                 required
               />
             </div>
@@ -93,10 +93,6 @@ export const Login = () => {
             <span>{loading ? 'Connexion en cours...' : 'Se Connecter'}</span>
           </button>
         </form>
-
-        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.75rem', color: '#64748b' }}>
-          Compte démo par défaut : <strong>admin@quincaillerie.com</strong> / <strong>admin123</strong>
-        </div>
       </div>
     </div>
   );
