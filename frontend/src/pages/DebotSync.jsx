@@ -245,7 +245,7 @@ export const DebotSync = () => {
                 </thead>
                 <tbody>
                   {visibleItems.length === 0 ? (
-                    <tr><td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Rien à afficher.</td></tr>
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>Rien à afficher.</td></tr>
                   ) : (
                     visibleItems.map((it) => {
                       const st = STATUT_BADGE[it.statut];
@@ -255,9 +255,16 @@ export const DebotSync = () => {
                           <td>
                             <input type="checkbox" checked={selected.has(it.reference)} onChange={() => toggleSelectOne(it.reference)} />
                           </td>
-                          <td><strong style={{ color: 'var(--text-main)' }}>{it.nom_1 || it.nom_2
-                          ? `${it.nom_1} / ${it.nom_2}`
-                          : it.nom}</strong></td>
+                          <td>
+                            <strong style={{ color: 'var(--text-main)' }}>
+                              {(() => {
+                                const v = it.nom_venteapp;
+                                const d = it.nom_debot;
+                                if (v && d) return v === d ? v : `${v} / ${d}`;
+                                return v || d || '—';
+                              })()}
+                            </strong>
+                          </td>
                           <td><strong style={{ color: 'var(--text-main)' }}>{it.reference}</strong></td>
                           <td><span className={`badge ${st.badge}`}>{st.label}</span></td>
                           <td style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>

@@ -54,6 +54,8 @@ class CompareItem(BaseModel):
     reference: str
     id_article_venteapp: Optional[int] = None
     id_article_debot: Optional[int] = None
+    nom_venteapp: Optional[str] = None
+    nom_debot: Optional[str] = None
     statut: Literal["identique", "different", "venteapp_seulement", "debot_seulement"]
     differences: List[FieldDiff] = []
 
@@ -93,12 +95,14 @@ def compare_with_debot(
         if v_art and not d_art:
             items.append(CompareItem(
                 reference=ref, id_article_venteapp=v_art.id_article,
+                nom_venteapp=v_art.nom or None,
                 statut="venteapp_seulement"
             ))
             continue
         if d_art and not v_art:
             items.append(CompareItem(
                 reference=ref, id_article_debot=d_art.get("id_article"),
+                nom_debot=d_art.get("nom") or None,
                 statut="debot_seulement"
             ))
             continue
@@ -116,6 +120,8 @@ def compare_with_debot(
 
         items.append(CompareItem(
             reference=ref, id_article_venteapp=v_art.id_article, id_article_debot=d_art.get("id_article"),
+            nom_venteapp=v_art.nom or None,
+            nom_debot=d_art.get("nom") or None,
             statut="different" if diffs else "identique",
             differences=diffs,
         ))
