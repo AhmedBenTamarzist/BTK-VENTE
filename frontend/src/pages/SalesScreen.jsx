@@ -56,6 +56,7 @@ export const SalesScreen = () => {
   const [savedDocForPayment, setSavedDocForPayment] = useState(null);
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [printedDoc, setPrintedDoc] = useState(null);
+  const [printedClient, setPrintedClient] = useState(null);
 
   // error/success replaced by toast notifications
   const [loading, setLoading] = useState(false);
@@ -300,8 +301,12 @@ export const SalesScreen = () => {
       const docCreated = await api.createDocument(payload);
       toast.success(`Document N° ${docCreated.numero} créé avec succès !`);
 
+      // Conserver le client avant resetActiveTab (sinon le ticket affiche "Client Passage")
+      const clientForPrint = activeTab.client;
+
       // Store created document for immediate payment or print
       setPrintedDoc({ ...docCreated, vendeur_nom: activeTab.vendeur_nom });
+      setPrintedClient(clientForPrint);
 
       if (activeTab.type_document in { bon_livraison: 1, facture_rapide: 1 }) {
         // pending_whatsapp = true => PaymentModal will send combined doc+payment message
@@ -1159,7 +1164,7 @@ export const SalesScreen = () => {
           </>
         }
       >
-        <TicketPrint document={printedDoc} client={activeTab.client} />
+        <TicketPrint document={printedDoc} client={printedClient} />
       </Modal>
     </div>
   );
