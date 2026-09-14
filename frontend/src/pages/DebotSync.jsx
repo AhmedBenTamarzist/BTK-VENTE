@@ -236,6 +236,7 @@ export const DebotSync = () => {
                     <th style={{ width: '32px' }}>
                       <input type="checkbox" checked={allVisibleSelected} onChange={toggleSelectAllVisible} />
                     </th>
+                    <th>Article</th>
                     <th>Référence</th>
                     <th>Statut</th>
                     <th>Différences</th>
@@ -254,6 +255,9 @@ export const DebotSync = () => {
                           <td>
                             <input type="checkbox" checked={selected.has(it.reference)} onChange={() => toggleSelectOne(it.reference)} />
                           </td>
+                          <td><strong style={{ color: 'var(--text-main)' }}>{it.nom_1 || it.nom_2
+                          ? `${it.nom_1} / ${it.nom_2}`
+                          : it.nom}</strong></td>
                           <td><strong style={{ color: 'var(--text-main)' }}>{it.reference}</strong></td>
                           <td><span className={`badge ${st.badge}`}>{st.label}</span></td>
                           <td style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
