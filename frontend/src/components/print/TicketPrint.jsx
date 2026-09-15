@@ -3,6 +3,10 @@ import { api } from '../../services/api';
 
 export const TicketPrint = ({ document, client, enterprise: initialEnterprise }) => {
   const [enterprise, setEnterprise] = useState(initialEnterprise || null);
+  const [resolvedClient, setResolvedClient] = useState(() => {
+    if (client && (!document?.id_client || client.id_client === document.id_client)) return client;
+    return null;
+  });
 
   useEffect(() => {
     if (!enterprise) {
@@ -11,6 +15,25 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
         .catch(() => {});
     }
   }, [enterprise]);
+
+  // Toujours afficher le client enregistré sur le document (id_client en base),
+  // pas l'état UI qui peut être réinitialisé avant l'impression (ex. Client Passage).
+  useEffect(() => {
+    if (!document?.id_client) {
+      setResolvedClient(client || null);
+      return;
+    }
+    if (client?.id_client === document.id_client) {
+      setResolvedClient(client);
+      return;
+    }
+    let cancelled = false;
+    setResolvedClient(null);
+    api.getClient(document.id_client)
+      .then((c) => { if (!cancelled) setResolvedClient(c); })
+      .catch(() => { if (!cancelled) setResolvedClient(client || null); });
+    return () => { cancelled = true; };
+  }, [document?.id_client, document?.id_document, client?.id_client]);
 
   if (!document) return null;
 
@@ -52,7 +75,7 @@ export const TicketPrint = ({ document, client, enterprise: initialEnterprise })
       <div style={{ marginBottom: '8px', borderBottom: '1px dashed #000', paddingBottom: '6px' }}>
         <div style={{ fontWeight: 'bold', fontSize: '13px' }}>{docTypeLabel} N° {document.numero}</div>
         <div>Date: {new Date(document.date_document).toLocaleString('fr-FR')}</div>
-        {client && <div>Client: {client.nom} {client.prenom || ''}</div>}
+        {resolvedClient && <div>Client: {resolvedClient.nom} {resolvedClient.prenom || ''}</div>}
         {(() => {
           // Extraire le vendeur depuis les notes (format: "Vendeur: Nom. reste...")
           const vendeurMatch = document.notes?.match(/^Vendeur:\s*([^.]+)/);

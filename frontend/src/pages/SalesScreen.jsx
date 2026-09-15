@@ -301,8 +301,17 @@ export const SalesScreen = () => {
       const docCreated = await api.createDocument(payload);
       toast.success(`Document N° ${docCreated.numero} créé avec succès !`);
 
-      // Conserver le client avant resetActiveTab (sinon le ticket affiche "Client Passage")
-      const clientForPrint = activeTab.client;
+      // Client pour le ticket : charger depuis la base via id_client (fiable après reset UI)
+      let clientForPrint = null;
+      if (docCreated.id_client) {
+        try {
+          clientForPrint = await api.getClient(docCreated.id_client);
+        } catch {
+          clientForPrint = (isPassageClient || !activeTab.client) ? passageClient : activeTab.client;
+        }
+      } else {
+        clientForPrint = passageClient;
+      }
 
       // Store created document for immediate payment or print
       setPrintedDoc({ ...docCreated, vendeur_nom: activeTab.vendeur_nom });

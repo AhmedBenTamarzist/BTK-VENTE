@@ -30,6 +30,22 @@ const ACTION_OPTIONS = {
 // Liste complète (toutes les actions possibles, tous statuts confondus) pour le
 // sélecteur d'action groupée — appliquée uniquement aux lignes sélectionnées où
 // l'action est valide pour leur statut, les autres sont ignorées.
+const getItemNom = (it) => {
+  if (it.nom) return it.nom;
+  const v = it.nom_venteapp;
+  const d = it.nom_debot;
+  if (v && d) return v === d ? v : `${v} / ${d}`;
+  if (v || d) return v || d;
+  const nomDiff = it.differences?.find((x) => x.champ === 'nom');
+  if (nomDiff) {
+    const va = nomDiff.valeur_venteapp;
+    const db = nomDiff.valeur_debot;
+    if (va && va !== '—' && db && db !== '—' && va !== db) return `${va} / ${db}`;
+    return (va && va !== '—' ? va : null) || (db && db !== '—' ? db : null);
+  }
+  return null;
+};
+
 const BULK_ACTIONS = [
   { value: 'ignore', label: 'Ignorer' },
   { value: 'use_debot', label: 'Utiliser Debot → VenteApp (différents)' },
@@ -78,7 +94,11 @@ export const DebotSync = () => {
     if (!items) return [];
     return items.filter((it) => {
       if (!showIdentiques && it.statut === 'identique') return false;
-      if (search.trim() && !it.reference.toLowerCase().includes(search.trim().toLowerCase())) return false;
+      if (search.trim()) {
+        const q = search.trim().toLowerCase();
+        const nom = (getItemNom(it) || '').toLowerCase();
+        if (!it.reference.toLowerCase().includes(q) && !nom.includes(q)) return false;
+      }
       return true;
     });
   }, [items, showIdentiques, search]);
@@ -207,7 +227,7 @@ export const DebotSync = () => {
           <div className="glass-card" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', padding: '1rem', alignItems: 'center' }}>
             <input
               className="form-input" style={{ maxWidth: '220px' }}
-              placeholder="Filtrer par référence..."
+              placeholder="Filtrer par référence ou nom..."
               value={search} onChange={(e) => setSearch(e.target.value)}
             />
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
@@ -257,12 +277,7 @@ export const DebotSync = () => {
                           </td>
                           <td>
                             <strong style={{ color: 'var(--text-main)' }}>
-                              {(() => {
-                                const v = it.nom_venteapp;
-                                const d = it.nom_debot;
-                                if (v && d) return v === d ? v : `${v} / ${d}`;
-                                return v || d || '—';
-                              })()}
+                              {getItemNom(it) || '—'}
                             </strong>
                           </td>
                           <td><strong style={{ color: 'var(--text-main)' }}>{it.reference}</strong></td>

@@ -34,6 +34,17 @@ def is_configured() -> bool:
     return bool(settings.DEBOT_API_KEY)
 
 
+def article_name(article: dict) -> str:
+    """Extrait le libellé article depuis la réponse Debot (clés variables selon versions)."""
+    if not article:
+        return ""
+    for key in ("nom", "designation", "libelle", "name", "intitule", "description"):
+        val = article.get(key)
+        if val is not None and str(val).strip():
+            return str(val).strip()
+    return ""
+
+
 def get_all_articles(include_inactive: bool = True) -> list[dict]:
     """Récupère tous les articles Debot (par défaut y compris inactifs, pour
     un rapprochement complet)."""

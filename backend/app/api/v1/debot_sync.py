@@ -43,6 +43,19 @@ def _norm(key: str, v):
     return str(v).strip()
 
 
+def _debot_nom(d_art: dict) -> Optional[str]:
+    name = debot_service.article_name(d_art)
+    return name or None
+
+
+def _display_nom(v_art, d_art) -> Optional[str]:
+    v_nom = (v_art.nom or "").strip() if v_art else ""
+    d_nom = _debot_nom(d_art) or ""
+    if v_nom and d_nom:
+        return v_nom if v_nom == d_nom else f"{v_nom} / {d_nom}"
+    return v_nom or d_nom or None
+
+
 class FieldDiff(BaseModel):
     champ: str
     libelle: str
@@ -54,6 +67,7 @@ class CompareItem(BaseModel):
     reference: str
     id_article_venteapp: Optional[int] = None
     id_article_debot: Optional[int] = None
+    nom: Optional[str] = None
     nom_venteapp: Optional[str] = None
     nom_debot: Optional[str] = None
     statut: Literal["identique", "different", "venteapp_seulement", "debot_seulement"]
@@ -93,16 +107,20 @@ def compare_with_debot(
         d_art = debot_by_ref.get(ref)
 
         if v_art and not d_art:
+            v_nom = (v_art.nom or "").strip() or None
             items.append(CompareItem(
                 reference=ref, id_article_venteapp=v_art.id_article,
-                nom_venteapp=v_art.nom or None,
+                nom=v_nom,
+                nom_venteapp=v_nom,
                 statut="venteapp_seulement"
             ))
             continue
         if d_art and not v_art:
+            d_nom = _debot_nom(d_art)
             items.append(CompareItem(
                 reference=ref, id_article_debot=d_art.get("id_article"),
-                nom_debot=d_art.get("nom") or None,
+                nom=d_nom,
+                nom_debot=d_nom,
                 statut="debot_seulement"
             ))
             continue
@@ -110,7 +128,7 @@ def compare_with_debot(
         diffs = []
         for va_key, debot_key, label in COMPARED_FIELDS:
             v_val = getattr(v_art, va_key, None)
-            d_val = d_art.get(debot_key)
+            d_val = _debot_nom(d_art) if va_key == "nom" else d_art.get(debot_key)
             if _norm(va_key, v_val) != _norm(va_key, d_val):
                 diffs.append(FieldDiff(
                     champ=va_key, libelle=label,
@@ -118,10 +136,13 @@ def compare_with_debot(
                     valeur_debot=str(d_val) if d_val is not None else "—",
                 ))
 
+        v_nom = (v_art.nom or "").strip() or None
+        d_nom = _debot_nom(d_art)
         items.append(CompareItem(
             reference=ref, id_article_venteapp=v_art.id_article, id_article_debot=d_art.get("id_article"),
-            nom_venteapp=v_art.nom or None,
-            nom_debot=d_art.get("nom") or None,
+            nom=_display_nom(v_art, d_art),
+            nom_venteapp=v_nom,
+            nom_debot=d_nom,
             statut="different" if diffs else "identique",
             differences=diffs,
         ))
@@ -193,7 +214,7 @@ def resolve_differences(
                     raise ValueError("Article introuvable côté Debot.")
                 if not v_art:
                     raise ValueError("Article introuvable côté VenteApp.")
-                v_art.nom = d_art.get("nom") or v_art.nom
+                v_art.nom = _debot_nom(d_art) or v_art.nom
                 v_art.description = d_art.get("description") or None
                 v_art.unite = d_art.get("unite") or v_art.unite
                 if _num(d_art.get("prix_vente_ttc")) is not None:
@@ -223,7 +244,7 @@ def resolve_differences(
                     raise ValueError("Un article avec cette référence existe déjà côté VenteApp.")
                 new_art = Article(
                     reference=ref,
-                    nom=d_art.get("nom") or ref,
+                    nom=_debot_nom(d_art) or ref,
                     description=d_art.get("description") or None,
                     unite=d_art.get("unite") or "piece",
                     prix_vente_ttc=Decimal(str(_num(d_art.get("prix_vente_ttc")) or 0)),
@@ -304,7 +325,7 @@ def find_duplicate_names(
         except debot_service.DebotSyncError as e:
             raise HTTPException(status_code=502, detail=str(e))
         records = [
-            {"id": a.get("id_article"), "reference": a.get("code_article"), "nom": a.get("nom") or ""}
+            {"id": a.get("id_article"), "reference": a.get("code_article"), "nom": debot_service.article_name(a)}
             for a in debot_articles
         ]
 
