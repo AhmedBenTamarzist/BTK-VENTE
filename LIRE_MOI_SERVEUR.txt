@@ -1,0 +1,19 @@
+VENTEAPP - PC SERVEUR DU MAGASIN
+================================
+
+DEMARRER LE SERVEUR
+  Double-clic : backend\start_server.bat
+  (laisser la fenetre noire ouverte)
+
+METTRE A JOUR APRES UN git pull
+  1. Fermer start_server.bat (Ctrl+C)
+  2. git pull
+  3. Relancer backend\start_server.bat
+
+SI LE SERVEUR PLANTE - ENVOYER LES LOGS
+  Double-clic : VOIR_LOGS.bat   (a la racine, ici meme)
+  OU envoyer le fichier : LOG_SERVEUR.txt   (meme dossier que ce fichier)
+
+Chemin complet typique :
+  C:\VenteApp\LOG_SERVEUR.txt
+  C:\VenteApp\VOIR_LOGS.bat
