@@ -4,6 +4,7 @@ import { StatusBadge } from '../components/common/StatusBadge';
 import { Modal } from '../components/common/Modal';
 import { TicketPrint } from '../components/print/TicketPrint';
 import { EditDocumentModal } from '../components/common/EditDocumentModal';
+import { DocumentWhatsappButton } from '../components/common/DocumentWhatsappButton';
 import { Printer, RefreshCw, Eye, ArrowRightLeft, Search, Pencil, X } from 'lucide-react';
 import { usePolling } from '../hooks/usePolling';
 
@@ -212,6 +213,11 @@ export const DocumentsList = () => {
                           >
                             <Printer size={14} />
                           </button>
+                          <DocumentWhatsappButton
+                            document={doc}
+                            client={clientsMap[doc.id_client]}
+                            passageClientId={passageClientId}
+                          />
 
                           {doc.statut !== 'annule' && (
                             <button

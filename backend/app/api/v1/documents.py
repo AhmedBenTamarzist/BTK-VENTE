@@ -168,23 +168,40 @@ def convert_devis_facture(
 @router.post("/{document_id}/send-whatsapp", status_code=200)
 def send_whatsapp_document(
     document_id: int,
-    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: Utilisateur = Depends(require_roles(["admin", "vendeur", "caissier"]))
 ):
-    from app.models import Document
-    doc = db.query(Document).filter(Document.id_document == document_id).first()
+    from sqlalchemy.orm import joinedload
+    from app.models import Document, LigneDocument
+
+    doc = (
+        db.query(Document)
+        .options(
+            joinedload(Document.client),
+            joinedload(Document.lignes).joinedload(LigneDocument.article),
+        )
+        .filter(Document.id_document == document_id)
+        .first()
+    )
     if not doc:
         raise HTTPException(status_code=404, detail="Document non trouvé")
-        
+
     if not doc.client:
         raise HTTPException(status_code=400, detail="Ce document n'a pas de client associé")
-        
-    background_tasks.add_task(
-        whatsapp_service.send_sale_notification,
-        client=doc.client,
-        document=doc,
-        current_balance=doc.client.solde_compte
-    )
-    
-    return {"status": "success", "message": "Notification WhatsApp de vente déclenchée"}
+
+    if doc.client.nom == "Client Passage":
+        raise HTTPException(status_code=400, detail="Impossible d'envoyer WhatsApp au client Passage (vente anonyme).")
+
+    if not doc.client.telephone or not str(doc.client.telephone).strip():
+        raise HTTPException(status_code=400, detail="Ce client n'a pas de numéro de téléphone.")
+
+    text = whatsapp_service.build_sale_message(doc.client, doc, doc.client.solde_compte)
+    url = whatsapp_service.build_message_url(doc.client.telephone, text)
+    if not url:
+        raise HTTPException(status_code=400, detail="Numéro de téléphone invalide pour WhatsApp.")
+
+    return {
+        "status": "success",
+        "message": "Message WhatsApp prêt (document + solde crédit).",
+        "url": url,
+    }

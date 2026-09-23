@@ -9,6 +9,7 @@ import { EditFacturationModal } from '../components/common/EditFacturationModal'
 import { TicketPrint } from '../components/print/TicketPrint';
 import { ReceiptPrint } from '../components/print/ReceiptPrint';
 import { EditDocumentModal } from '../components/common/EditDocumentModal';
+import { DocumentWhatsappButton } from '../components/common/DocumentWhatsappButton';
 import { RetourDetailModal } from '../components/common/RetourDetailModal';
 import { User, Phone, Mail, MapPin, CreditCard, DollarSign, Calendar, FileText, CheckCircle2, RotateCcw, Plus, ArrowLeft, FileSpreadsheet, Eye, Pencil, Trash2, CheckSquare, Square, Printer, Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { ReglementDetailModal } from '../components/common/ReglementDetailModal';
@@ -490,6 +491,7 @@ export const ClientDetail = () => {
                               <button className="btn btn-outline btn-sm" title="Imprimer ticket" onClick={() => openDetailOrPrint(d, 'print')}>
                                 <Printer size={14} />
                               </button>
+                              <DocumentWhatsappButton document={d} client={client} />
                               {d.statut !== 'annule' && (
                                 <button className="btn btn-outline btn-sm" title="Modifier le document" onClick={() => { setEditDoc(d); setShowEditModal(true); }} style={{ color: '#38bdf8', borderColor: '#38bdf8' }}>
                                   <Pencil size={14} />

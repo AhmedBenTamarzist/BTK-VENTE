@@ -23,20 +23,24 @@ class WhatsAppService:
                 
         return cleaned
 
-    def send_text_message(self, phone: str, message: str) -> bool:
-        """Send a plain text message via WhatsApp Web (opens browser tab with pre-filled message)."""
+    def build_message_url(self, phone: str, message: str) -> str:
+        """Construit l'URL wa.me (ouverture côté navigateur du poste utilisateur)."""
         formatted_phone = self._format_phone_number(phone)
         if not formatted_phone:
+            return ""
+        encoded_message = urllib.parse.quote(message)
+        return f"https://wa.me/{formatted_phone}?text={encoded_message}"
+
+    def send_text_message(self, phone: str, message: str) -> bool:
+        """Send a plain text message via WhatsApp Web (opens browser tab with pre-filled message)."""
+        url = self.build_message_url(phone, message)
+        if not url:
             logger.warning("Invalid phone number for WhatsApp message.")
             return False
 
         try:
-            logger.info(f"Opening WhatsApp Web to send message to {formatted_phone}...")
-            # Encode the message for URL
-            encoded_message = urllib.parse.quote(message)
-            url = f"https://wa.me/{formatted_phone}?text={encoded_message}"
+            logger.info(f"Opening WhatsApp Web to send message...")
             webbrowser.open(url)
-            logger.info(f"WhatsApp Web opened for {formatted_phone}")
             return True
         except Exception as e:
             logger.error(f"Failed to open WhatsApp Web: {e}")
@@ -52,13 +56,10 @@ class WhatsAppService:
         else:
             return f">> Votre compte est entierement solde.\n"
 
-    def send_sale_notification(self, client, document, current_balance: Decimal):
-        """Notification for a new sale/document (document only, no payment info)."""
-        if not client.telephone:
-            return
-
+    def build_sale_message(self, client, document, current_balance: Decimal) -> str:
+        """Message WhatsApp : détail du document + solde crédit du client."""
         nom_client = client.prenom + " " + client.nom if client.prenom else client.nom
-        
+
         msg = f"Bonjour {nom_client},\n\n"
         msg += f"Votre document N° {document.numero} a ete enregistre.\n"
         msg += "-----------------\n"
@@ -79,12 +80,17 @@ class WhatsAppService:
             msg += f"Reste a payer sur ce document : {float(document.montant_restant):.3f} TND\n"
         else:
             msg += f"Ce document est entierement regle.\n"
-        
+
         msg += "\n"
         msg += self._balance_line(current_balance)
         msg += "\nMerci de votre confiance."
-        
-        self.send_text_message(client.telephone, msg)
+        return msg
+
+    def send_sale_notification(self, client, document, current_balance: Decimal):
+        """Notification for a new sale/document (document only, no payment info)."""
+        if not client.telephone:
+            return
+        self.send_text_message(client.telephone, self.build_sale_message(client, document, current_balance))
 
     def send_payment_notification(self, client, reglement, current_balance: Decimal, document=None):
         """Notification for a payment received, optionally with document details."""

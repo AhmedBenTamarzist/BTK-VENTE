@@ -1134,7 +1134,9 @@ export const SalesScreen = () => {
         onClose={() => {
           // Si WhatsApp était coché et que le client a un numéro, envoyer le message du document (sans paiement)
           if (savedDocForPayment?.pending_whatsapp && savedDocForPayment?.id_client) {
-            api.sendWhatsappDocument(savedDocForPayment.id_document).catch(e => console.error(e));
+            api.sendWhatsappDocument(savedDocForPayment.id_document)
+              .then((res) => { if (res.url) window.open(res.url, '_blank', 'noopener,noreferrer'); })
+              .catch((e) => console.error(e));
           }
           setSavedDocForPayment(null);
           // "Payer plus tard" : le document est déjà créé, on imprime quand même le ticket
