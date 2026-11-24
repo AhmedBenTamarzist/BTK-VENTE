@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { toast } from '../contexts/ToastContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
@@ -7,11 +7,15 @@ import { Modal } from '../components/common/Modal';
 import { PaymentModal } from '../components/common/PaymentModal';
 import { EditFacturationModal } from '../components/common/EditFacturationModal';
 import { TicketPrint } from '../components/print/TicketPrint';
+import { FacturePrint } from '../components/print/FacturePrint';
 import { ReceiptPrint } from '../components/print/ReceiptPrint';
+import { exportFacturationToExcel } from '../utils/exportFacturationExcel';
+import { generateFacturePdf } from '../utils/generateFacturePdf';
+import { getFacturationLineDisplayedTotalHt, getFacturationLineUnitPriceHt } from '../utils/facturationAmounts';
 import { EditDocumentModal } from '../components/common/EditDocumentModal';
 import { DocumentWhatsappButton } from '../components/common/DocumentWhatsappButton';
 import { RetourDetailModal } from '../components/common/RetourDetailModal';
-import { User, Phone, Mail, MapPin, CreditCard, DollarSign, Calendar, FileText, CheckCircle2, RotateCcw, Plus, ArrowLeft, FileSpreadsheet, Eye, Pencil, Trash2, CheckSquare, Square, Printer, Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { User, Phone, Mail, MapPin, CreditCard, DollarSign, Calendar, FileText, CheckCircle2, RotateCcw, Plus, ArrowLeft, FileSpreadsheet, FileDown, Eye, Pencil, Trash2, CheckSquare, Square, Printer, Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { ReglementDetailModal } from '../components/common/ReglementDetailModal';
 import { EditClientModal } from '../components/common/EditClientModal';
 import { usePolling } from '../hooks/usePolling';
@@ -44,6 +48,11 @@ export const ClientDetail = () => {
   const [selectedFact, setSelectedFact] = useState(null);
   const [detailBls, setDetailBls] = useState([]);
   const [loadingDetailBls, setLoadingDetailBls] = useState(false);
+  const [showFactPrintModal, setShowFactPrintModal] = useState(false);
+  const [printFacturation, setPrintFacturation] = useState(null);
+  const [enterprise, setEnterprise] = useState(null);
+  const [generatingFacturePdf, setGeneratingFacturePdf] = useState(false);
+  const facturePrintRef = useRef(null);
 
   // Payment on specific document or facturation
   const [showDocPayment, setShowDocPayment] = useState(false);
@@ -195,6 +204,10 @@ export const ClientDetail = () => {
 
   usePolling(fetchClientData, [id]);
 
+  useEffect(() => {
+    api.getEnterprise().then(setEnterprise).catch(() => {});
+  }, []);
+
   const handleDeleteDocument = async (doc) => {
     if (!window.confirm(`Supprimer définitivement le document N° ${doc.numero} ? Cette action est irréversible.`)) return;
     try {
@@ -297,7 +310,7 @@ export const ClientDetail = () => {
         periode_fin: periodeFin || null
       });
       setShowAddFacturation(false);
-      fetchClientData();
+      await fetchClientData();
     } catch (err) {
       setFacturationError(err.message);
     }
@@ -323,6 +336,34 @@ export const ClientDetail = () => {
       setDetailBls(bls);
     } catch { setDetailBls([]); }
     finally { setLoadingDetailBls(false); }
+  };
+
+  const handlePrintFacturation = (facturation) => {
+    setPrintFacturation(facturation);
+    setShowFactPrintModal(true);
+  };
+
+  const handleExportFacturationExcel = async (facturation) => {
+    try {
+      await exportFacturationToExcel(facturation, enterprise);
+    } catch (err) {
+      toast.error("Erreur lors de l'export Excel: " + err.message);
+    }
+  };
+
+  const handleDownloadFacturationPdf = async () => {
+    if (!facturePrintRef.current || !printFacturation) return;
+    try {
+      setGeneratingFacturePdf(true);
+      await generateFacturePdf(
+        facturePrintRef.current,
+        `Facture_${printFacturation.numero_facture.replace(/\\//g, '-')}.pdf`
+      );
+    } catch (err) {
+      toast.error('Erreur lors de la génération du PDF: ' + err.message);
+    } finally {
+      setGeneratingFacturePdf(false);
+    }
   };
 
   const handleDeleteFact = async (f) => {
@@ -987,6 +1028,12 @@ export const ClientDetail = () => {
                               <button className="btn btn-outline btn-sm" onClick={() => handleOpenFactDetail(f)} title="Voir détail">
                                 <Eye size={13} /> Voir
                               </button>
+                              <button className="btn btn-outline btn-sm" onClick={() => handlePrintFacturation(f)} title="Imprimer (format A4)">
+                                <Printer size={13} />
+                              </button>
+                              <button className="btn btn-outline btn-sm" onClick={() => handleExportFacturationExcel(f)} title="Exporter en Excel">
+                                <FileDown size={13} />
+                              </button>
                               <button className="btn btn-outline btn-sm" onClick={() => { setSelectedFact(f); setShowFactEdit(true); }} title="Modifier">
                                 <Pencil size={13} />
                               </button>
@@ -1082,7 +1129,8 @@ export const ClientDetail = () => {
                   <th>Article</th>
                   <th style={{ textAlign: 'center' }}>Qté</th>
                   <th style={{ textAlign: 'right' }}>P.U HT</th>
-                  <th style={{ textAlign: 'right' }}>Total TTC</th>
+                  <th style={{ textAlign: 'center' }}>TVA</th>
+                  <th style={{ textAlign: 'right' }}>Total HT</th>
                 </tr>
               </thead>
               <tbody>
@@ -1090,8 +1138,9 @@ export const ClientDetail = () => {
                   <tr key={i}>
                     <td>{l.article?.nom || `Art #${l.id_article}`}</td>
                     <td style={{ textAlign: 'center' }}>{parseFloat(l.quantite_totale)}</td>
-                    <td style={{ textAlign: 'right' }}>{parseFloat(l.prix_unitaire_moyen_ht).toFixed(3)} TND</td>
-                    <td style={{ textAlign: 'right', fontWeight: 'bold' }}>{parseFloat(l.montant_ttc).toFixed(3)} TND</td>
+                    <td style={{ textAlign: 'right' }}>{getFacturationLineUnitPriceHt(l).toFixed(3)} TND</td>
+                    <td style={{ textAlign: 'center' }}>{parseFloat(l.taux_tva || 19)}%</td>
+                    <td style={{ textAlign: 'right', fontWeight: 'bold' }}>{getFacturationLineDisplayedTotalHt(l).toFixed(3)} TND</td>
                   </tr>
                 ))}
               </tbody>
@@ -1107,6 +1156,32 @@ export const ClientDetail = () => {
         facturation={selectedFact}
         onUpdated={() => fetchClientData()}
       />
+
+      <Modal
+        isOpen={showFactPrintModal}
+        onClose={() => setShowFactPrintModal(false)}
+        title={`Impression Facture N° ${printFacturation?.numero_facture || ''}`}
+        maxWidth="820px"
+        footer={
+          <>
+            <button className="btn btn-outline" onClick={() => setShowFactPrintModal(false)}>Fermer</button>
+            <button className="btn btn-outline" onClick={() => handleExportFacturationExcel(printFacturation)}>
+              <FileDown size={16} /> Exporter Excel
+            </button>
+            <button className="btn btn-outline" onClick={handleDownloadFacturationPdf} disabled={generatingFacturePdf}>
+              <FileText size={16} /> {generatingFacturePdf ? 'Génération...' : 'Télécharger PDF'}
+            </button>
+            <button className="btn btn-primary" onClick={() => window.print()}>
+              <Printer size={16} /> Imprimer
+            </button>
+          </>
+        }
+      >
+        <div style={{ background: '#334155', padding: '1rem', borderRadius: '8px' }}>
+          <FacturePrint ref={facturePrintRef} facturation={printFacturation} enterprise={enterprise} />
+        </div>
+      </Modal>
+
       {/* Create Facturation Modal */}
       <Modal
         isOpen={showAddFacturation}

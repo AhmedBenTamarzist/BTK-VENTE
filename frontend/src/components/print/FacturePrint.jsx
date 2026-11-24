@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { montantToWordsTnd } from '../../utils/numberToWords';
+import { getFacturationDisplayedTotalHt, getFacturationDisplayedTotalTtc, getFacturationDisplayedVat, getFacturationLineDisplayedTotalHt, getFacturationLineUnitPriceHt } from '../../utils/facturationAmounts';
 
 // Style "contour" uniquement — pas d'aplat de couleur/gris : chaque zone est
 // délimitée par un simple trait, jamais par un fond rempli. Objectif : rester
@@ -22,12 +23,12 @@ export const FacturePrint = React.forwardRef(({ facturation, client: initialClie
   if (!facturation) return null;
 
   const client = facturation.client || initialClient;
-  const montantHt = parseFloat(facturation.montant_ht) || 0;
-  const montantTva = parseFloat(facturation.montant_tva) || 0;
   const montantTimbre = parseFloat(facturation.montant_timbre ?? 1) || 0;
-  const montantTtc = parseFloat(facturation.montant_ttc) || 0;
-  const tvaPct = facturation.lignes?.[0]?.taux_tva ? parseFloat(facturation.lignes[0].taux_tva) : 19;
+  const tvaPct = 19;
   const lignes = facturation.lignes || [];
+  const montantHt = getFacturationDisplayedTotalHt(lignes);
+  const montantTva = getFacturationDisplayedVat(montantHt, tvaPct);
+  const montantTtc = getFacturationDisplayedTotalTtc(montantHt, montantTva, montantTimbre);
 
   const dateStr = new Date(facturation.date_facturation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
@@ -91,9 +92,9 @@ export const FacturePrint = React.forwardRef(({ facturation, client: initialClie
         <tbody>
           {lignes.map((l, i) => {
             const qty = parseFloat(l.quantite_totale) || 0;
-            const puHt = parseFloat(l.prix_unitaire_moyen_ht) || 0;
-            const totalHt = parseFloat(l.montant_ht ?? (qty * puHt));
+            const puHt = getFacturationLineUnitPriceHt(l, tvaPct);
             const ligneTva = l.taux_tva ? parseFloat(l.taux_tva) : tvaPct;
+            const totalHt = getFacturationLineDisplayedTotalHt(l);
             return (
               <tr key={i} style={{ borderBottom: '1px solid #bbbbbb' }}>
                 <td style={{ padding: '5px 8px', textAlign: 'center', color: INK }}>{qty}</td>

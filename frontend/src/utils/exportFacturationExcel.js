@@ -1,4 +1,5 @@
 import { montantToWordsTnd } from './numberToWords';
+import { getFacturationDisplayedTotalHt, getFacturationDisplayedTotalTtc, getFacturationDisplayedVat, getFacturationLineDisplayedTotalHt, getFacturationLineUnitPriceHt } from './facturationAmounts';
 
 // Style "contour" uniquement — pas d'aplat de couleur/gris (économie d'encre) :
 // chaque zone est délimitée par un simple trait, la hiérarchie vient du gras
@@ -17,12 +18,12 @@ const BOX = { top: THIN, left: THIN, bottom: THIN, right: THIN };
 export async function exportFacturationToExcel(facturation, enterprise) {
   const { default: ExcelJS } = await import('exceljs');
   const client = facturation.client;
-  const montantHt = parseFloat(facturation.montant_ht) || 0;
-  const montantTva = parseFloat(facturation.montant_tva) || 0;
   const montantTimbre = parseFloat(facturation.montant_timbre ?? 1) || 0;
-  const montantTtc = parseFloat(facturation.montant_ttc) || 0;
-  const tvaPct = facturation.lignes?.[0]?.taux_tva ? parseFloat(facturation.lignes[0].taux_tva) : 19;
+  const tvaPct = 19;
   const lignes = facturation.lignes || [];
+  const montantHt = getFacturationDisplayedTotalHt(lignes);
+  const montantTva = getFacturationDisplayedVat(montantHt, tvaPct);
+  const montantTtc = getFacturationDisplayedTotalTtc(montantHt, montantTva, montantTimbre);
 
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet('Facture', { pageSetup: { paperSize: 9, orientation: 'portrait', margins: { left: 0.5, right: 0.5, top: 0.6, bottom: 0.6, header: 0, footer: 0 } } });
@@ -89,9 +90,9 @@ export async function exportFacturationToExcel(facturation, enterprise) {
   // Lignes articles
   lignes.forEach((l) => {
     const qty = parseFloat(l.quantite_totale) || 0;
-    const puHt = parseFloat(l.prix_unitaire_moyen_ht) || 0;
-    const totalHt = parseFloat(l.montant_ht ?? (qty * puHt));
+    const puHt = getFacturationLineUnitPriceHt(l, tvaPct);
     const ligneTva = l.taux_tva ? parseFloat(l.taux_tva) : tvaPct;
+    const totalHt = getFacturationLineDisplayedTotalHt(l);
 
     ws.getCell(r, 1).value = qty;
     ws.getCell(r, 2).value = l.article?.nom || `Art #${l.id_article}`;
@@ -103,7 +104,8 @@ export async function exportFacturationToExcel(facturation, enterprise) {
       const cell = ws.getCell(r, c);
       cell.font = { size: 10, color: { argb: c === 4 ? MUTED : BLACK } };
       cell.border = { bottom: THIN };
-      if (c === 3 || c === 5) { cell.numFmt = '0.000'; cell.alignment = { horizontal: 'right' }; }
+      if (c === 3) { cell.numFmt = '0.000'; cell.alignment = { horizontal: 'right' }; }
+      else if (c === 5) { cell.numFmt = '0.000'; cell.alignment = { horizontal: 'right' }; }
       else if (c === 1 || c === 4) cell.alignment = { horizontal: 'center' };
     }
     r++;
